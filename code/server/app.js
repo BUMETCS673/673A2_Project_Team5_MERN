@@ -5,8 +5,16 @@ const express = require('express')
 //starts express
 const app = express();
 
+//for dev
+const cors = require('cors')
+const corsOptions = {
+    origin: 'http://localhost:5173', // This should be the port Vite is using
+};
+app.use(cors(corsOptions));
+
+
 //makes it easy to access files
-// const path = require('path')
+//const path = require('path')
 
 //mongoDB: mongoose helps to connect to MongoDB
 const mongoose = require('mongoose')
@@ -37,13 +45,19 @@ app.get('/register', (req, res) => {
 
 app.get('/login', (req, res) => {
     res.send("Log in page");
+    res.json({ user: ["user1", "user2", "user3"], names: ["jason", "jack", "Adam"] })
 })
 
 //Getting all documents that belongs to a user 
 app.get('/docs/:userId/:docID', async (req, res) => {
     const user = await User.findById(req.params.userId);
-
 })
+
+
+//post request
+// app.post('/register'(req, res)=>{
+
+// })
 
 
 
