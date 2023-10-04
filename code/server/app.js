@@ -1,20 +1,20 @@
-// if (process.env.NODE_ENV !== "production") {
-//     require('dotenv').config();
-// }
-const express = require('express')
 //starts express
+const express = require('express')
 const app = express();
 
-//for dev
+//for server status report
+//morgan helps dev by auto generating request details,
+//response time, status code, route in terminal
+const morgan = require('morgan')
+app.use(morgan('dev'))
+
+//for data communication between client port and server port
 const cors = require('cors')
 const corsOptions = {
     origin: 'http://localhost:5173', // This should be the port Vite is using
 };
 app.use(cors(corsOptions));
 
-
-//makes it easy to access files
-//const path = require('path')
 
 //mongoDB: mongoose helps to connect to MongoDB
 const mongoose = require('mongoose')
@@ -30,29 +30,32 @@ db.once('open', function () {
 const User = require('./model/users')
 const Docs = require('./model/document');
 
+//Router files
+const registerRoute = require('./routes/register')
+const loginRoute = require('./routes/login')
 
-app.listen(8080, () => {
-    console.log('listening on port 8080')
-});
 
+//Routes
 app.get(`/`, (req, res) => {
     res.send(`Welcome to the home page!`)
 })
 
-app.get('/register', (req, res) => {
-    res.send("Register Site");
-})
-
-app.get('/login', (req, res) => {
-    res.send("Log in page");
-    res.json({ user: ["user1", "user2", "user3"], names: ["jason", "jack", "Adam"] })
-})
+app.use('/register', registerRoute)
+app.use('/login', loginRoute)
 
 //Getting all documents that belongs to a user 
 app.get('/docs/:userId/:docID', async (req, res) => {
     const user = await User.findById(req.params.userId);
 })
 
+//catching invalid url
+app.get('*', (req, res) => {
+    res.send('invalid url')
+})
+
+app.listen(8080, () => {
+    console.log('listening on port 8080')
+});
 
 //post request
 // app.post('/register'(req, res)=>{
