@@ -34,7 +34,6 @@ const Docs = require('./model/document');
 const registerRoute = require('./routes/register')
 const loginRoute = require('./routes/login')
 
-
 //Routes
 app.get(`/`, (req, res) => {
     res.send(`Welcome to the home page!`)
@@ -53,8 +52,8 @@ app.get('*', (req, res) => {
     res.send('invalid url')
 })
 
-app.listen(8080, () => {
-    console.log('listening on port 8080')
+app.listen(8000, () => {
+    console.log('listening on port 8000')
 });
 
 //post request
