@@ -2,8 +2,10 @@
 //     require('dotenv').config();
 // }
 const express = require('express')
+const morgan = require('morgan')
 //starts express
 const app = express();
+app.use(morgan('dev'))
 
 //for dev
 const cors = require('cors')
@@ -26,38 +28,26 @@ db.once('open', function () {
     console.log("mongo Connection open!")
 });
 
-//Date Models
+//Data Models
 const User = require('./model/users')
 const Docs = require('./model/document');
 
+//Router Fiele
+const testRoute = require('./routes/testRoute')
 
-app.listen(8080, () => {
-    console.log('listening on port 8080')
+//Routes
+app.use('/', loginRoute)
+//app.use('/home', registerRoute)
+app.use('/test', testRoute)
+
+app.get('*', (req, res) => {
+    res.send('invalid url')
+})
+
+app.listen(8000, () => {
+    console.log('listening on port 8000')
 });
 
-app.get(`/`, (req, res) => {
-    res.send(`Welcome to the home page!`)
-})
-
-app.get('/register', (req, res) => {
-    res.send("Register Site");
-})
-
-app.get('/login', (req, res) => {
-    res.send("Log in page");
-    res.json({ user: ["user1", "user2", "user3"], names: ["jason", "jack", "Adam"] })
-})
-
-//Getting all documents that belongs to a user 
-app.get('/docs/:userId/:docID', async (req, res) => {
-    const user = await User.findById(req.params.userId);
-})
-
-
-//post request
-// app.post('/register'(req, res)=>{
-
-// })
 
 
 
