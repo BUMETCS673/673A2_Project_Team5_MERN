@@ -4,12 +4,17 @@ const Schema = mongoose.Schema;
 const documentSchema = new Schema({
     title: String,
     content: String,
-    doc_id: String,
+    summary: String,
+    doc_id: {
+        required: true,
+        Types: String,
+        unique: true,
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    date_created: Date,
+    // date_created: Date,
     date_modified: Date,
 });
 
