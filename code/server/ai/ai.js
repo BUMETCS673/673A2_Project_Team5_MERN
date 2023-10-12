@@ -1,11 +1,11 @@
-const dotenv = require("dotenv")
+import { OpenAI } from "langchain/llms/openai"
+import { PromptTemplate } from "langchain/prompts"
+import * as dotenv from "dotenv"
+
 dotenv.config()
 
-const { OpenAI } = require("langchain/llms/openai")
-const { PromptTemplate } = require("langchain/prompts")
-
 const llm = new OpenAI({
-  openAIApiKey: process.env.OPENAI_KEY,
+  openAIApiKey: process.env.OPENAI_API_KEY,
   // temperature: 0,
   maxRetries: 10,
 })
@@ -20,11 +20,11 @@ const prompt = new PromptTemplate({
 const formattedPrompt = await prompt.format({
   // notes is received from the input in frontend
   // notes: getNotesContent,
-  notes: "",
+  notes: "a statistics course about linear regression",
 })
 
 console.log(formattedPrompt)
 
-const llmResult = await llm.call(formattedPrompt, { timeout: 1000 })
+const llmResult = await llm.call(formattedPrompt)
 
 console.log(llmResult)
