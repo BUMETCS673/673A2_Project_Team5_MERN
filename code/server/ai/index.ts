@@ -1,8 +1,11 @@
-import { OpenAI } from "langchain/llms/openai"
-import { PromptTemplate } from "langchain/prompts"
+const dotenv = require("dotenv")
+dotenv.config()
+
+const { OpenAI } = require("langchain/llms/openai")
+const { PromptTemplate } = require("langchain/prompts")
 
 const llm = new OpenAI({
-  openAIApiKey: "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",
+  openAIApiKey: process.env.OPENAI_KEY,
   // temperature: 0,
   maxRetries: 10,
 })
