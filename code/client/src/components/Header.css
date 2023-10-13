@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#head {
+  height: 90px;
+  border-bottom: 2px solid black;
+}
+
+#left_part {
+  width: 50%;
+  height: 90px;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+.burger1 {
+  margin-left: 25px;
+  margin-top: 23px;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+.burger1:hover {
+  background-color: rgb(236, 236, 236);
+  border-radius: 50%;
+}
+
+#word {
+  width: 200px;
+  height: 90px;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+h1 {
+  margin-top: 5px;
+  margin-left: 20px;
+  color: rgb(0, 0, 0);
+  padding: 15px;
+}
+
+#account_part {
+  width: 50%;
+  height: 90px;
+  display: inline-block;
+}
+
+#account_part_son {
+  width: auto;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;  
+
+}
+
+#user_profile {
+  margin-right: 30px;
+}
