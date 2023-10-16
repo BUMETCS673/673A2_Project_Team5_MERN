@@ -1,0 +1,21 @@
+.flexContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.documentEditor{
+  width: 59%;
+  height: 80%
+}
+
+.summary{
+  width: 39%;
+
+}
+
+.summaryCard{
+  height: 100%;
+}
+
+
