@@ -3,25 +3,12 @@
   padding: 0;
 }
 
-#head {
+.head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   height: 90px;
   border-bottom: 2px solid black;
-}
-
-#left_part {
-  width: 50%;
-  height: 90px;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
-}
-
-#word {
-  width: 200px;
-  height: 90px;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
 }
 
 h1 {
@@ -31,23 +18,22 @@ h1 {
   padding: 15px;
 }
 
-#account_part {
-  width: 50%;
-  height: 90px;
-  display: inline-block;
+
+.user {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-sm);
+  transition: background-color 100ms ease;
+
+  &:hover {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    display: none;
+  }
 }
 
-#account_part_son {
-  width: auto;
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;  
-
+.userActive {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
 }
-
-#user_profile {
-  margin-right: 30px;
-}
-
-
