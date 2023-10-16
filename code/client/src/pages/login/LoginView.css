@@ -1,3 +1,5 @@
+/* LoginView.css */
+
 .App {
   background-size: cover;
   background-position: center;
@@ -19,10 +21,12 @@
 
 .App-header h1 {
   font-size: 2.5em;
+  font-family: 'Georgia';
 }
 
 .App-header h2 {
   font-size: 2em;
+  font-family: 'Georgia';
 }
 
 .signInDiv {
@@ -30,6 +34,10 @@
   justify-content: center;
   width: 100%;
   margin-bottom: 20px;
+}
+
+.signInButton {
+  width: 400px !important;
 }
 
 .user-details {

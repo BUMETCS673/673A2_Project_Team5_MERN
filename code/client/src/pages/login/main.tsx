@@ -48,6 +48,7 @@ const Login: React.FC = () => {
     google.accounts.id.renderButton(document.getElementById('signInDiv'), {
       theme: 'outline',
       size: 'large',
+      width: '400px',
     });
   }, []);
 
