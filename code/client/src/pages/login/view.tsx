@@ -26,11 +26,10 @@ export const LoginView: React.FC<LoginViewProps> = ({ user, handleSignOut }) => 
           <h1>Welcome back</h1>
           <h2>Note Ant</h2>
 
-          {/* If the user is not logged in, display the Google Sign-In button */}
-          {Object.keys(user).length === 0 && <div id="signInDiv" className="signInDiv"></div>}
-
-          {/* If the user is logged in, display their details and a sign-out button */}
-          {Object.keys(user).length !== 0 && (
+          {/* Conditional rendering based on whether the user is logged in or not */}
+          {Object.keys(user).length === 0 ? (
+            <div id="signInDiv" className="signInDiv"></div>
+          ) : (
             <div className="user-details">
               <img src={user.picture} alt="User" />
               <h3>{user.name}</h3>
