@@ -2,36 +2,26 @@ import React from 'react';
 import cx from 'clsx';
 import classes from './HeaderTabs.module.css';
 import { useState } from 'react';
-import { Burger, UnstyledButton, rem, Text, Group } from '@mantine/core';
+import { UnstyledButton, rem, Text, Group } from '@mantine/core';
 import { Avatar, Menu } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { IconSettings, IconOutlet, IconChevronDown } from '@tabler/icons-react';
 import './Header.css';
-import picture1 from '../images/picture.jpg';
+import { user } from '../constants/user';
 
 export default function Header() {
   //destruct
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const user = {
-    name: 'Siyuan Wan',
-    email: 'siyaunw@bu.edu',
-    image: picture1,
-  };
-
-  const [opened, { toggle }] = useDisclosure(false);
-
   return (
     <div>
       <div id="head">
         <div id="left_part">
           <div id="word">
-            <h1> NoteAnt</h1>
+            <h1>NoteAnt</h1>
           </div>
         </div>
         <div id="account_part">
           <div id="account_part_son">
             <div id="user_profile">
-              <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
               <Menu
                 shadow="xs"
                 width={120}
@@ -44,7 +34,7 @@ export default function Header() {
                     className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
                   >
                     <Group gap={7}>
-                      <Avatar src="user.name" alt="" radius="xl" size={20} />
+                      <Avatar src="user.name" alt="" radius="xl" size={60} />
                       <Text fw={500} size="sm" lh={1} mr={3}>
                         {user.name}
                       </Text>

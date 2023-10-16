@@ -10,7 +10,7 @@
   gap: 20px;
 }
 
-#bbb {
+#left-side {
   display: inline-block;
   width: 20%;
 }
@@ -19,20 +19,7 @@
   width: 20%;
 }
 
-.nav-link {
-  width: 250px;
-  height: 60px;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.nav-link:hover {
-  background-color: rgb(229, 229, 229);
-  color: rgb(118, 118, 95);
-}
-
-
-#doc-dad {
+#doc-list {
   width: 100%;
 }
 
@@ -54,23 +41,15 @@ p {
   color: #707070;
 }
 
-#create-note {
-  width: 10%;
-  height: 60px;
-  margin: auto;
-}
-
 #big-button {
   width: auto;
   margin: 30px;
 }
 
-/* #modal {
-  background-color: #ffffff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-} */
+#big-button-modal {
+  width: auto;
+}
+
 
 h2 {
   width: 80%;
@@ -94,34 +73,21 @@ h3 {
 }
 
 input[type="text"]
-/* input[type="date"] */{
+{
   width: 80%;
   padding: 10px;
-  margin: 8px 0;
+  margin: 20px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
 }
 
-br {
-  margin-top: 10px;
-}
 
-#button_father {
+#button-father {
   display: flex;
   justify-content: center;
 }
 
-.button-in-modal {
-  background-color: #1579dc;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
-.button-in-modal:hover {
-  background-color: #115ca8;
-}
+
+

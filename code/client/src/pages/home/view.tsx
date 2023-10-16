@@ -1,16 +1,18 @@
 import React from 'react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
-import './view.css';
+import '../../components/view.css';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
+import { userType } from '@/constants/user';
 
 interface HomeViewProps {
+  userData: userType;
   cardData: NoteCardType[];
 }
 
-export default function HomeView({ cardData }: HomeViewProps) {
+export default function HomeView({ userData, cardData }: HomeViewProps) {
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
 
   return (
@@ -18,9 +20,9 @@ export default function HomeView({ cardData }: HomeViewProps) {
     <div>
       <Header />
       <div id="three-content-area">
-        <div id="bbb"></div>
+        <div id="left-side"></div>
 
-        <div id="doc-dad">
+        <div id="doc-list">
           {cardData.length === 0 ? (
             <p>No Documents Found</p>
           ) : (
@@ -40,7 +42,7 @@ export default function HomeView({ cardData }: HomeViewProps) {
           )}
         </div>
 
-        <div id="create_note">
+        <div id="create-note">
           <Button id="big-button" onClick={open}>
             + Create New
           </Button>
@@ -48,13 +50,13 @@ export default function HomeView({ cardData }: HomeViewProps) {
             <div>
               <form action="">
                 <h3>Title</h3>
-                <input type="text" name="title"></input> <br></br>
-                <h3>Tags</h3>
-                <input type="text" name="tag"></input> <br></br>
-                <div id="button_father">
-                  <button className="button-in-modal" name="submit" type="submit">
-                    Create
-                  </button>
+                <input type="text" name="title"></input>
+                {/* <h3>Tags</h3>
+                <input type="text" name="tag"></input> */}
+                <div id="button-father">
+                  <Button id="big-button-modal" onClick={open}>
+                    + Create New
+                  </Button>
                 </div>
               </form>
             </div>

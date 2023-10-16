@@ -16,19 +16,6 @@
   box-sizing: border-box;
 }
 
-.burger1 {
-  margin-left: 25px;
-  margin-top: 23px;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
-}
-
-.burger1:hover {
-  background-color: rgb(236, 236, 236);
-  border-radius: 50%;
-}
-
 #word {
   width: 200px;
   height: 90px;
@@ -62,3 +49,5 @@ h1 {
 #user_profile {
   margin-right: 30px;
 }
+
+
