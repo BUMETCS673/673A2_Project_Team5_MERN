@@ -1,71 +1,56 @@
 import React from 'react';
+import cx from 'clsx';
+import classes from './HeaderTabs.module.css';
 import { useState } from 'react';
-import { Burger } from '@mantine/core';
-import { Avatar, Menu, Button } from '@mantine/core';
-import { IconTrash, IconSettings, IconMessageCircle, IconOutlet } from '@tabler/icons-react';
+import { Burger, UnstyledButton, rem, Text, Group } from '@mantine/core';
+import { Avatar, Menu } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconSettings, IconOutlet, IconChevronDown } from '@tabler/icons-react';
 import './Header.css';
+import picture1 from '../images/picture.jpg';
 
-interface HeaderProps {
-  burgerOpened: boolean;
-  toggleBurger: () => void;
-}
-
-export default function Header({ burgerOpened, toggleBurger }: HeaderProps) {
+export default function Header() {
   //destruct
-  const [menuOpened, setMenuOpened] = useState(false); //for user profile
-  const toggleMenu = () => {
-    setMenuOpened(!menuOpened);
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const user = {
+    name: 'Siyuan Wan',
+    email: 'siyaunw@bu.edu',
+    image: picture1,
   };
+
+  const [opened, { toggle }] = useDisclosure(false);
 
   return (
     <div>
       <div id="head">
         <div id="left_part">
-          <Burger
-            className="burger1"
-            size="lg"
-            opened={burgerOpened}
-            onClick={toggleBurger}
-            aria-label="Toggle navigation"
-          />
-          {/* <div id="image">
-            <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png"></img>
-          </div> */}
           <div id="word">
             <h1> NoteAnt</h1>
           </div>
         </div>
-        {/* <div id="search_part">
-          <div id="search_part_son">
-            <div id="search">
-              <TextInput
-                className="search_box"
-                size="lg"
-                placeholder="Search any files you want, my bro."
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.currentTarget.value)}
-              />
-              <button className="search-btn">Search</button>
-            </div>
-          </div>
-        </div> */}
         <div id="account_part">
           <div id="account_part_son">
             <div id="user_profile">
+              <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
               <Menu
                 shadow="xs"
                 width={120}
-                opened={menuOpened}
-                onClose={() => setMenuOpened(false)}
+                opened={userMenuOpened}
+                onOpen={() => setUserMenuOpened(true)}
+                onClose={() => setUserMenuOpened(false)}
               >
                 <Menu.Target>
-                  <Avatar
-                    component="button"
-                    size="lg"
-                    alt=""
-                    onClick={toggleMenu}
-                    src=" " //picture
-                  />
+                  <UnstyledButton
+                    className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                  >
+                    <Group gap={7}>
+                      <Avatar src="user.name" alt="" radius="xl" size={20} />
+                      <Text fw={500} size="sm" lh={1} mr={3}>
+                        {user.name}
+                      </Text>
+                      <IconChevronDown style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+                    </Group>
+                  </UnstyledButton>
                 </Menu.Target>
 
                 <Menu.Dropdown>
