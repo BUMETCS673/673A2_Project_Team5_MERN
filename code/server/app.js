@@ -38,7 +38,7 @@ const testRoute = require('./routes/testRoute')
 //Routes
 app.use('/', loginRoute)
 //app.use('/home', registerRoute)
-app.use('/test', testRoute)
+app.use('/user', userRoute)
 
 app.get('*', (req, res) => {
     res.send('invalid url')
