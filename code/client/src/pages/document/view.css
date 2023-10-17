@@ -1,11 +1,14 @@
-.flexContainer{
+.layout{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.documentEditor{
-  width: 59%;
+.document-editor{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 60%;
   height: 80%
 }
 
@@ -13,19 +16,15 @@
   width: 39%;
 }
 
-.summaryCard{
+.summary-card{
   display: flex;
   justify-content: space-between;
   height: 100%;
 }
 
-#savebut{
-  position: absolute;
-  right: 42%;
-  bottom: 60px;
-}
 
-.doctitle{
+
+.doc-title{
   margin-left: 20px;
 }
 

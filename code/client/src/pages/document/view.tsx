@@ -33,7 +33,8 @@ export default function DocumentView() {
     const clipboard = useClipboard();
   }
 
-  const docSaved = true;
+  const docSaved = false;
+  const afterGen = false;
 
   return (
     <>
@@ -43,22 +44,16 @@ export default function DocumentView() {
           leftSection={<IconArrowLeft style={{ width: rem(20), height: rem(20) }} stroke={1.5} />}
           radius="xl"
           size="md"
-          styles={
-            {
-              // root: { paddingLeft: rem(14), height: rem(48) },
-              // section: { marginRight: rem(22) },
-            }
-          }
         >
           Back
         </Button>
-        <div className="doctitle">
+        <div className="doc-title">
           <h2>DocumentTitle</h2>
         </div>
       </div>
 
-      <div className="flexContainer">
-        <div className="documentEditor">
+      <div className="layout">
+        <div className="document-editor">
           <div>
             <RichTextEditor editor={editor}>
               <RichTextEditor.Toolbar sticky stickyOffset={60}>
@@ -104,16 +99,7 @@ export default function DocumentView() {
               <RichTextEditor.Content />
             </RichTextEditor>
           </div>
-          <div id="savebut">
-            {/* <Tooltip
-              label="Document Saved!"
-              offset={5}
-              position="bottom"
-              radius="lg"
-              transitionProps={{ duration: 100, transition: 'slide-down' }}
-              // opened={clipboard.copied}
-            > */}
-
+          <div>
             <Button
               variant="filled"
               rightSection={
@@ -127,65 +113,82 @@ export default function DocumentView() {
               // onClick={}
               radius="xl"
               size="md"
-              styles={
-                {
-                  // root: { paddingRight: rem(14), height: rem(48) },
-                  // section: { marginLeft: rem(22) },
-                }
-              }
-              // onClick={() => clipboard.copy('https://www.youtube.com/watch?v=dQw4w9WgXcQ')}
             >
               {docSaved ? 'Saved!' : 'Save'}
             </Button>
           </div>
         </div>
         <div className="summary">
-          <Card className="summaryCard" shadow="sm" padding="lg" radius="md" withBorder>
-            {/* <div>
-              <Text className="tiphead" fw={500}>
-                Tips to generate your summary!
-              </Text>
-              <Text size="sm" c="dimmed">
-                Use AI to boost your study!
-              </Text>
-            </div> */}
-            <div>
-              <ScrollArea h={350}>
-                <List size="md">
-                  <List.Item>Clone or download repository from GitHub</List.Item>
-                  <List.Item>Install dependencies with yarn</List.Item>
-                  <List.Item>To start development server run npm start command</List.Item>
-                  <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                  <List.Item>Submit a pull request once you are done</List.Item>
-                  <List.Item>Clone or download repository from GitHub</List.Item>
-                  <List.Item>Install dependencies with yarn</List.Item>
-                  <List.Item>To start development server run npm start command</List.Item>
-                  <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                  <List.Item>Submit a pull request once you are done</List.Item>
-                  <List.Item>Clone or download repository from GitHub</List.Item>
-                  <List.Item>Install dependencies with yarn</List.Item>
-                  <List.Item>To start development server run npm start command</List.Item>
-                  <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                  <List.Item>Submit a pull request once you are done</List.Item>
-                  <List.Item>Clone or download repository from GitHub</List.Item>
-                  <List.Item>Install dependencies with yarn</List.Item>
-                  <List.Item>To start development server run npm start command</List.Item>
-                  <List.Item>Run tests to make sure your changes do not break the build</List.Item>
-                  <List.Item>Submit a pull request once you are done</List.Item>
-                </List>
-              </ScrollArea>
-            </div>
-            <Button
-              className="genbutton"
-              variant="light"
-              color="blue"
-              fullWidth
-              mt="md"
-              radius="md"
-            >
-              Generate
-            </Button>
-          </Card>
+          {afterGen ? (
+            <Card className="summary-card" shadow="sm" padding="lg" radius="md" withBorder>
+              <div>
+                <ScrollArea h={350}>
+                  <List size="md">
+                    <List.Item>Clone or download repository from GitHub</List.Item>
+                    <List.Item>Install dependencies with yarn</List.Item>
+                    <List.Item>To start development server run npm start command</List.Item>
+                    <List.Item>
+                      Run tests to make sure your changes do not break the build
+                    </List.Item>
+                    <List.Item>Submit a pull request once you are done</List.Item>
+                    <List.Item>Clone or download repository from GitHub</List.Item>
+                    <List.Item>Install dependencies with yarn</List.Item>
+                    <List.Item>To start development server run npm start command</List.Item>
+                    <List.Item>
+                      Run tests to make sure your changes do not break the build
+                    </List.Item>
+                    <List.Item>Submit a pull request once you are done</List.Item>
+                    <List.Item>Clone or download repository from GitHub</List.Item>
+                    <List.Item>Install dependencies with yarn</List.Item>
+                    <List.Item>To start development server run npm start command</List.Item>
+                    <List.Item>
+                      Run tests to make sure your changes do not break the build
+                    </List.Item>
+                    <List.Item>Submit a pull request once you are done</List.Item>
+                    <List.Item>Clone or download repository from GitHub</List.Item>
+                    <List.Item>Install dependencies with yarn</List.Item>
+                    <List.Item>To start development server run npm start command</List.Item>
+                    <List.Item>
+                      Run tests to make sure your changes do not break the build
+                    </List.Item>
+                    <List.Item>Submit a pull request once you are done</List.Item>
+                  </List>
+                </ScrollArea>
+              </div>
+              <Button
+                className="generate-button"
+                variant="light"
+                color="blue"
+                fullWidth
+                mt="md"
+                radius="md"
+              >
+                Generate
+              </Button>
+            </Card>
+          ) : (
+            <Card className="summary-card" shadow="sm" padding="lg" radius="md" withBorder>
+              <div>
+                <Text className="tip-head" fw={500}>
+                  Tips to generate your summary!
+                </Text>
+                <Text size="sm" c="dimmed">
+                  Use AI to boost your study!
+                </Text>
+              </div>
+
+              <Button
+                className="generate-button"
+                variant="light"
+                color="blue"
+                fullWidth
+                mt="md"
+                radius="md"
+              >
+                Generate
+              </Button>
+            </Card>
+          )}
         </div>
       </div>
     </>
