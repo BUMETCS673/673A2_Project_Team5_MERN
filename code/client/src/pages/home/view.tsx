@@ -59,10 +59,10 @@ export default function HomeView({ userData, cardData }: HomeViewProps) {
                   </Button>
                 </div>
               </form>
-            </div>
-          </Modal>
-        </div>
-      </div>
-    </div>
+            </div >
+          </Modal >
+        </div >
+      </div >
+    </div >
   );
 }
