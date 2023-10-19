@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
+import DocumentView from './view';
 
 export default function Document() {
-  return <div>Document Page</div>;
+  return <DocumentView />;
 }
