@@ -14,7 +14,6 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
 ## Project Directory Structure
 
 - **Google Drive**
-
   - Meetings records and summaries
   - Project iteration planning
   - Project risk management assessments
@@ -28,23 +27,8 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
     - Code
       - Front-end code
       - Back-end code
-    - Demo
-      - presentation video
-    - Doc
-      - iteration0
-        - CS673_MeetingMinutes
-        - CS673_SPPP_RiskManagement_team5
-        - CS673_SPPP_team5
-        - ProgressReport_team5
-        - team5_iter0
-      - iteration1
-        - CS673_UserStories_Team5
-        - CS673_MeetingMinutes (1)
-        - CS673_ProgressReport_team5
-        - CS673_SDD_team5
-        - CS673_SPPP_team5
-        - Readme
-        - CS673_presentation_iter1
+    - Demo (currently empty)
+    - Doc (currently empty)
     - Misc (currently empty)
     - README.md
     - team.md
@@ -83,8 +67,6 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
 - Setup Express and MongoDB.
 
 ### Iteration 2:
-
-- Implementing page navigation
 
 #### Frontend
 
