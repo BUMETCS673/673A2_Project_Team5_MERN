@@ -13,49 +13,49 @@ export const cardData: NoteCardType[] = [
     imageSrc: picture,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 2',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
     imageSrc: picture1,
     title: 'Card 1',
     description:
-      'I am the world coolest boy. I am the world coolest boy. I am the world coolest boy.',
+      'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
     linkURL: 'https://www.google.com/',
   },
   {
