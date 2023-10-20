@@ -42,6 +42,7 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
         - CS673_MeetingMinutes (1)
         - CS673_ProgressReport_team5
         - CS673_SDD_team5
+        - CS673_SPPP_team5
     - Misc (currently empty)
     - README.md
     - team.md
