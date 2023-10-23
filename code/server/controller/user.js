@@ -1,44 +1,73 @@
-import { v4 as uuidv4 } from 'uuid';
-import User from '../model/users'
-import Document from '../model/document';
+
+//import { v4 as uuidv4 } from 'uuid';
+const imgSrc = 'https://www.dunkindonuts.com/content/dam/dd/img/menu-redesign/donuts/VanillaFrostedSprinklesDonut_570x570.png'
 
 module.exports.getUser = async (req, res) => {
-  try {
-    const userID = req.params.userid
-    //middleware requireLogin handles login check.
-    const user = await User.findById(req.params.userID); //which will be the sub from google JWT
-    const docs = await Document.find({ author: userID });
+    try {
+        //const userID = req.headers.authorization;
+        //middleware requireLogin handles login check.
+        //const user = await User.findById(userID); //which will be the sub from google JWT
+        //const docs = await Document.find({ author: userID });
 
-    res.json({ docs });
-  } catch (err) {
-    console.log(err);
-    return res.json({ error: 'Error occur! Unable to get user.' })
-  }
+        const docs = [
+            {
+                imageSrc: imgSrc,
+                title: 'This is a Doc Title 1',
+                description: 'This is a Doc summary 1',
+                linkURL: 'https://www.google.com/'
+            },
+            {
+                imageSrc: imgSrc,
+                title: 'This is a Doc Title 2',
+                description: 'This is a Doc summary 2',
+                linkURL: 'https://www.google.com/'
+            },
+            {
+                imageSrc: imgSrc,
+                title: 'This is a Doc Title 3',
+                description: 'This is a Doc summary 3',
+                linkURL: 'https://www.google.com/'
+            },
+            {
+                imageSrc: imgSrc,
+                title: 'This is a Doc Title 4',
+                description: 'This is a Doc summary 4',
+                linkURL: 'https://www.google.com/'
+            }
+        ]
+        res.json({ docs });
+
+    } catch (err) {
+        console.log(err);
+        return res.json({ error: "Error occur! Unable to get user." })
+    }
 }
 
-module.exports.createDoc = async (req, res) => {
-  try {
-    const userID = req.params.userid
-    const docTitle = req.body.title;
-    const newDoc = await new Document({
-      document_id: uuidv4(),
-      title: docTitle,
-      author: userID,
-      last_modified: new Date(),
-    }).save();
-  } catch (err) {
-    console.log(err);
-    return res.json({ error: 'Error occur! Unable to create new doc' })
-  }
-}
+// module.exports.createDoc = async (req, res) => {
 
-module.exports.deleteDoc = async (req, res) => {
-  try {
-    const userID = req.params.userid
-    const { docID } = req.body;
-    const temp = Document.findByIdAndDelete({ document_id: docID })
-  } catch (err) {
-    console.log(err);
-    return res.json({ error: 'Error occur! Unable to create new doc' })
-  }
-}
+//     try {
+//         const userID = req.params.userid
+//         const docTitle = req.body.title;
+//         const newDoc = await new Document({
+//             document_id: uuidv4(),
+//             title: docTitle,
+//             author: userID,
+//             last_modified: new Date()
+//         }).save();
+
+//     } catch (err) {
+//         console.log(err);
+//         return res.json({ error: "Error occur! Unable to create new doc" })
+//     }
+// }
+
+// module.exports.deleteDoc = async (req, res) => {
+//     try {
+//         const userID = req.params.userid
+//         const docID = req.body.docID;
+//         const temp = Document.findByIdAndDelete({ document_id: docID })
+//     } catch (err) {
+//         console.log(err);
+//         return res.json({ error: "Error occur! Unable to create new doc" })
+//     }
+// }

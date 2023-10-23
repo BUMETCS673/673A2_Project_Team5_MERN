@@ -1,17 +1,16 @@
 // if (process.env.NODE_ENV !== "production") {
 //     require('dotenv').config();
 // }
-//starts express
-const express = require('express')
 
-const app = express()
+//starts express
+const express = require("express");
+const morgan = require("morgan");
+const app = express();
+app.use(morgan("dev"));
 
 //for server status report
 //morgan helps dev by auto generating request details,
 //response time, status code, route in terminal
-const morgan = require('morgan')
-
-app.use(morgan('dev'))
 
 //for data communication between client port and server port
 const cors = require('cors')
@@ -37,10 +36,10 @@ const User = require('./model/users')
 const Docs = require('./model/document')
 
 //Router Fiele
-const testRoute = require('./routes/testRoute')
+const userRoute = require('./routes/user')
 
 //Routes
-app.use('/', loginRoute)
+//app.use("/", loginRoute)
 //app.use('/home', registerRoute)
 app.use('/user', userRoute)
 

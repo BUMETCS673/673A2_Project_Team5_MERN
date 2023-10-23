@@ -1,11 +1,12 @@
 const express = require('express')
 
 const router = express.Router()
-const ctrl = require('../controller/user')
+const ctrl = require("../controller/user")
+const requireLogin = require('../middleware/requireLogin');
 
 //user_id, which is sub, will be includede in the URL
-router.get('/user/:userid', ctrl.usePage)
-router.post('/user/:userid/create-new-doc', ctrl.createDoc)
-router.post('/user/:userid/delete-doc', ctrl.deleteDoc)
+router.get("/", /*requireLogin,*/ctrl.getUser);
+//router.post("/create-new-doc",/*requireLogin,*/ ctrl.createDoc)
+//router.post("/delete-doc", /*requireLogin,*/ctrl.deleteDoc)
 
-module.exports.router
+module.exports = router;
