@@ -35,10 +35,11 @@ export default function Header() {
 
           <Menu.Dropdown>
             <Menu.Label>Application</Menu.Label>
-            <Menu.Item leftSection={<IconSettings style={{ width: '1rem', height: '1rem' }} />}>
+            {/* <Menu.Item leftSection={<IconSettings style={{ width: '1rem', height: '1rem' }} />}>
               Personal
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item
+              id="sign-out"
               color="red"
               leftSection={<IconOutlet style={{ width: '1rem', height: '1rem' }} />}
             >

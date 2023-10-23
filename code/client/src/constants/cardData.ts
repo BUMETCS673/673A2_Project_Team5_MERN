@@ -14,7 +14,7 @@ export const cardData: NoteCardType[] = [
     title: 'Card 1',
     description:
       'Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data! Hello, This is Card Data!',
-    linkURL: 'https://www.google.com/',
+    linkURL: '../pages/document/view',
   },
   {
     imageSrc: picture1,

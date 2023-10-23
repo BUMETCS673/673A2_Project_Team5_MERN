@@ -2,3 +2,19 @@
   margin: 0;
   padding: 0;
 }
+
+h2 {
+  width: 100%;
+  padding-left: 40px;
+  padding-top: 18px;
+}
+
+#button_father {
+  display: flex;
+  justify-content: center;
+}
+
+#big-button-modal {
+  width: 60%;
+  margin-bottom: 5px;
+}
