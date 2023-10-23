@@ -26,7 +26,7 @@ export default function HomeView({ userData }: HomeViewProps) {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8000/user'); // from where
-        setCardData(response.data);
+        setCardData(response.data.docs);
         setLoading(false); // false, because data is already load
       } catch (err) {
         console.error('An error occurred while fetching data:', err);
