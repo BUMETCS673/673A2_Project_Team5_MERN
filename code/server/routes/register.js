@@ -1,7 +1,7 @@
-const express = require('express')
-router = express.Router();
-const ctrl = require('../controller/register')
+const express = require("express")
+const router = express.Router()
+const ctrl = require("../controller/register")
 
-router.get('/', ctrl.welcome)
+router.get("/", ctrl.welcome)
 
-module.exports = router;
+module.exports = router
