@@ -23,8 +23,8 @@
  */
 
 module.exports.welcome = (req, res) => {
-  const user = req.body.user
+  const { user } = req.body
   if (user.verified) {
-    res.json({ msg: "You have logged in!" })
+    res.json({ msg: 'You have logged in!' })
   }
 }
