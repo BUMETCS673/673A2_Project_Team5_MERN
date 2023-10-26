@@ -19,6 +19,7 @@ const corsOptions = {
   origin: 'http://localhost:5173', // This should be the port Vite is using
 }
 app.use(cors(corsOptions))
+app.use(express.json())
 
 //mongoDB: mongoose helps to connect to MongoDB
 const mongoose = require('mongoose')
