@@ -6,37 +6,15 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
 import { userType } from '@/constants/user';
-import axios from 'axios';
-
 interface HomeViewProps {
   userData: userType;
-  // cardData: NoteCardType[];
+  cardData: NoteCardType[];
+  loading: boolean;
+  error: boolean;
 }
 
-export default function HomeView({ userData }: HomeViewProps) {
-  // dummy data
-  const [cardData, setCardData] = useState<NoteCardType[]>([]); // init to empty, use api data to fill
-  const [loading, setLoading] = useState(true); // for loading state
-  const [error, setError] = useState(false); //for error state
-
+export default function HomeView({ userData, cardData, loading, error }: HomeViewProps) {
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
-
-  // get request
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/user'); // from where
-        setCardData(response.data.docs);
-        setLoading(false); // false, because data is already load
-      } catch (err) {
-        console.error('An error occurred while fetching data:', err);
-        setError(true); // if error occur, state is true
-        setLoading(false); // error loading process over
-      }
-    };
-
-    fetchData();
-  }, []); // run only one time
 
   // render
   const renderContent = () => {
@@ -45,28 +23,22 @@ export default function HomeView({ userData }: HomeViewProps) {
     }
 
     if (error) {
-      return <p>An error occurred while fetching data.</p>;
+      return <p>An error occurred while fetching data</p>;
     }
 
     if (cardData.length === 0) {
       return <p>No Documents Found</p>;
     }
 
-    return (
-      <div id="doc-container">
-        {cardData.map((card, index) => {
-          return (
-            <NoteCard
-              key={index}
-              title={card.title}
-              imageSrc={card.imageSrc}
-              description={card.description}
-              linkURL={card.linkURL}
-            />
-          );
-        })}
-      </div>
-    );
+    return cardData.map((card, index) => (
+      <NoteCard
+        key={index}
+        title={card.title}
+        imageSrc={card.imageSrc}
+        description={card.description}
+        linkURL={card.linkURL}
+      />
+    ));
   };
 
   return (
@@ -75,9 +47,15 @@ export default function HomeView({ userData }: HomeViewProps) {
       <Header />
       <div id="three-content-area">
         <div id="left-side"></div>
-
-        <div id="doc-list">{renderContent()}</div>
-
+        {/* //this is for the left side space, to make page looks more
+        beautiful */}
+        <div id="doc-list">
+          {/* //It is the big div for all document cards */}
+          <div id="doc-container">
+            {/* // for every card */}
+            {renderContent()}
+          </div>
+        </div>
         <div id="create-note">
           <Button id="big-button" onClick={open}>
             + Create New
