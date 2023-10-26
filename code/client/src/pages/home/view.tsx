@@ -11,10 +11,20 @@ interface HomeViewProps {
   cardData: NoteCardType[];
   loading: boolean;
   error: boolean;
+  postError: boolean;
+  createNote: (userId: string, title: string) => void;
 }
 
-export default function HomeView({ userData, cardData, loading, error }: HomeViewProps) {
+export default function HomeView({
+  userData,
+  cardData,
+  loading,
+  error,
+  createNote,
+  postError,
+}: HomeViewProps) {
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
+  const [title, setNoteTitle] = useState(''); // store note
 
   // render
   const renderContent = () => {
@@ -40,6 +50,22 @@ export default function HomeView({ userData, cardData, loading, error }: HomeVie
       />
     ));
   };
+  // handle form
+  const handleFormSubmit = async () => {
+    if (title.trim() === '') {
+      // empty title
+      console.log('Title is required');
+      return;
+    }
+
+    // create note     userData.id,
+    createNote('siyuan', title); //
+
+    // setNoteTitle('');
+    if (!postError) {
+      close();
+    }
+  };
 
   return (
     //whole page // Then here we return content in Burger, navLink
@@ -62,13 +88,13 @@ export default function HomeView({ userData, cardData, loading, error }: HomeVie
           </Button>
           <Modal opened={modalOpened} onClose={close} title={<h2>Create New Note</h2>} centered>
             <div>
-              <form action="">
+              <form>
                 <h3>Title</h3>
                 <input type="text" name="title"></input>
                 {/* <h3>Tags</h3>
                 <input type="text" name="tag"></input> */}
                 <div id="button-father">
-                  <Button id="big-button-modal" onClick={open}>
+                  <Button id="big-button-modal" onClick={handleFormSubmit}>
                     + Create New
                   </Button>
                 </div>
