@@ -2,27 +2,36 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding-bottom: 24px;
+}
+
+.doc-title{
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 24px;
 }
 
 .document-editor{
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  width: 60%;
-  height: 80%
+  width: 800px;
+  height: 80%;
+  margin-right: 24px;
+}
+
+.savebutton{
+  margin-top: 12px;
 }
 
 .summary{
-  width: 39%;
+  width: 600px;
+  margin-left: 24px;
 }
 
 .summary-card{
   display: flex;
   justify-content: space-between;
-  height: 100%;
-}
+  height: calc(100% - 54px);
 
-.doc-title{
-  margin-left: 20px;
 }
-

@@ -3,6 +3,11 @@ import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import './view.css';
+import Highlight from '@tiptap/extension-highlight';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import Superscript from '@tiptap/extension-superscript';
+import SubScript from '@tiptap/extension-subscript';
 import {
   BackgroundImage,
   Card,
@@ -25,13 +30,17 @@ const content =
 
 export default function DocumentView() {
   const editor = useEditor({
-    extensions: [StarterKit, Link],
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Superscript,
+      SubScript,
+      Highlight,
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    ],
     content,
   });
-
-  function ButtonCopy() {
-    const clipboard = useClipboard();
-  }
 
   const docSaved = false;
   const afterGen = false;
@@ -47,150 +56,153 @@ export default function DocumentView() {
         >
           Back
         </Button>
-        <div className="doc-title">
-          <h2>DocumentTitle</h2>
-        </div>
+        <div className="doc-title">DocumentTitle</div>
       </div>
 
-      <div className="layout">
-        <div className="document-editor">
-          <div>
-            <RichTextEditor editor={editor}>
-              <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.Bold />
-                  <RichTextEditor.Italic />
-                  <RichTextEditor.Underline />
-                  <RichTextEditor.Strikethrough />
-                  <RichTextEditor.ClearFormatting />
-                  <RichTextEditor.Highlight />
-                  <RichTextEditor.Code />
-                </RichTextEditor.ControlsGroup>
+      <ScrollArea w={1548}>
+        <div className="layout">
+          <div className="document-editor">
+            <div>
+              <RichTextEditor editor={editor} style={{ width: '800px' }}>
+                <RichTextEditor.Toolbar sticky stickyOffset={1}>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Bold />
+                    <RichTextEditor.Italic />
+                    <RichTextEditor.Underline />
+                    <RichTextEditor.Strikethrough />
+                    <RichTextEditor.ClearFormatting />
+                    <RichTextEditor.Highlight />
+                    <RichTextEditor.Code />
+                  </RichTextEditor.ControlsGroup>
 
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.H1 />
-                  <RichTextEditor.H2 />
-                  <RichTextEditor.H3 />
-                  <RichTextEditor.H4 />
-                </RichTextEditor.ControlsGroup>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.H1 />
+                    <RichTextEditor.H2 />
+                    <RichTextEditor.H3 />
+                    <RichTextEditor.H4 />
+                  </RichTextEditor.ControlsGroup>
 
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.Blockquote />
-                  <RichTextEditor.Hr />
-                  <RichTextEditor.BulletList />
-                  <RichTextEditor.OrderedList />
-                  <RichTextEditor.Subscript />
-                  <RichTextEditor.Superscript />
-                </RichTextEditor.ControlsGroup>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Blockquote />
+                    <RichTextEditor.Hr />
+                    <RichTextEditor.BulletList />
+                    <RichTextEditor.OrderedList />
+                    <RichTextEditor.Subscript />
+                    <RichTextEditor.Superscript />
+                  </RichTextEditor.ControlsGroup>
 
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.Link />
-                  <RichTextEditor.Unlink />
-                </RichTextEditor.ControlsGroup>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.Link />
+                    <RichTextEditor.Unlink />
+                  </RichTextEditor.ControlsGroup>
 
-                <RichTextEditor.ControlsGroup>
-                  <RichTextEditor.AlignLeft />
-                  <RichTextEditor.AlignCenter />
-                  <RichTextEditor.AlignJustify />
-                  <RichTextEditor.AlignRight />
-                </RichTextEditor.ControlsGroup>
-              </RichTextEditor.Toolbar>
+                  <RichTextEditor.ControlsGroup>
+                    <RichTextEditor.AlignLeft />
+                    <RichTextEditor.AlignCenter />
+                    <RichTextEditor.AlignJustify />
+                    <RichTextEditor.AlignRight />
+                  </RichTextEditor.ControlsGroup>
+                </RichTextEditor.Toolbar>
 
-              <RichTextEditor.Content />
-            </RichTextEditor>
-          </div>
-          <div>
-            <Button
-              variant="filled"
-              rightSection={
-                docSaved ? (
-                  <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-                ) : (
-                  <IconDeviceFloppy style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-                )
-              }
-              color={docSaved ? 'teal' : 'blue'}
-              // onClick={}
-              radius="xl"
-              size="md"
-            >
-              {docSaved ? 'Saved!' : 'Save'}
-            </Button>
-          </div>
-        </div>
-        <div className="summary">
-          {afterGen ? (
-            <Card className="summary-card" shadow="sm" padding="lg" radius="md" withBorder>
-              <div>
-                <ScrollArea h={350}>
-                  <List size="md">
-                    <List.Item>Clone or download repository from GitHub</List.Item>
-                    <List.Item>Install dependencies with yarn</List.Item>
-                    <List.Item>To start development server run npm start command</List.Item>
-                    <List.Item>
-                      Run tests to make sure your changes do not break the build
-                    </List.Item>
-                    <List.Item>Submit a pull request once you are done</List.Item>
-                    <List.Item>Clone or download repository from GitHub</List.Item>
-                    <List.Item>Install dependencies with yarn</List.Item>
-                    <List.Item>To start development server run npm start command</List.Item>
-                    <List.Item>
-                      Run tests to make sure your changes do not break the build
-                    </List.Item>
-                    <List.Item>Submit a pull request once you are done</List.Item>
-                    <List.Item>Clone or download repository from GitHub</List.Item>
-                    <List.Item>Install dependencies with yarn</List.Item>
-                    <List.Item>To start development server run npm start command</List.Item>
-                    <List.Item>
-                      Run tests to make sure your changes do not break the build
-                    </List.Item>
-                    <List.Item>Submit a pull request once you are done</List.Item>
-                    <List.Item>Clone or download repository from GitHub</List.Item>
-                    <List.Item>Install dependencies with yarn</List.Item>
-                    <List.Item>To start development server run npm start command</List.Item>
-                    <List.Item>
-                      Run tests to make sure your changes do not break the build
-                    </List.Item>
-                    <List.Item>Submit a pull request once you are done</List.Item>
-                  </List>
+                <ScrollArea h={700}>
+                  <RichTextEditor.Content />
                 </ScrollArea>
-              </div>
+              </RichTextEditor>
+            </div>
+            <div>
               <Button
-                className="generate-button"
-                variant="light"
-                color="blue"
-                fullWidth
-                mt="md"
-                radius="md"
+                className="savebutton"
+                variant="filled"
+                rightSection={
+                  docSaved ? (
+                    <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+                  ) : (
+                    <IconDeviceFloppy style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+                  )
+                }
+                color={docSaved ? 'teal' : 'blue'}
+                // onClick={}
+                radius="xl"
+                size="md"
               >
-                Generate
+                {docSaved ? 'Saved!' : 'Save'}
               </Button>
-            </Card>
-          ) : (
-            <Card className="summary-card" shadow="sm" padding="lg" radius="md" withBorder>
-              <div>
-                <Text className="tip-head" fw={500}>
-                  Tips to generate your summary!
-                </Text>
-                <Text size="sm" c="dimmed">
-                  Use AI to boost your study!
-                </Text>
-              </div>
+            </div>
+          </div>
+          <div className="summary">
+            {afterGen ? (
+              <Card className="summary-card" padding="lg" radius="sm" withBorder>
+                <div>
+                  <ScrollArea h={700}>
+                    <List size="md">
+                      <List.Item>Clone or download repository from GitHub</List.Item>
+                      <List.Item>Install dependencies with yarn</List.Item>
+                      <List.Item>To start development server run npm start command</List.Item>
+                      <List.Item>
+                        Run tests to make sure your changes do not break the build
+                      </List.Item>
+                      <List.Item>Submit a pull request once you are done</List.Item>
+                      <List.Item>Clone or download repository from GitHub</List.Item>
+                      <List.Item>Install dependencies with yarn</List.Item>
+                      <List.Item>To start development server run npm start command</List.Item>
+                      <List.Item>
+                        Run tests to make sure your changes do not break the build
+                      </List.Item>
+                      <List.Item>Submit a pull request once you are done</List.Item>
+                      <List.Item>Clone or download repository from GitHub</List.Item>
+                      <List.Item>Install dependencies with yarn</List.Item>
+                      <List.Item>To start development server run npm start command</List.Item>
+                      <List.Item>
+                        Run tests to make sure your changes do not break the build
+                      </List.Item>
+                      <List.Item>Submit a pull request once you are done</List.Item>
+                      <List.Item>Clone or download repository from GitHub</List.Item>
+                      <List.Item>Install dependencies with yarn</List.Item>
+                      <List.Item>To start development server run npm start command</List.Item>
+                      <List.Item>
+                        Run tests to make sure your changes do not break the build
+                      </List.Item>
+                      <List.Item>Submit a pull request once you are done</List.Item>
+                    </List>
+                  </ScrollArea>
+                </div>
+                <Button
+                  className="generate-button"
+                  variant="light"
+                  color="blue"
+                  fullWidth
+                  mt="md"
+                  radius="md"
+                >
+                  Generate
+                </Button>
+              </Card>
+            ) : (
+              <Card className="summary-card" padding="lg" radius="md" withBorder>
+                <div>
+                  <Text className="tip-head" fw={500}>
+                    Tips to generate your summary!
+                  </Text>
+                  <Text size="sm" c="dimmed">
+                    Use AI to boost your study!
+                  </Text>
+                </div>
 
-              <Button
-                className="generate-button"
-                variant="light"
-                color="blue"
-                fullWidth
-                mt="md"
-                radius="md"
-              >
-                Generate
-              </Button>
-            </Card>
-          )}
+                <Button
+                  className="generate-button"
+                  variant="light"
+                  color="blue"
+                  fullWidth
+                  mt="md"
+                  radius="md"
+                >
+                  Generate
+                </Button>
+              </Card>
+            )}
+          </div>
         </div>
-      </div>
+      </ScrollArea>
     </>
   );
 }
