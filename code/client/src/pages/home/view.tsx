@@ -67,6 +67,10 @@ export default function HomeView({
     }
   };
 
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setNoteTitle(event.target.value);
+  };
+
   return (
     //whole page // Then here we return content in Burger, navLink
     <div>
@@ -90,7 +94,7 @@ export default function HomeView({
             <div>
               <form>
                 <h3>Title</h3>
-                <input type="text" name="title"></input>
+                <input type="text" name="title" onChange={handleChange}></input>
                 {/* <h3>Tags</h3>
                 <input type="text" name="tag"></input> */}
                 <div id="button-father">
