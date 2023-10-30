@@ -10,6 +10,7 @@ export default function NoteCard({
   title,
   description,
   linkURL,
+  _id,
   onCardDelete,
 }: NoteCardType) {
   const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
@@ -57,7 +58,10 @@ export default function NoteCard({
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>{title}</Text>
+        <Text fw={500}>
+          {title}
+          {_id}
+        </Text>
       </Group>
 
       {/* <Spoiler maxHeight={30} showLabel="Show more" hideLabel="Hide">
@@ -78,7 +82,7 @@ export default function NoteCard({
       <Modal
         opened={modalOpened_delete}
         onClose={control2.close}
-        title={<h2>Are you sure you want delete your document?</h2>}
+        title={<h2>Delete your document?</h2>}
         centered
       >
         <Button id="delete_confirm" radius="xl" onClick={handleDelete}>

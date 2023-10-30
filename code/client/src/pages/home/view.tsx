@@ -47,6 +47,8 @@ export default function HomeView({
         imageSrc={card.imageSrc}
         description={card.description}
         linkURL={card.linkURL}
+        _id={card._id}
+        onCardDelete={card.onCardDelete}
       />
     ));
   };
