@@ -83,7 +83,8 @@ module.exports.deleteDoc = async (req, res) => {
         // const temp = Document.findByIdAndDelete({ document_id: docID })
 
         const { _id } = req.body;
-        const index = docs.findIndex(doc => doc._id === _id);
+
+        const index = docs.findIndex(doc => doc._id === parseInt(_id));
         if (index !== -1) {
             docs.splice(index, 1);
         }
