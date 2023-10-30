@@ -34,11 +34,12 @@ const Login: React.FC = () => {
   const sendTokenToBackend = async (token: string) => {
     try {
       const response = await axios.post(
-        'YourBackendEndpoint',
-        {},
+        'http://localhost:8000/login',
+        {token: token},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            //Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         }
       );
