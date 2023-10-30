@@ -6,25 +6,29 @@ const docs = [
         imageSrc: imgSrc,
         title: 'This is a Doc Title 1',
         description: 'This is a Doc summary 1',
-        linkURL: 'https://www.google.com/'
+        linkURL: 'https://www.google.com/',
+        _id: 1
     },
     {
         imageSrc: imgSrc,
         title: 'This is a Doc Title 2',
         description: 'This is a Doc summary 2',
-        linkURL: 'https://www.google.com/'
+        linkURL: 'https://www.google.com/',
+        _id: 2
     },
     {
         imageSrc: imgSrc,
         title: 'This is a Doc Title 3',
         description: 'This is a Doc summary 3',
-        linkURL: 'https://www.google.com/'
+        linkURL: 'https://www.google.com/',
+        _id: 3
     },
     {
         imageSrc: imgSrc,
         title: 'This is a Doc Title 4',
         description: 'This is a Doc summary 4',
-        linkURL: 'https://www.google.com/'
+        linkURL: 'https://www.google.com/',
+        _id: 4
     }
 ]
 module.exports.getUser = async (req, res) => {
@@ -60,7 +64,8 @@ module.exports.createDoc = async (req, res) => {
             imageSrc: imgSrc,
             title: title,
             description: 'This is a new document: ' + title,
-            linkURL: 'https://www.google.com/'
+            linkURL: 'https://www.google.com/',
+            _id: docs.length + 1
         })
 
         res.json({ docs })
@@ -71,13 +76,21 @@ module.exports.createDoc = async (req, res) => {
     }
 }
 
-// module.exports.deleteDoc = async (req, res) => {
-//     try {
-//         const userID = req.params.userid
-//         const docID = req.body.docID;
-//         const temp = Document.findByIdAndDelete({ document_id: docID })
-//     } catch (err) {
-//         console.log(err);
-//         return res.json({ error: "Error occur! Unable to create new doc" })
-//     }
-// }
+module.exports.deleteDoc = async (req, res) => {
+    try {
+        // const userID = req.params.userid
+        // const docID = req.body.docID;
+        // const temp = Document.findByIdAndDelete({ document_id: docID })
+
+        const { _id } = req.body;
+        const index = docs.findIndex(doc => doc._id === _id);
+        if (index !== -1) {
+            docs.splice(index, 1);
+        }
+        res.json({ docs });
+
+    } catch (err) {
+        console.log(err);
+        return res.json({ error: "Error occur! Unable to delete the doc" })
+    }
+}
