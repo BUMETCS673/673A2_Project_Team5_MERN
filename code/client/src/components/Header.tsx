@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { UnstyledButton, rem, Text, Group } from '@mantine/core';
 import { Avatar, Menu } from '@mantine/core';
-import { IconSettings, IconOutlet, IconChevronDown } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
+import { IconOutlet, IconChevronDown } from '@tabler/icons-react';
 import './Header.css';
 import { user } from '../constants/user';
 
 export default function Header() {
+  const navigate = useNavigate();
   //destruct
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const handleSignOut = () => {
+    navigate('/login');
+  };
   return (
     <div className="head">
       <div>
@@ -42,6 +47,7 @@ export default function Header() {
               id="sign-out"
               color="red"
               leftSection={<IconOutlet style={{ width: '1rem', height: '1rem' }} />}
+              onClick={handleSignOut}
             >
               Sign out
             </Menu.Item>

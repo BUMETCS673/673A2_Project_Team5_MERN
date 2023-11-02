@@ -9,30 +9,62 @@ import { userType } from '@/constants/user';
 interface HomeViewProps {
   userData: userType;
   cardData: NoteCardType[];
-  loading: boolean;
-  error: boolean;
-  postError: boolean;
+  getCardLoading: boolean;
+  getCardError: boolean;
+  createCardError: boolean;
+  deleteCardLoading: boolean;
+  deleteCardError: null;
   createNote: (userId: string, title: string) => void;
+  deleteNote: (docId: number) => void;
 }
 
 export default function HomeView({
   userData,
   cardData,
-  loading,
-  error,
+  getCardLoading,
+  getCardError,
   createNote,
-  postError,
+  createCardError,
+  deleteCardLoading,
+  deleteCardError,
+  deleteNote,
 }: HomeViewProps) {
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
   const [title, setNoteTitle] = useState(''); // store note
+  // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
+
+  // handle form
+  const handleFormSubmit = async () => {
+    if (title.trim() === '') {
+      // empty title
+      console.log('Title is required');
+      return;
+    }
+    // create note     userData.id,
+    createNote('siyuan', title); //
+    // setNoteTitle('');
+    if (!createCardError) {
+      close();
+    }
+  };
+
+  // handle form
+  const handleDelete = async (docId: number) => {
+    // create note     userData.id,
+    deleteNote(docId); //
+  };
+
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setNoteTitle(event.target.value);
+  };
 
   // render
-  const renderContent = () => {
-    if (loading) {
+  const noteCardList = () => {
+    if (getCardLoading) {
       return <p>Loading...</p>;
     }
 
-    if (error) {
+    if (getCardError) {
       return <p>An error occurred while fetching data</p>;
     }
 
@@ -48,29 +80,9 @@ export default function HomeView({
         description={card.description}
         linkURL={card.linkURL}
         _id={card._id}
-        onCardDelete={card.onCardDelete}
+        onCardDelete={() => handleDelete(card._id)}
       />
     ));
-  };
-  // handle form
-  const handleFormSubmit = async () => {
-    if (title.trim() === '') {
-      // empty title
-      console.log('Title is required');
-      return;
-    }
-
-    // create note     userData.id,
-    createNote('siyuan', title); //
-
-    // setNoteTitle('');
-    if (!postError) {
-      close();
-    }
-  };
-
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
-    setNoteTitle(event.target.value);
   };
 
   return (
@@ -85,7 +97,7 @@ export default function HomeView({
           {/* //It is the big div for all document cards */}
           <div id="doc-container">
             {/* // for every card */}
-            {renderContent()}
+            {noteCardList()}
           </div>
         </div>
         <div id="create-note">

@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Text, Card, Image, Group, Button, Modal } from '@mantine/core';
+import { Text, Card, Image, Group, Button, Modal, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import './NoteCard.css';
 import { NoteCardType } from '@/constants/cardData';
-import axios from 'axios';
+import { IconTrash } from '@tabler/icons-react';
 
 export default function NoteCard({
   imageSrc,
@@ -14,43 +14,17 @@ export default function NoteCard({
   onCardDelete,
 }: NoteCardType) {
   const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
-  const [modalOpened_delete, control2] = useDisclosure(false); //this modal is for delete
-  const [isLoading = 'Loading..', setLoading] = useState(false);
-  const [error = 'error occur', setError] = useState(false);
+  const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
   const handleDoubleClick = () => {
     if (linkURL) {
-      window.open(linkURL, '_blank');
+      window.open('/document');
     }
   };
 
-  //delete card
-
-  const handleDelete = useCallback(() => {
-    isLoading;
-    setLoading(true);
-    axios
-      .delete('http://localhost:8000/user/delete-doc')
-      .then((response) => {
-        if (response.status === 200) {
-          // delete successful 200
-          onCardDelete;
-          control2.close();
-        } else {
-          console.error(error);
-          setError(true);
-        }
-      })
-      .catch((err) => {
-        // delete
-        console.error(err.message || 'error occur during delete');
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [onCardDelete]);
-
+  // const handleDelete = async () => {
+  //   onCardDelete;
+  // };
   return (
     <Card onDoubleClick={handleDoubleClick} shadow="xs" padding="xs" radius="md" withBorder>
       <Card.Section>
@@ -68,29 +42,53 @@ export default function NoteCard({
         {description}
       </Spoiler> */}
       <div id="button-father">
-        <Button id="big-button-modal" radius="xl" onClick={control1.open}>
+        <Button
+          id="big-button-modal"
+          variant="light"
+          radius="md"
+          onClick={control1.open}
+          style={{ width: '120%' }}
+        >
           Show Summary
         </Button>
-        <Button id="delete" radius="xl" onClick={control2.open}>
-          Delete
-        </Button>
+        <ActionIcon
+          id="action-icon"
+          variant="light"
+          color="red"
+          size="lg"
+          radius="md"
+          aria-label="Settings"
+          onClick={control2.open}
+        >
+          <IconTrash style={{ width: '80%', height: '80%' }} stroke={1.5} />
+        </ActionIcon>
       </div>
 
       <Modal opened={modalOpened} onClose={control1.close} title={<h2>Summary</h2>} centered>
         {description}
       </Modal>
       <Modal
-        opened={modalOpened_delete}
+        id="delete-modal"
+        opened={modalOpenedDelete}
         onClose={control2.close}
-        title={<h2>Delete your document?</h2>}
+        withCloseButton={false}
         centered
+        title={<h4>Delete Document</h4>}
       >
-        <Button id="delete_confirm" radius="xl" onClick={handleDelete}>
-          Yes
-        </Button>
-        <Button id="delete_confirm" radius="xl" onClick={control2.close}>
-          No
-        </Button>
+        Are you sure you want delete your document??
+        <div id="yes_no">
+          <Button
+            id="delete_confirm"
+            variant="filled"
+            color="rgba(191, 191, 191, 1)"
+            onClick={control2.close}
+          >
+            Cancel
+          </Button>
+          <Button id="delete_confirm" variant="filled" color="red" onClick={onCardDelete}>
+            Delete
+          </Button>
+        </div>
       </Modal>
     </Card>
   );
