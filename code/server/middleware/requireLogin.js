@@ -18,9 +18,6 @@ module.exports.requireLogin = async (req, res, next) => {
       });
 
       next()
-    };
-    
-
-    
+    };    
     next()
 }

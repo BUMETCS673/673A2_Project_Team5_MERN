@@ -43,9 +43,3 @@ const loginController = async (req, res) => {
 
 module.exports = loginController;
 
-// module.exports.welcome = (req, res) => {
-//   const user = req.body.user
-//   if (user.verified) {
-//     res.json({ msg: "You have logged in!" })
-//   }
-// }
