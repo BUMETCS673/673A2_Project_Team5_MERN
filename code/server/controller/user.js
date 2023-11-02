@@ -1,4 +1,5 @@
-
+const User = require('../model/users');
+const Docs = require('../model/document');
 //import { v4 as uuidv4 } from 'uuid';
 const imgSrc = 'https://www.dunkindonuts.com/content/dam/dd/img/menu-redesign/donuts/VanillaFrostedSprinklesDonut_570x570.png'
 const docs = [
@@ -36,9 +37,21 @@ module.exports.getUser = async (req, res) => {
         //const userID = req.headers.authorization;
         //middleware requireLogin handles login check.
         //const user = await User.findById(userID); //which will be the sub from google JWT
-        //const docs = await Document.find({ author: userID });
+        //const ßdocs = await Document.find({ author: userID });
 
+        // const sub = req.body.sub;
+        // const user = await User.find({ user_id: sub });
+        // if (user) {
+        //     console.log("user successfully found");
+        //     console.log(user[0]._id)
+        //     console.log(user);
 
+        // }
+        // const docs = await Docs.find({ author: user[0]._id });
+        // if (docs) {
+        //     console.log("docs successfully found");
+        //     console.log(docs)
+        // }
         res.json({ docs });
 
     } catch (err) {
@@ -46,6 +59,7 @@ module.exports.getUser = async (req, res) => {
         return res.json({ error: "Error occur! Unable to get user." })
     }
 }
+
 
 module.exports.createDoc = async (req, res) => {
 
