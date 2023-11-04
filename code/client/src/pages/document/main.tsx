@@ -3,8 +3,11 @@ import { NoteCardType } from '../../constants/cardData';
 import { user } from '../../constants/user';
 import axios from 'axios';
 import DocumentView from './view';
+import { useParams } from 'react-router-dom';
 
 export default function Document() {
+  const { docId } = useParams();
+
   // card data from backend is saved in this state
   // On page load's states (data, loading, error)
   const [contentData, setContentData] = useState<string>(''); // init to empty, use api data to fill
@@ -21,11 +24,11 @@ export default function Document() {
   const [updateSummaryError, setUpdateSummaryError] = useState(false); //for error state
   const [updateSummaryFinished, setUpdateSummaryFinished] = useState(false); //for error state
 
-  const fetchData = async () => {
+  const getDocument = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/document'); // from where
-      setContentData(response.data.docs);
-      setSummaryData(response.data.docs);
+      const response = await axios.get('http://localhost:8000/document', { params: docId }); // from where
+      setContentData(response.data.docs.content);
+      setSummaryData(response.data.docs.summary);
       setOnPageLoading(false); // false, because data is already load
     } catch (err) {
       console.error('An error occurred while fetching data:', err);
@@ -36,7 +39,7 @@ export default function Document() {
 
   // get request
   useEffect(() => {
-    fetchData();
+    getDocument();
   }, []); // run only one time
 
   const updateContent = async ({
