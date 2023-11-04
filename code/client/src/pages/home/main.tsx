@@ -11,7 +11,7 @@ export default function Home() {
   const [getCardError, setGetCardError] = useState(false); //for error state
   const [createCardError, setCreateCardError] = useState(false); //for post create note
   const [deleteCardLoading, setDeleteCardLoading] = useState(false);
-  const [deleteCardError, setDeleteCardError] = useState(null);
+  const [deleteCardError, setDeleteCardError] = useState(false);
 
   const fetchData = async () => {
     try {

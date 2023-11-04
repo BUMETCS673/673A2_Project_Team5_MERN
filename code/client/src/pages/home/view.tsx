@@ -14,7 +14,7 @@ interface HomeViewProps {
   getCardError: boolean;
   createCardError: boolean;
   deleteCardLoading: boolean;
-  deleteCardError: null;
+  deleteCardError: boolean;
   createNote: (userId: string, title: string) => void;
   deleteNote: (docId: number) => void;
 }
