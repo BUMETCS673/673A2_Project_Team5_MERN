@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -61,11 +61,15 @@ export default function DocumentView({
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content: docContent,
+    content: contentData,
     onUpdate({ editor }) {
       setDocContent(editor.getText());
     },
   });
+
+  useEffect(() => {
+    editor?.commands.setContent(contentData);
+  }, [contentData]);
 
   return (
     <>
@@ -137,7 +141,7 @@ export default function DocumentView({
                 loading={updateContentLoading}
                 className="savebutton"
                 variant="filled"
-                disabled={contentData === ''}
+                disabled={docContent === ''}
                 rightSection={
                   updateContentFinished ? (
                     <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
@@ -207,7 +211,7 @@ export default function DocumentView({
                 variant="light"
                 color="blue"
                 loading={updateSummaryLoading}
-                disabled={contentData === ''}
+                disabled={docContent === ''}
                 fullWidth
                 mt="md"
                 radius="md"

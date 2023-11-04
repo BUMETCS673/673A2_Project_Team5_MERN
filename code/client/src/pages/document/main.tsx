@@ -26,7 +26,7 @@ export default function Document() {
 
   const getDocument = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/document', { params: docId }); // from where
+      const response = await axios.get(`http://localhost:8000/document/${docId}`); // from where
       setContentData(response.data.docs.content);
       setSummaryData(response.data.docs.summary);
       setOnPageLoading(false); // false, because data is already load
@@ -55,7 +55,6 @@ export default function Document() {
     try {
       // POST
       await axios.post('http://localhost:8000/user/save-note', {
-        userId: userId,
         documentId: documentId,
         contentData: contentData,
       });
@@ -76,7 +75,6 @@ export default function Document() {
     try {
       // GET
       await axios.post('http://localhost:8000/user/generate-summary', {
-        userId: userId,
         documentId: documentId,
       });
       setUpdateSummaryError(false); //if already load successful
