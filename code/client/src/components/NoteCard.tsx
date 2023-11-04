@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { Text, Card, Image, Group, Button, Modal, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import './NoteCard.css';
@@ -25,9 +25,6 @@ export default function NoteCard({
     }
   };
 
-  // const handleDelete = async () => {
-  //   onCardDelete;
-  // };
   return (
     <Card onDoubleClick={handleDoubleClick} shadow="xs" padding="xs" radius="md" withBorder>
       <Card.Section>
@@ -38,9 +35,6 @@ export default function NoteCard({
         <Text fw={500}>{title}</Text>
       </Group>
 
-      {/* <Spoiler maxHeight={30} showLabel="Show more" hideLabel="Hide">
-        {description}
-      </Spoiler> */}
       <div id="button-father">
         <Button
           id="big-button-modal"
