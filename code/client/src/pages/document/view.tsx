@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -8,27 +8,49 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
-import {
-  BackgroundImage,
-  Card,
-  Text,
-  Button,
-  Group,
-  Box,
-  ActionIcon,
-  rem,
-  Tooltip,
-  CopyButton,
-  List,
-  ScrollArea,
-} from '@mantine/core';
+import { Card, Text, Button, rem, List, ScrollArea } from '@mantine/core';
 import { IconArrowLeft, IconCheck, IconDeviceFloppy } from '@tabler/icons-react';
-import { useClipboard } from '@mantine/hooks';
+// import { useClipboard } from '@mantine/hooks';
 
-const content =
-  '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
+interface DocumentViewProps {
+  contentData: string;
+  summaryData: string;
+  onPageLoading: boolean;
+  onPageError: boolean;
+  updateContentLoading: boolean;
+  updateContentError: boolean;
+  updateContentFinished: boolean;
+  updateSummaryLoading: boolean;
+  updateSummaryError: boolean;
+  updateSummaryFinished: boolean;
+  onSaveClick: ({
+    userId,
+    documentId,
+    contentData,
+  }: {
+    userId: string;
+    documentId: string;
+    contentData: string;
+  }) => void;
+  onGenerateClick: ({ userId, documentId }: { userId: string; documentId: string }) => void;
+}
 
-export default function DocumentView() {
+export default function DocumentView({
+  contentData,
+  summaryData,
+  onPageLoading,
+  onPageError,
+  updateContentLoading,
+  updateContentError,
+  updateContentFinished,
+  updateSummaryLoading,
+  updateSummaryError,
+  updateSummaryFinished,
+  onSaveClick,
+  onGenerateClick,
+}: DocumentViewProps) {
+  const [docContent, setDocContent] = useState<string>(contentData);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -39,11 +61,11 @@ export default function DocumentView() {
       Highlight,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content,
+    content: docContent,
+    onUpdate({ editor }) {
+      setDocContent(editor.getText());
+    },
   });
-
-  const docSaved = false;
-  const afterGen = false;
 
   return (
     <>
@@ -105,36 +127,49 @@ export default function DocumentView() {
                 </RichTextEditor.Toolbar>
 
                 <ScrollArea h={700}>
+                  {/* updateContentError{updateContentError} ? () */}
                   <RichTextEditor.Content />
                 </ScrollArea>
               </RichTextEditor>
             </div>
             <div>
               <Button
+                loading={updateContentLoading}
                 className="savebutton"
                 variant="filled"
+                disabled={contentData === ''}
                 rightSection={
-                  docSaved ? (
+                  updateContentFinished ? (
                     <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
                   ) : (
                     <IconDeviceFloppy style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
                   )
                 }
-                color={docSaved ? 'teal' : 'blue'}
-                // onClick={}
+                color={updateContentFinished ? 'teal' : 'blue'}
                 radius="xl"
                 size="md"
+                onClick={() => onSaveClick({ userId: '', documentId: '', contentData: docContent })}
               >
-                {docSaved ? 'Saved!' : 'Save'}
+                {updateContentFinished === false ? 'Saved!' : 'Save'}
               </Button>
             </div>
           </div>
           <div className="summary">
-            {afterGen ? (
-              <Card className="summary-card" padding="lg" radius="sm" withBorder>
+            <Card className="summary-card" padding="lg" radius="sm" withBorder>
+              {summaryData === '' ? (
+                <div>
+                  <Text className="tip-head" fw={500}>
+                    Tips to generate your summary!
+                  </Text>
+                  <Text size="sm" c="dimmed">
+                    Use AI to boost your study!
+                  </Text>
+                </div>
+              ) : (
                 <div>
                   <ScrollArea h={700}>
                     <List size="md">
+                      {summaryData}
                       <List.Item>Clone or download repository from GitHub</List.Item>
                       <List.Item>Install dependencies with yarn</List.Item>
                       <List.Item>To start development server run npm start command</List.Item>
@@ -166,40 +201,21 @@ export default function DocumentView() {
                     </List>
                   </ScrollArea>
                 </div>
-                <Button
-                  className="generate-button"
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
-                  radius="md"
-                >
-                  Generate
-                </Button>
-              </Card>
-            ) : (
-              <Card className="summary-card" padding="lg" radius="md" withBorder>
-                <div>
-                  <Text className="tip-head" fw={500}>
-                    Tips to generate your summary!
-                  </Text>
-                  <Text size="sm" c="dimmed">
-                    Use AI to boost your study!
-                  </Text>
-                </div>
-
-                <Button
-                  className="generate-button"
-                  variant="light"
-                  color="blue"
-                  fullWidth
-                  mt="md"
-                  radius="md"
-                >
-                  Generate
-                </Button>
-              </Card>
-            )}
+              )}
+              <Button
+                className="generate-button"
+                variant="light"
+                color="blue"
+                loading={updateSummaryLoading}
+                disabled={contentData === ''}
+                fullWidth
+                mt="md"
+                radius="md"
+                onClick={() => onGenerateClick({ userId: '', documentId: '' })}
+              >
+                {updateSummaryFinished === false ? 'Generate New!' : 'Generate'}
+              </Button>
+            </Card>
           </div>
         </div>
       </ScrollArea>
