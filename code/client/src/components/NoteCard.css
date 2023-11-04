@@ -27,9 +27,10 @@ h2 {
 
 #yes_no {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: end;
 }
 
-/* #delete-modal {
-  font-weight : 20px;
-} */
+
+#modal-head {
+  display: flex;
+}

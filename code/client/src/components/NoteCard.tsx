@@ -4,6 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import './NoteCard.css';
 import { NoteCardType } from '@/constants/cardData';
 import { IconTrash } from '@tabler/icons-react';
+import { IconAlertCircleFilled } from '@tabler/icons-react';
 
 export default function NoteCard({
   imageSrc,
@@ -32,10 +33,7 @@ export default function NoteCard({
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>
-          {title}
-          {_id}
-        </Text>
+        <Text fw={500}>{title}</Text>
       </Group>
 
       {/* <Spoiler maxHeight={30} showLabel="Show more" hideLabel="Hide">
@@ -73,19 +71,46 @@ export default function NoteCard({
         onClose={control2.close}
         withCloseButton={false}
         centered
-        title={<h4>Delete Document</h4>}
       >
-        Are you sure you want delete your document??
+        <div id="modal-head">
+          <IconAlertCircleFilled
+            style={{ width: '11%', height: '11%', color: '#FA5252' }}
+            stroke={1.5}
+          />
+          <h3 style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+            Delete Document
+          </h3>
+        </div>
+        <div
+          style={{
+            fontSize: '15px',
+            color: 'grey',
+            width: '100%',
+            paddingLeft: '64.88px',
+            paddingRight: '30px',
+            textAlign: 'justify',
+          }}
+        >
+          Are you sure you want to deactivate your account? All of your data will be permanently
+          removed from our servers forever. This action cannot be undone.
+        </div>
         <div id="yes_no">
           <Button
             id="delete_confirm"
-            variant="filled"
-            color="rgba(191, 191, 191, 1)"
+            variant="light"
+            color="rgba(0, 0, 0, 1)"
             onClick={control2.close}
+            style={{ margin: '10px' }}
           >
             Cancel
           </Button>
-          <Button id="delete_confirm" variant="filled" color="red" onClick={onCardDelete}>
+          <Button
+            id="delete_confirm"
+            variant="filled"
+            color="red"
+            onClick={onCardDelete}
+            style={{ margin: '10px' }}
+          >
             Delete
           </Button>
         </div>

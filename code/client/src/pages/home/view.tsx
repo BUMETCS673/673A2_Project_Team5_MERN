@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
 import '../../components/view.css';
