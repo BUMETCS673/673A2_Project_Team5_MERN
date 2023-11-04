@@ -5,6 +5,7 @@ import './NoteCard.css';
 import { NoteCardType } from '@/constants/cardData';
 import { IconTrash } from '@tabler/icons-react';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
 
 export default function NoteCard({
   imageSrc,
@@ -14,12 +15,13 @@ export default function NoteCard({
   _id,
   onCardDelete,
 }: NoteCardType) {
+  const navigate = useNavigate();
   const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
   const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
   const handleDoubleClick = () => {
     if (linkURL) {
-      window.open('/document');
+      navigate('/document');
     }
   };
 
