@@ -8,7 +8,7 @@ const documentSchema = new Schema({
     type: String,
   },
   document_id: String,
-  body: {
+  content: {
     type: String,
     default: '',
   },
