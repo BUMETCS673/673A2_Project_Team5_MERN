@@ -3,8 +3,22 @@ const summarise = require('../ai/ai')
 
 /**
  * Req
+ * @param document_id
+ */
+
+module.exports.getDocument = async (req, res) => {
+  try {
+    const docs = await Document.find({ document_id: req.params.docId });
+    res.json({ docs });
+  } catch (err) {
+    console.log(err);
+    return res.json({ error: 'Error occur! Unable to get user.' })
+  }
+}
+
+/**
+ * Req
  * @param content
- * @param user_id
  * @param document_id
  */
 
@@ -22,7 +36,6 @@ module.exports.updateContent = async (req, res) => {
 
 /**
  * Req
- * @param user_id
  * @param document_id
  */
 
