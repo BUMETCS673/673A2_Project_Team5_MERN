@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { IconAlertTriangleFilled } from '@tabler/icons-react';
+import React, { useEffect, useRef, useState } from 'react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
 import '../../components/view.css';
@@ -7,6 +6,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
 import { userType } from '@/constants/user';
+import { useNavigate } from 'react-router-dom';
 interface HomeViewProps {
   userData: userType;
   cardData: NoteCardType[];
@@ -30,9 +30,23 @@ export default function HomeView({
   deleteCardError,
   deleteNote,
 }: HomeViewProps) {
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
   const [title, setNoteTitle] = useState(''); // store note
   // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
+
+  //focus on input box
+  useEffect(() => {
+    if (modalOpened && inputRef.current) {
+      console.log('Modal is opened, setting focus.'); //test
+      inputRef.current.focus();
+    }
+  }, [modalOpened]); //When modal open again, run use effect
+
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setNoteTitle(event.target.value);
+  };
 
   // handle form
   const handleFormSubmit = async () => {
@@ -42,10 +56,18 @@ export default function HomeView({
       return;
     }
     // create note     userData.id,
-    createNote('siyuan', title); //
+    const docId = createNote('siyuan', title);
     // setNoteTitle('');
     if (!createCardError) {
-      close();
+      navigate(`/document/${docId}`);
+    }
+  };
+
+  //keypress enter for create new note
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleFormSubmit();
     }
   };
 
@@ -53,10 +75,6 @@ export default function HomeView({
   const handleDelete = async (docId: number) => {
     // create note     userData.id,
     deleteNote(docId); //
-  };
-
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
-    setNoteTitle(event.target.value);
   };
 
   // render
@@ -109,9 +127,13 @@ export default function HomeView({
             <div>
               <form>
                 <h3>Title</h3>
-                <input type="text" name="title" onChange={handleChange}></input>
-                {/* <h3>Tags</h3>
-                <input type="text" name="tag"></input> */}
+                <input
+                  type="text"
+                  name="title"
+                  onChange={handleChange}
+                  onKeyDown={handleKeyPress}
+                  ref={inputRef}
+                ></input>
                 <div id="button-father">
                   <Button id="big-button-modal" onClick={handleFormSubmit}>
                     + Create New
