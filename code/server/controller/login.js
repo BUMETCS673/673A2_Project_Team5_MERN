@@ -11,7 +11,7 @@ const loginController = async (req, res) => {
   try {
     // Decode the Google JWT token
     const userObj = jwt.decode(token);
-    //console.log(userObj.name);
+    console.log(userObj);
     if (!userObj) {
       return res.status(400).json({ message: 'Invalid token' });
     }
@@ -24,6 +24,7 @@ const loginController = async (req, res) => {
       user = new User({
         user_name: userObj.name,
         user_id: userObj.sub,
+        user_pic: userObj.picture,
       });
 
       await user.save();
