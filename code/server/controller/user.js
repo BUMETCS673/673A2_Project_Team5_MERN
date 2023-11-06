@@ -5,24 +5,21 @@ const imgSrc = 'https://www.dunkindonuts.com/content/dam/dd/img/menu-redesign/do
 
 module.exports.getUser = async (req, res) => {
     try {
-        //const userID = req.headers.authorization;
-        //middleware requireLogin handles login check.
-        //const user = await User.findById(userID); //which will be the sub from google JWT
-        //const ßdocs = await Document.find({ author: userID });
 
         const sub = req.body.sub;
-        const user = await User.find({ user_id: sub });
+        //DB.find() return , so we need to use user[0]
+        //DB.findOne() return an object, so we can use user
+        const user = await User.findOne({ user_id: sub });
         if (user) {
             console.log("user successfully found");
-            console.log(user[0]._id)
             console.log(user);
         }
-        const docs = await Document.find({ author: user[0]._id });
+        const docs = await Document.find({ author: user._id });
         if (docs) {
             console.log("docs successfully found");
             console.log(docs)
         }
-        res.json({ docs });
+        res.json({ user, docs });
 
     } catch (err) {
         console.log(err);
