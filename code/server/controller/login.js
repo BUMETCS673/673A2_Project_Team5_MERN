@@ -1,30 +1,45 @@
-/**
- *
- * @param {user_object} req
- * @param {*} res
- */
+const jwt = require('jsonwebtoken');
+const User = require('../model/users.js');
+// Import your User model
 
-/**
- * Front-end will send a Google JWT Token to here in req,
- * use jwt.decode() to extract user object.
- *      const userObj = jwt.decode(req.body.Token)
- * user.object contains email, username, sub(unique user id)
- * Check if user already exist
- * if(!user){
- *  const user = await new User({
- *      user_name:  userObj.username,
- *      user_id: userObj.sub
- *  })
- *
- * Assign Access Token and Refresh Token
- *
- *
- * }
- */
+const secretKey = 'testestest';
+const accessTokenExpiry = '4h';
 
-module.exports.welcome = (req, res) => {
-  const { user } = req.body
-  if (user.verified) {
-    res.json({ msg: 'You have logged in!' })
+const loginController = async (req, res) => {
+  const token  = req.body.token;
+
+  try {
+    // Decode the Google JWT token
+    const userObj = jwt.decode(token);
+    //console.log(userObj.name);
+    if (!userObj) {
+      return res.status(400).json({ message: 'Invalid token' });
+    }
+
+    // Check if the user already exists
+    let user = await User.findOne({ user_id: userObj.sub });
+
+    if (!user) {
+      // Create a new user if they don't exist
+      user = new User({
+        user_name: userObj.name,
+        user_id: userObj.sub,
+      });
+
+      await user.save();
+    }
+
+    // Generate an access token
+    const accessToken = jwt.sign({ user_id: user.user_id, user_name: user.user_name }, secretKey, {
+      expiresIn: accessTokenExpiry,
+    });
+
+    res.json({ accessToken });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
   }
-}
+};
+
+module.exports = loginController;
+

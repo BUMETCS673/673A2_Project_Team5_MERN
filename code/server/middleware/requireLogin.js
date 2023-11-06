@@ -1,8 +1,23 @@
-// import jwt from 'jsonwebtoken'
-// const TEMP_SECRET = "cs673a2Team5_2023"
+const jwt = require('jsonwebtoken');
+const secretKey = 'testestest';
+module.exports.requireLogin = async (req, res, next) => { 
+    const requireLogin = (req, res, next) => {
+      const token = req.header.Authorization;
+    
+      if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+      }
+    
+      jwt.verify(token, secretKey, (err, user) => {
+        if (err) {
+          return res.status(403).json({ message: 'Invalid token.' });
+        }
+    
+        req.user = user;
+        
+      });
 
-// module.exports.requireLogin = async (req, res, next) => {
-//     //no need to finished by iter 3.
-
-//     next()
-// }
+      next()
+    };    
+    next()
+}

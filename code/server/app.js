@@ -39,10 +39,10 @@ const Docs = require('./model/document');
 //Router Fiele
 const userRoute = require('./routes/user');
 const documentRoute = require('./routes/document');
+const loginRoute = require("./routes/login.js");
 
 //Routes
-//app.use("/", loginRoute)
-//app.use('/home', registerRoute)
+app.use("/", loginRoute)
 app.use('/user', userRoute);
 app.use('/document', documentRoute);
 

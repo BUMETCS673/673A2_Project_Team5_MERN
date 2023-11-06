@@ -33,7 +33,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ user, handleSignOut }) => 
           {Object.keys(user).length !== 0 && (
             <div className="user-details">
               <img src={user.picture} alt="User" />
-              <h3>{user.name}</h3>
+              <div className="username-container">
+                <h3>{user.name}</h3>
+              </div>
               <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
             </div>
           )}
