@@ -19,14 +19,20 @@ export default function NoteCard({
   const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
   const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = (docId: number) => {
     if (linkURL) {
-      navigate('/document');
+      navigate(`/document/${docId}`);
     }
   };
 
   return (
-    <Card onDoubleClick={handleDoubleClick} shadow="xs" padding="xs" radius="md" withBorder>
+    <Card
+      onDoubleClick={() => handleDoubleClick(_id)}
+      shadow="xs"
+      padding="xs"
+      radius="md"
+      withBorder
+    >
       <Card.Section>
         <Image src={imageSrc} height={160} alt={title} />
       </Card.Section>
@@ -87,7 +93,7 @@ export default function NoteCard({
             textAlign: 'justify',
           }}
         >
-          Are you sure you want to deactivate your account? All of your data will be permanently
+          Are you sure you want to delete your document？ All of your data will be permanently
           removed from our servers forever. This action cannot be undone.
         </div>
         <div id="yes_no">
