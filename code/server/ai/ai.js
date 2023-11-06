@@ -9,6 +9,8 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 module.exports.useOpenAi = (input) => {
+  console.log('input', input)
+
   const llm = new OpenAI({
     openAIApiKey: process.env.OPENAI_API_KEY,
     // temperature: 0,

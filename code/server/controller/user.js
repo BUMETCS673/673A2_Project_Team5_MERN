@@ -5,11 +5,13 @@ const imgSrc = 'https://www.dunkindonuts.com/content/dam/dd/img/menu-redesign/do
 
 module.exports.getUser = async (req, res) => {
     try {
-
-        const sub = req.body.sub;
+        console.log("hello")
+        const userId = req.query.user_id;
+        console.log('req.query', req.query)
         //DB.find() return , so we need to use user[0]
         //DB.findOne() return an object, so we can use user
-        const user = await User.findOne({ user_id: sub });
+        const user = await User.findOne({ user_id: userId });
+        console.log('user', user)
         if (user) {
             console.log("user successfully found");
             console.log(user);
@@ -31,15 +33,17 @@ module.exports.getUser = async (req, res) => {
 module.exports.createDoc = async (req, res) => {
 
     try {
+        console.log('req.body', req.body)
         const docTitle = req.body.title;
-        const user = await User.find({ user_id: req.body.sub }); // user returned from MongoDB is an array with 1 user
+        const user = await User.findOne({ user_id: req.body.userId }); // user returned from MongoDB is an array with 1 user
+        console.log('user', user)
         const newDoc = await new Document({
             title: docTitle,
             document_id: uuid(),
             content: '',
             summary: '',
             last_modified: new Date(),
-            author: user[0]._id,
+            author: user._id,
             date_modified: new Date()
         }).save();
 

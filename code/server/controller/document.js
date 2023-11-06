@@ -1,5 +1,5 @@
 const Document = require('../model/document')
-const summarise = require('../ai/ai')
+const useOpenAi = require('../ai/ai')
 
 /**
  * Req
@@ -24,9 +24,11 @@ module.exports.getDocument = async (req, res) => {
 
 module.exports.updateContent = async (req, res) => {
   try {
-    const { content, document_id: docId } = req
+    const { documentId: docId, contentData: content } = req.body
 
-    await Document.findByIdAndUpdate(docId, { content })
+    console.log('docId, content', docId, content)
+    const doc = await Document.findOneAndUpdate({ document_id : docId }, { content });
+    console.log(doc);
 
     res.send('Document content updated!');
   } catch (err) {
@@ -41,22 +43,31 @@ module.exports.updateContent = async (req, res) => {
 
 module.exports.updateSummary = async (req, res) => {
   try {
-    const { document_id: docId } = req
-    let updatedSummary
+    const { documentId: docId } = req.body
+    let updatedSummary = ""
 
-    await Document.findById(docId, 'content', (err, doc) => {
-      if (err) {
-        // Handle the error here
-        res.send(err);
-      } else if (doc) {
-        const { content } = doc;
-        updatedSummary = summarise(content)
-      } else {
-        res.send('Document not found');
-      }
-    })
+    const docContent = await Document.findOne({ document_id : docId }, 'content')
+    console.log('docContent', docContent)
 
-    await Document.findByIdAndUpdate(docId, { summary: updatedSummary })
+    updatedSummary = await useOpenAi(docContent.content)
+    // (err, doc) => {
+    //   console.log("im here")
+    //   if (err) {
+    //     // Handle the error here
+    //     res.send(err);
+    //   } else if (doc) {
+    //     console.log('doc', doc)
+    //     const { content } = doc;
+    //     updatedSummary = summarise(content)
+    //     console.log('updatedSummary', updatedSummary)
+    //   } else {
+    //     res.send('Document not found');
+    //   }
+    // }
+
+    console.log('updatedSummary', updatedSummary)
+
+    await Document.findOneAndUpdate({ document_id : docId }, { summary: updatedSummary })
 
     res.send('Summary updated!');
     return res.json({ summary: updatedSummary })
