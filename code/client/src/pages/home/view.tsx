@@ -36,6 +36,18 @@ export default function HomeView({
   const [title, setNoteTitle] = useState(''); // store note
   // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
+  //focus on input box
+  useEffect(() => {
+    if (modalOpened && inputRef.current) {
+      console.log('Modal is opened, setting focus.'); //test
+      inputRef.current.focus();
+    }
+  }, [modalOpened]); //When modal open again, run use effect
+
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setNoteTitle(event.target.value);
+  };
+
   // handle form
   const handleFormSubmit = async () => {
     if (title.trim() === '') {
@@ -44,7 +56,7 @@ export default function HomeView({
       return;
     }
     // create note     userData.id,
-    const docId = await createNote('siyuan', title); //
+    const docId = createNote('siyuan', title);
     // setNoteTitle('');
     if (!createCardError) {
       navigate(`/document/${docId}`);
@@ -59,21 +71,10 @@ export default function HomeView({
     }
   };
 
-  //focus on input box
-  useEffect(() => {
-    if (modalOpened) {
-      inputRef.current?.focus();
-    }
-  }, [modalOpened]); //When modal open again, run use effect
-
   // handle form
   const handleDelete = async (docId: number) => {
     // create note     userData.id,
     deleteNote(docId); //
-  };
-
-  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
-    setNoteTitle(event.target.value);
   };
 
   // render
@@ -132,10 +133,7 @@ export default function HomeView({
                   onChange={handleChange}
                   onKeyDown={handleKeyPress}
                   ref={inputRef}
-                  // autoFocus={true}
                 ></input>
-                {/* <h3>Tags</h3>
-                <input type="text" name="tag"></input> */}
                 <div id="button-father">
                   <Button id="big-button-modal" onClick={handleFormSubmit}>
                     + Create New
