@@ -160,7 +160,15 @@ export default function DocumentView({
           </div>
           <div className="summary">
             <Card className="summary-card" padding="lg" radius="sm" withBorder>
-              {summaryData === '' ? (
+              {summaryData ? (
+                <div>
+                <ScrollArea h={700}>
+                  <List size="md">
+                    {summaryData}
+                  </List>
+                </ScrollArea>
+              </div>
+              ) : (
                 <div>
                   <Text className="tip-head" fw={500}>
                     Tips to generate your summary!
@@ -168,42 +176,6 @@ export default function DocumentView({
                   <Text size="sm" c="dimmed">
                     Use AI to boost your study!
                   </Text>
-                </div>
-              ) : (
-                <div>
-                  <ScrollArea h={700}>
-                    <List size="md">
-                      {summaryData}
-                      <List.Item>Clone or download repository from GitHub</List.Item>
-                      <List.Item>Install dependencies with yarn</List.Item>
-                      <List.Item>To start development server run npm start command</List.Item>
-                      <List.Item>
-                        Run tests to make sure your changes do not break the build
-                      </List.Item>
-                      <List.Item>Submit a pull request once you are done</List.Item>
-                      <List.Item>Clone or download repository from GitHub</List.Item>
-                      <List.Item>Install dependencies with yarn</List.Item>
-                      <List.Item>To start development server run npm start command</List.Item>
-                      <List.Item>
-                        Run tests to make sure your changes do not break the build
-                      </List.Item>
-                      <List.Item>Submit a pull request once you are done</List.Item>
-                      <List.Item>Clone or download repository from GitHub</List.Item>
-                      <List.Item>Install dependencies with yarn</List.Item>
-                      <List.Item>To start development server run npm start command</List.Item>
-                      <List.Item>
-                        Run tests to make sure your changes do not break the build
-                      </List.Item>
-                      <List.Item>Submit a pull request once you are done</List.Item>
-                      <List.Item>Clone or download repository from GitHub</List.Item>
-                      <List.Item>Install dependencies with yarn</List.Item>
-                      <List.Item>To start development server run npm start command</List.Item>
-                      <List.Item>
-                        Run tests to make sure your changes do not break the build
-                      </List.Item>
-                      <List.Item>Submit a pull request once you are done</List.Item>
-                    </List>
-                  </ScrollArea>
                 </div>
               )}
               <Button

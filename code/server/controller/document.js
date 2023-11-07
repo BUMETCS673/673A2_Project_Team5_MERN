@@ -24,10 +24,12 @@ module.exports.getDocument = async (req, res) => {
 
 module.exports.updateContent = async (req, res) => {
   try {
-    const { documentId: docId, contentData: content } = req.body
-
+    //const { documentId: docId, contentData: content } = req.body
+    const content = req.body.content
+    const docId = req.body.docId
     console.log('docId, content', docId, content)
-    const doc = await Document.findOneAndUpdate({ document_id : docId }, { content });
+    //const doc = await Document.findOneAndUpdate({ document_id : docId }, { content });
+    const doc = await Document.findOneAndUpdate(docId, content );
     console.log(doc);
 
     res.send('Document content updated!');
