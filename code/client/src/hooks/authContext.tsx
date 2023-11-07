@@ -2,6 +2,7 @@ import { GoogleUser } from '@/models/googleUser';
 import jwt_decode from 'jwt-decode';
 import { User } from '@/models/user';
 import React, { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -21,19 +22,43 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    const token = localStorage.getItem('googleToken');
-    if (token) {
-      setIsAuthenticated(true);
-      const user_object: GoogleUser = jwt_decode(token);
-      setUser({
-        user_name: user_object.name,
-        user_pic: user_object.picture,
-        user_id: user_object.sub,
-      });
-    } else {
-      setIsAuthenticated(false);
-      // navigate('/login')
-    }
+    const checkToken = async () => {
+      const token = localStorage.getItem('googleToken');
+      if (token) {
+        try {
+          const response = await axios.post(
+            'http://localhost:8000/login/verify-token',
+            { token },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+
+          console.log('response', response);
+          if (response.data) {
+            const user_object: GoogleUser = jwt_decode(token);
+
+            setIsAuthenticated(true);
+            setUser({
+              user_name: user_object.name,
+              user_pic: user_object.picture,
+              user_id: user_object.sub,
+            });
+          } else {
+            // Token invalid, force log out and navigate to login page
+          }
+        } catch (error) {
+          console.error('Error verifying token:', error);
+        }
+      } else {
+        setIsAuthenticated(false);
+        // navigate('/login')
+      }
+    };
+
+    checkToken();
   }, [isAuthenticated]);
 
   const login = (userData: User) => {
