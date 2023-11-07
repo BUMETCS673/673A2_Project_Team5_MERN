@@ -20,7 +20,7 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post(
         'http://localhost:8000/login',
-        {token: token},
+        { token: token },
         {
           headers: {
             //Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
   // Function to handle user sign out
   const handleSignOut = (event: any) => {
     // Reset the user state to empty
-    localStorage.removeItem('googleToken')
+    localStorage.removeItem('googleToken');
     logout();
     // Re-render the Google Sign-In button after signing out
     google.accounts.id.renderButton(document.getElementById('signInDiv'), {

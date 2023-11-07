@@ -53,15 +53,19 @@ export default function Document() {
     setUpdateContentLoading(true);
     try {
       // POST
-      await axios.post(`http://localhost:8000/document/${docId}/update-content`, { 
-        documentId : docId,
-        contentData : contentData,
-      },{
-        headers: {
-          //Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+      await axios.post(
+        `http://localhost:8000/document/${docId}/update-content`,
+        {
+          documentId: docId,
+          contentData: contentData,
         },
-      });
+        {
+          headers: {
+            //Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       // On method Success
       setUpdateContentError(false); //if already load successful

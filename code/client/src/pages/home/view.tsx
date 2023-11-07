@@ -96,10 +96,10 @@ export default function HomeView({
           _id={card._id}
           onCardDelete={() => handleDelete(card._id)}
         />
-      ))
+      ));
     }
 
-    return <p>No Documents Found</p>
+    return <p>No Documents Found</p>;
   };
 
   return (

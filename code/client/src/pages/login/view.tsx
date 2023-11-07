@@ -29,7 +29,9 @@ export const LoginView: React.FC<LoginViewProps> = ({ user, handleSignOut }) => 
               </div>
               <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
             </div>
-          ) : <div id="signInDiv" className="signInDiv"></div>}
+          ) : (
+            <div id="signInDiv" className="signInDiv"></div>
+          )}
 
           {/* If the user is not logged in, display the Google Sign-In button */}
           {/* {Object.keys(user).length === 0 && <div id="signInDiv" className="signInDiv"></div>} */}

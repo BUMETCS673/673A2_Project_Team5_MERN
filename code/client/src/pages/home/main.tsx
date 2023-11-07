@@ -11,7 +11,7 @@ import { User, UserDocument } from '../../models/user';
 export default function Home() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   // card data from backend is saved in this state
   const [cardData, setCardData] = useState<NoteCardType[]>([]); // init to empty, use api data to fill
@@ -21,9 +21,11 @@ export default function Home() {
   const [deleteCardLoading, setDeleteCardLoading] = useState(false);
   const [deleteCardError, setDeleteCardError] = useState(false);
 
-  const getUser = async (): Promise<UserDocument> => 
-    axios.get(`http://localhost:8000/user`, {params: { user_id: user?.user_id }}).then((response) => response.data)
-  
+  const getUser = async (): Promise<UserDocument> =>
+    axios
+      .get(`http://localhost:8000/user`, { params: { user_id: user?.user_id } })
+      .then((response) => response.data);
+
   // {
   //   try {
   //     console.log('user', user)
@@ -37,8 +39,12 @@ export default function Home() {
   //     // setGetCardLoading(false); // error loading process over
   //   }
   // };
-  
-  const { data: userData, isError: getUserError, isPending: getUserLoading } = useQuery({ queryKey: ['getUser'], queryFn: getUser })
+
+  const {
+    data: userData,
+    isError: getUserError,
+    isPending: getUserLoading,
+  } = useQuery({ queryKey: ['getUser'], queryFn: getUser });
   // console.log('userData', userData)
 
   //create a new note

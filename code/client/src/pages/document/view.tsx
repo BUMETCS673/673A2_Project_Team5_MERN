@@ -162,12 +162,10 @@ export default function DocumentView({
             <Card className="summary-card" padding="lg" radius="sm" withBorder>
               {summaryData ? (
                 <div>
-                <ScrollArea h={700}>
-                  <List size="md">
-                    {summaryData}
-                  </List>
-                </ScrollArea>
-              </div>
+                  <ScrollArea h={700}>
+                    <List size="md">{summaryData}</List>
+                  </ScrollArea>
+                </div>
               ) : (
                 <div>
                   <Text className="tip-head" fw={500}>
