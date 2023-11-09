@@ -8,7 +8,7 @@ const summarise = require('../ai/ai')
 
 module.exports.getDocument = async (req, res) => {
   try {
-    const docs = await Document.find({ document_id: req.params.docId });
+    const docs = await Document.findOne({ document_id: req.params.docId });
     res.json({ docs });
   } catch (err) {
     console.log(err);
@@ -24,13 +24,17 @@ module.exports.getDocument = async (req, res) => {
 
 module.exports.updateContent = async (req, res) => {
   try {
-    const { content, document_id: docId } = req
+    //const { content, document_id: docId } = req
+    const docid = req.params.docId;
+    const newContent = req.body.content;
 
-    await Document.findByIdAndUpdate(docId, { content })
+    await Document.findOneAndUpdate({ document_id: docid }, { content: newContent });
 
-    res.send('Document content updated!');
+    const doc = await Document.findOne({ document_id: docid });
+    res.json({ doc });
   } catch (err) {
-    return res.json({ error: err })
+    console.log(err);
+    return res.json({ error: "Unable to undate content" });
   }
 }
 
