@@ -2,3 +2,35 @@
   margin: 0;
   padding: 0;
 }
+
+h2 {
+  width: 100%;
+  padding-left: 40px;
+  padding-top: 18px;
+}
+
+#button_father {
+  display: flex;
+  justify-content: center;
+}
+
+#big-button-modal {
+  width: 100%;
+  margin-bottom: 5px;
+  margin-right: 20px;
+
+}
+
+#action-icon{
+  width: 10%;
+}
+
+#yes_no {
+  display: flex;
+  justify-content: end;
+}
+
+
+#modal-head {
+  display: flex;
+}

@@ -1,8 +1,9 @@
 const express = require('express');
-const ctrl = require('../controller/login')
-router = express.Router()
+const requireLogin = require('../middleware/requireLogin.js')
+const loginController = require('../controller/login.js')
 
-router.get('/', ctrl.welcome)
-router.post('/', ctrl.login)
+const router = express.Router();
+
+router.post('/login', loginController); 
 
 module.exports = router;

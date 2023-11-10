@@ -46,6 +46,13 @@
   align-items: center;
 }
 
+.username-container {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
 .user-details button {
   margin: 20px;
 }
