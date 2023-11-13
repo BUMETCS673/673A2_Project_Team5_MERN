@@ -7,7 +7,7 @@ import { User } from '../../models/user';
 
 // Define the properties that the LoginView component expects.
 interface LoginViewProps {
-  user: User;
+  user: User | undefined;
   handleSignOut: (event: any) => void;
 }
 
