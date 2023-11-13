@@ -1,8 +1,8 @@
-const User = require('../model/users');
-const Document = require('../model/document');
-const { v4: uuid } = require('uuid')
+import User from '../model/users.js';
+import Document from '../model/document.js';
+import { v4 as uuid } from 'uuid';
 
-module.exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
     const userId = req.params.userId;
 
     //DB.find() return , so we need to use user[0]
@@ -20,8 +20,7 @@ module.exports.getUser = async (req, res) => {
     res.json({ user, docs });
 }
 
-module.exports.createDoc = async (req, res) => {
-
+const createDoc = async (req, res) => {
     try {
         console.log('req.body', req.body)
         const docTitle = req.body.title;
@@ -45,7 +44,7 @@ module.exports.createDoc = async (req, res) => {
     }
 }
 
-module.exports.deleteDoc = async (req, res) => {
+const deleteDoc = async (req, res) => {
     try {
         const docId = req.params.docId;
         const user_id = req.params.userId;
@@ -59,4 +58,10 @@ module.exports.deleteDoc = async (req, res) => {
         console.log(err);
         return res.json({ error: "Error occur! Unable to delete the doc" })
     }
+}
+
+export default {
+    getUser,
+    createDoc,
+    deleteDoc
 }

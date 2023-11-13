@@ -1,12 +1,15 @@
-const jwt = require('jsonwebtoken');
-const User = require('../model/users.js');
+// const jwt = require('jsonwebtoken');
+// const User = require('../model/users.js');
 // Import your User model
+
+import jwt from 'jsonwebtoken';
+import User from '../model/users.js';
 
 const secretKey = 'testestest';
 const accessTokenExpiry = '4h';
 
 const loginController = async (req, res) => {
-  const token  = req.body.token;
+  const token = req.body.token;
 
   try {
     // Decode the Google JWT token
@@ -42,5 +45,4 @@ const loginController = async (req, res) => {
   }
 };
 
-module.exports = loginController;
-
+export default loginController;
