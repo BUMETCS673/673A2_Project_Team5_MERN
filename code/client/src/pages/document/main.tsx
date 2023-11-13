@@ -9,37 +9,15 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 export default function DocumentPage() {
   const { docId } = useParams();
-  // card data from backend is saved in this state
-  // On page load's states (data, loading, error)
-  // const [contentData, setContentData] = useState<string>(''); // init to empty, use api data to fill
-  // const [summaryData, setSummaryData] = useState<string>(''); // init to empty, use api data to fill
-  // const [onPageLoading, setOnPageLoading] = useState(true); // for loading state
-  // const [onPageError, setOnPageError] = useState(false); //for error state
-
-  // Updating content's states (loading, error, finished updating)
-  // const [updateContentLoading, setUpdateContentLoading] = useState(false); // for loading state
-  // const [updateContentError, setUpdateContentError] = useState(false); //for error state
-  // const [updateContentFinished, setUpdateContentFinished] = useState(false); //for error state
-
-  // const [updateSummaryLoading, setUpdateSummaryLoading] = useState(false); // for loading state
-  // const [updateSummaryError, setUpdateSummaryError] = useState(false); //for error state
-  // const [updateSummaryFinished, setUpdateSummaryFinished] = useState(false); //for error state
 
   const getDocument = async (): Promise<{ docs: Document }> =>
     axios.get(`http://localhost:8000/document/${docId}`).then((response) => response.data); // from where
 
-  // const getDocumentOld = async () => {
-  //   try {
-  //     const response = await axios.get(`http://localhost:8000/document/${docId}`); // from where
-  //     setContentData(response.data.docs.content);
-  //     setSummaryData(response.data.docs.summary);
-  //     setOnPageLoading(false); // false, because data is already load
-  //   } catch (err) {
-  //     console.error('An error occurred while fetching data:', err);
-  //     setOnPageError(true); // if error occur, state is true
-  //     setOnPageLoading(false); // error loading process over
-  //   }
-  // };
+  const updateContent = async ({ contentData }: { contentData: string }) =>
+    axios.post(`http://localhost:8000/document/${docId}/update-content`, {
+      docId: docId,
+      content: contentData,
+    });
 
   const {
     data: getDocumentData,
@@ -48,49 +26,19 @@ export default function DocumentPage() {
     refetch: getDocumentRefetch,
   } = useQuery({ queryKey: ['getDocument'], queryFn: getDocument });
 
-  console.log(getDocumentData);
+  const {
+    mutate: mutateUpdateContent,
+    // data: createNoteData,
+    isPending: updateContentLoading,
+    isError: updateContentError,
+    isSuccess: updateContentSuccess,
+  } = useMutation({
+    mutationFn: updateContent,
+  });
 
-  // get request
-  // useEffect(() => {
-  //   getDocument();
-  // }, []); // run only one time
-
-  // const updateContent = async ({
-  //   userId,
-  //   documentId,
-  //   contentData,
-  // }: {
-  //   userId: string;
-  //   documentId: string;
-  //   contentData: string;
-  // }) => {
-  //   setUpdateContentLoading(true);
-  //   try {
-  //     // POST
-  //     await axios.post(
-  //       `http://localhost:8000/document/${docId}/update-content`,
-  //       {
-  //         documentId: docId,
-  //         contentData: contentData,
-  //       },
-  //       {
-  //         headers: {
-  //           //Authorization: `Bearer ${token}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       }
-  //     );
-
-  //     // On method Success
-  //     setUpdateContentError(false); //if already load successful
-  //     setUpdateContentLoading(false);
-  //     setUpdateContentFinished(true);
-  //   } catch (err) {
-  //     console.error('An error occurred while posting data:', err);
-  //     setUpdateContentLoading(false);
-  //     setUpdateContentError(true);
-  //   }
-  // };
+  const handleSave = async (contentData: string) => {
+    mutateUpdateContent({ contentData });
+  };
 
   // const updateSummary = async ({ userId, documentId }: { userId: string; documentId: string }) => {
   //   setUpdateSummaryLoading(true);
@@ -118,15 +66,15 @@ export default function DocumentPage() {
       getDocumentError={getDocumentError}
       getDocumentRefetch={getDocumentRefetch}
       // update content params
-      // updateContentLoading={updateContentLoading}
-      // updateContentError={updateContentError}
-      // updateContentFinished={updateContentFinished}
+      updateContentLoading={updateContentLoading}
+      updateContentError={updateContentError}
+      updateContentSuccess={updateContentSuccess}
       // update summary params
       // updateSummaryLoading={updateSummaryLoading}
       // updateSummaryError={updateSummaryError}
       // updateSummaryFinished={updateSummaryFinished}
       // functions
-      // onSaveClick={updateContent}
+      onSaveClick={handleSave}
       // onGenerateClick={updateSummary}
     />
   );

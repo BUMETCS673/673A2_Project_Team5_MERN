@@ -14,21 +14,13 @@ interface DocumentViewProps {
   getDocumentLoading: boolean;
   getDocumentError: boolean;
   getDocumentRefetch: () => void;
-  // updateContentLoading: boolean;
-  // updateContentError: boolean;
-  // updateContentFinished: boolean;
+  updateContentLoading: boolean;
+  updateContentError: boolean;
+  updateContentSuccess: boolean;
   // updateSummaryLoading: boolean;
   // updateSummaryError: boolean;
   // updateSummaryFinished: boolean;
-  // onSaveClick: ({
-  //   userId,
-  //   documentId,
-  //   contentData,
-  // }: {
-  //   userId: string;
-  //   documentId: string;
-  //   contentData: string;
-  // }) => void;
+  onSaveClick: (contentData: string) => void;
   // onGenerateClick: ({ userId, documentId }: { userId: string; documentId: string }) => void;
 }
 
@@ -38,15 +30,15 @@ export default function DocumentView({
   getDocumentLoading,
   getDocumentError,
   getDocumentRefetch,
-}: // updateContentLoading,
-// updateContentError,
-// updateContentFinished,
-// updateSummaryLoading,
-// updateSummaryError,
-// updateSummaryFinished,
-// onSaveClick,
-// onGenerateClick,
-DocumentViewProps) {
+  updateContentLoading,
+  updateContentError,
+  updateContentSuccess,
+  // updateSummaryLoading,
+  // updateSummaryError,
+  // updateSummaryFinished,
+  // onGenerateClick,
+  onSaveClick,
+}: DocumentViewProps) {
   console.log('getDocumentData', getDocumentData);
 
   if (getDocumentLoading) {
@@ -64,7 +56,7 @@ DocumentViewProps) {
 
   const contentSection = () => {
     if (getDocumentData) {
-      return <DocumentEditor content={getDocumentData.docs.content} />;
+      return <DocumentEditor content={getDocumentData.docs.content} onSaveClick={onSaveClick} />;
     }
   };
 
