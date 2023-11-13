@@ -11,7 +11,7 @@ import { Document } from '../../models/document';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const queryClient = useQueryClient();
 
   const getUser = async (): Promise<UserDocument> =>
@@ -23,30 +23,18 @@ export default function Home() {
     axios.delete(`http://localhost:8000/user/delete-doc/${docId}/${user?.user_id}`);
 
   const createNote = async ({ userId, title }: { userId: string; title: string }) =>
-    axios.post(`http://localhost:8000/user/create-new-doc`, {
-      userId: userId,
-      title: title,
-    });
-
-  // const createNoteOld = async (userId: string, title: string) => {
-  //   try {
-  //     // POST
-  //     const response = await axios.post(`http://localhost:8000/user/create-new-doc`, {
-  //       userId: userId,
-  //       title: title,
-  //     });
-  //     setCreateCardError(false); //if already load successful
-  //     navigate(`/document/${response.data.docId}`);
-  //   } catch (err) {
-  //     console.error('An error occurred while posting data:', err);
-  //     setCreateCardError(true);
-  //   }
-  // };
+    axios
+      .post(`http://localhost:8000/user/create-new-doc`, {
+        userId: userId,
+        title: title,
+      })
+      .then((response) => response.data);
 
   const {
     data: getUserData,
     isError: getUserError,
     isPending: getUserLoading,
+    refetch: getUserRefetch,
   } = useQuery({ queryKey: ['getUser'], queryFn: getUser });
 
   const {
@@ -55,10 +43,21 @@ export default function Home() {
     isError: deleteCardError,
   } = useMutation({
     mutationFn: deleteNote,
+    onSuccess: () => {
+      getUserRefetch();
+    },
   });
 
-  const { mutate: mutateCreateDoc, isError: createCardError } = useMutation({
+  const {
+    mutate: mutateCreateDoc,
+    // data: createNoteData,
+    isError: createCardError,
+  } = useMutation({
     mutationFn: createNote,
+    onSuccess: (response) => {
+      getUserRefetch();
+      navigate(`/document/${response.document_id}`);
+    },
   });
 
   const handleDelete = async (docId: string) => {
