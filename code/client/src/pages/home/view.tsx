@@ -6,103 +6,97 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
 import { AuthContext } from '../../hooks/authContext';
-import { User } from '../../models/user';
+import { UserDocument } from '../../models/user';
 
 interface HomeViewProps {
-  userData?: User;
-  cardData: NoteCardType[];
-  getCardLoading: boolean;
-  getCardError: boolean;
-  // createCardError: boolean;
-  // deleteCardLoading: boolean;
-  // deleteCardError: boolean;
-  // createNote: (userId: string, title: string) => void;
-  // deleteNote: (docId: number) => void;
+  getUserData?: UserDocument;
+  getUserLoading: boolean;
+  getUserError: boolean;
+  createCardError: boolean;
+  deleteCardLoading: boolean;
+  deleteCardError: boolean;
+  createNote: (userId: string, title: string) => void;
+  handleDelete: (docId: string) => void;
 }
 
 export default function HomeView({
-  // userData,
-  cardData,
-  getCardLoading,
-  getCardError,
-  // createNote,
-  // createCardError,
-  // deleteCardLoading,
-  // deleteCardError,
-  deleteNote,
+  getUserData,
+  getUserLoading,
+  getUserError,
+  createCardError,
+  deleteCardLoading,
+  deleteCardError,
+  createNote,
+  handleDelete,
 }: HomeViewProps) {
-  // const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  // const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
-  // const [modalOpened, { open, close }] = useDisclosure(false); //for modal
-  // const [title, setNoteTitle] = useState(''); // store note
-  // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
+  const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
+  const [modalOpened, { open, close }] = useDisclosure(false); //for modal
+  const [title, setNoteTitle] = useState(''); // store note
 
   //focus on input box
-  // useEffect(() => {
-  //   if (modalOpened && inputRef.current) {
-  //     console.log('Modal is opened, setting focus.'); //test
-  //     inputRef.current.focus();
-  //   }
-  // }, [modalOpened]); //When modal open again, run use effect
+  useEffect(() => {
+    if (modalOpened && inputRef.current) {
+      console.log('Modal is opened, setting focus.'); //test
+      inputRef.current.focus();
+    }
+  }, [modalOpened]); //When modal open again, run use effect
 
-  // const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
-  //   setNoteTitle(event.target.value);
-  // };
+  const handleChange = (event: { target: { value: React.SetStateAction<string> } }) => {
+    setNoteTitle(event.target.value);
+  };
 
   // handle form
-  // const handleFormSubmit = async () => {
-  //   if (title.trim() === '') {
-  //     // empty title
-  //     console.log('Title is required');
-  //     return;
-  //   }
-  //   // create note     userData.id,
-  //   createNote(user?.user_id, title);
-  // };
+  const handleFormSubmit = async () => {
+    if (title.trim() === '') {
+      // empty title
+      console.log('Title is required');
+      return;
+    }
+    // create note     userData.id,
+    createNote(user?.user_id, title);
+  };
 
   //keypress enter for create new note
-  // const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (event.key === 'Enter') {
-  //     event.preventDefault();
-  //     handleFormSubmit();
-  //   }
-  // };
-
-  // handle form
-  const handleDelete = async (docId: number) => {
-    // create note     userData.id,
-    deleteNote(docId); //
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleFormSubmit();
+    }
   };
 
   // render
   const noteCardList = () => {
     // loading state
-    if (getCardLoading) {
+    if (getUserLoading) {
       return <p>Loading...</p>;
     }
 
     // error state
-    if (getCardError) {
+    if (getUserError) {
       return <p>An error occurred while fetching data</p>;
     }
 
     // data is fetched
-    if (cardData.length >= 1) {
-      return cardData.map((card, index) => (
-        <NoteCard
-          key={index}
-          title={card.title}
-          imageSrc={card.imageSrc}
-          description={card.description}
-          linkURL={card.linkURL}
-          _id={card._id}
-          onCardDelete={() => handleDelete(card._id)}
-        />
-      ));
-    }
+    if (getUserData?.docs) {
+      const { docs } = getUserData;
 
-    return <p>No Documents Found</p>;
+      if (docs.length >= 1) {
+        return docs.map((card, index) => (
+          <NoteCard
+            key={index}
+            title={card.title}
+            imageSrc={card.imageSrc}
+            summary={card.summary}
+            document_id={card.document_id}
+            onCardDelete={() => handleDelete(card.document_id)}
+          />
+        ));
+      }
+
+      return <p>No Documents Found</p>;
+    }
   };
 
   return (
@@ -120,7 +114,7 @@ export default function HomeView({
             {noteCardList()}
           </div>
         </div>
-        {/* <div id="create-note">
+        <div id="create-note">
           <Button id="big-button" onClick={open}>
             + Create New
           </Button>
@@ -143,7 +137,7 @@ export default function HomeView({
               </form>
             </div>
           </Modal>
-        </div> */}
+        </div>
       </div>
     </div>
   );

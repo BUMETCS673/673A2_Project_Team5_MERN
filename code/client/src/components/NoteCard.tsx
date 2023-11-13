@@ -8,26 +8,25 @@ import { IconAlertCircleFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function NoteCard({
-  imageSrc,
   title,
-  description,
-  linkURL,
-  _id,
+  document_id,
+  summary,
+  imageSrc,
   onCardDelete,
 }: NoteCardType) {
   const navigate = useNavigate();
   const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
   const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
-  const handleDoubleClick = (docId: number) => {
-    if (linkURL) {
+  const handleDoubleClick = (docId: string) => {
+    if (docId) {
       navigate(`/document/${docId}`);
     }
   };
 
   return (
     <Card
-      onDoubleClick={() => handleDoubleClick(_id)}
+      onDoubleClick={() => handleDoubleClick(document_id)}
       shadow="xs"
       padding="xs"
       radius="md"
@@ -65,7 +64,7 @@ export default function NoteCard({
       </div>
 
       <Modal opened={modalOpened} onClose={control1.close} title={<h2>Summary</h2>} centered>
-        {description}
+        {summary}
       </Modal>
       <Modal
         id="delete-modal"

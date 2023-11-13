@@ -10,12 +10,12 @@ module.exports.getUser = async (req, res) => {
     const user = await User.findOne({ user_id: userId });
     if (user) {
         console.log("user successfully found");
-        console.log(user);
+        // console.log(user);
     }
     const docs = await Document.find({ author: user._id });
     if (docs) {
         console.log("docs successfully found");
-        console.log(docs)
+        // console.log(docs)
     }
     res.json({ user, docs });
 }
@@ -48,8 +48,9 @@ module.exports.createDoc = async (req, res) => {
 module.exports.deleteDoc = async (req, res) => {
     try {
         const docId = req.params.docId;
-        const user_id = req.body.sub;
+        const user_id = req.params.userId;
         const user = await User.findOne({ user_id: user_id });
+
         await Document.deleteOne({ document_id: docId, author: user._id });
 
         const docs = await Document.find({ author: user._id });
