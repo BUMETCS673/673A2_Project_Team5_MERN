@@ -1,7 +1,6 @@
 const User = require('../model/users');
 const Document = require('../model/document');
 const { v4: uuid } = require('uuid')
-const imgSrc = 'https://www.dunkindonuts.com/content/dam/dd/img/menu-redesign/donuts/VanillaFrostedSprinklesDonut_570x570.png'
 
 module.exports.getUser = async (req, res) => {
     try {
@@ -57,21 +56,13 @@ module.exports.createDoc = async (req, res) => {
 
 module.exports.deleteDoc = async (req, res) => {
     try {
-        // const userID = req.params.userid
-        // const docID = req.body.docID;
-        // const temp = Document.findByIdAndDelete({ document_id: docID })
+        const docId = req.params.docId;
+        const user_id = req.body.sub;
+        const user = await User.findOne({ user_id: user_id });
+        await Document.deleteOne({ document_id: docId, author: user._id });
 
-        const { docId } = req.params;
-        const _id = docId;
-
-        const index = docs.findIndex(doc => doc._id === parseInt(_id));
-        // console.log("index", index)
-        if (index !== -1) {
-            docs.splice(index, 1);
-        }
-        // console.log("docs", docs)
-        res.json({ docs });
-
+        const docs = await Document.find({ author: user._id });
+        res.json({ message: "Successfully deleted the doc" });
     } catch (err) {
         console.log(err);
         return res.json({ error: "Error occur! Unable to delete the doc" })
