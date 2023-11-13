@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 
 export default function Document() {
   const { docId } = useParams();
-
   // card data from backend is saved in this state
   // On page load's states (data, loading, error)
   const [contentData, setContentData] = useState<string>(''); // init to empty, use api data to fill
@@ -54,10 +53,19 @@ export default function Document() {
     setUpdateContentLoading(true);
     try {
       // POST
-      await axios.post('http://localhost:8000/user/save-note', {
-        documentId: documentId,
-        contentData: contentData,
-      });
+      await axios.post(
+        `http://localhost:8000/document/${docId}/update-content`,
+        {
+          documentId: docId,
+          contentData: contentData,
+        },
+        {
+          headers: {
+            //Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       // On method Success
       setUpdateContentError(false); //if already load successful
@@ -74,8 +82,8 @@ export default function Document() {
     setUpdateSummaryLoading(true);
     try {
       // GET
-      await axios.post('http://localhost:8000/user/generate-summary', {
-        documentId: documentId,
+      await axios.post(`http://localhost:8000/document/${docId}/update-summary`, {
+        documentId: docId,
       });
       setUpdateSummaryError(false); //if already load successful
       setUpdateSummaryLoading(false);

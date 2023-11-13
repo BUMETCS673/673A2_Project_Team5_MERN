@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
 import '../../components/view.css';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
-import { userType } from '@/constants/user';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../hooks/authContext';
+import { User } from '../../models/user';
+
 interface HomeViewProps {
-  userData: userType;
+  userData?: User;
   cardData: NoteCardType[];
   getCardLoading: boolean;
   getCardError: boolean;
@@ -30,7 +31,8 @@ export default function HomeView({
   deleteCardError,
   deleteNote,
 }: HomeViewProps) {
-  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
   const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
   const [title, setNoteTitle] = useState(''); // store note
@@ -56,11 +58,7 @@ export default function HomeView({
       return;
     }
     // create note     userData.id,
-    const docId = createNote('siyuan', title);
-    // setNoteTitle('');
-    if (!createCardError) {
-      navigate(`/document/${docId}`);
-    }
+    createNote(user?.user_id, title);
   };
 
   //keypress enter for create new note
@@ -87,21 +85,21 @@ export default function HomeView({
       return <p>An error occurred while fetching data</p>;
     }
 
-    if (cardData.length === 0) {
-      return <p>No Documents Found</p>;
+    if (cardData) {
+      return cardData.map((card, index) => (
+        <NoteCard
+          key={index}
+          title={card.title}
+          imageSrc={card.imageSrc}
+          description={card.description}
+          linkURL={card.linkURL}
+          _id={card._id}
+          onCardDelete={() => handleDelete(card._id)}
+        />
+      ));
     }
 
-    return cardData.map((card, index) => (
-      <NoteCard
-        key={index}
-        title={card.title}
-        imageSrc={card.imageSrc}
-        description={card.description}
-        linkURL={card.linkURL}
-        _id={card._id}
-        onCardDelete={() => handleDelete(card._id)}
-      />
-    ));
+    return <p>No Documents Found</p>;
   };
 
   return (
