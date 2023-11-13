@@ -1,14 +1,14 @@
-const OpenAI = require('langchain/llms/openai')
-const PromptTemplate = require('langchain/prompts')
-const dotenv = require('dotenv')
+// const OpenAI = require('langchain/llms/openai')
+// const PromptTemplate = require('langchain/prompts')
+// const dotenv = require('dotenv')
 
-// import { OpenAI } from "langchain/llms/openai"
-// import { PromptTemplate } from "langchain/prompts"
-// import * as dotenv from "dotenv"
+import { OpenAI } from "langchain/llms/openai"
+import { PromptTemplate } from "langchain/prompts"
+import * as dotenv from "dotenv"
 
 dotenv.config()
 
-module.exports.useOpenAi = (input) => {
+const useOpenAi = (input) => {
   console.log('input', input)
 
   const llm = new OpenAI({
@@ -36,3 +36,5 @@ module.exports.useOpenAi = (input) => {
 
   return llmResult
 }
+
+export default useOpenAi;

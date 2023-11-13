@@ -1,12 +1,14 @@
-const Document = require('../model/document');
-const useOpenAi = require('../ai/ai');
+// const Document = require('../model/document');
+// const useOpenAi = require('../ai/ai');
+
+import Document from '../model/document.js';
+import useOpenAi from '../ai/ai.js';
 
 /**
  * Req
  * @param document_id
  */
-
-module.exports.getDocument = async (req, res) => {
+const getDocument = async (req, res) => {
   try {
     const docs = await Document.findOne({ document_id: req.params.docId });
     res.json({ docs });
@@ -14,15 +16,15 @@ module.exports.getDocument = async (req, res) => {
     console.log(err);
     return res.json({ error: 'Error occur! Unable to get user.' });
   }
-};
+}
+
 
 /**
  * Req
  * @param content
  * @param document_id
  */
-
-module.exports.updateContent = async (req, res) => {
+const updateContent = async (req, res) => {
   try {
     //const { documentId: docId, contentData: content } = req.body
     const content = req.body.content;
@@ -38,14 +40,14 @@ module.exports.updateContent = async (req, res) => {
     console.log(err);
     return res.json({ error: 'Unable to undate content' });
   }
-};
+}
 
 /**
  * Req
  * @param document_id
  */
 
-module.exports.updateSummary = async (req, res) => {
+const updateSummary = async (req, res) => {
   try {
     const { documentId: docId } = req.body;
     let updatedSummary = '';
@@ -54,21 +56,6 @@ module.exports.updateSummary = async (req, res) => {
     console.log('docContent', docContent);
 
     updatedSummary = await useOpenAi(docContent.content);
-    // (err, doc) => {
-    //   console.log("im here")
-    //   if (err) {
-    //     // Handle the error here
-    //     res.send(err);
-    //   } else if (doc) {
-    //     console.log('doc', doc)
-    //     const { content } = doc;
-    //     updatedSummary = summarise(content)
-    //     console.log('updatedSummary', updatedSummary)
-    //   } else {
-    //     res.send('Document not found');
-    //   }
-    // }
-
     console.log('updatedSummary', updatedSummary);
 
     await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
@@ -78,4 +65,6 @@ module.exports.updateSummary = async (req, res) => {
   } catch (err) {
     return res.json({ error: err });
   }
-};
+}
+
+export default { getDocument, updateContent, updateSummary };
