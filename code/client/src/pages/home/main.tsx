@@ -48,6 +48,9 @@ export default function Home() {
 
   const { mutate: mutateCreateDoc, isError: createCardError } = useMutation({
     mutationFn: createNote,
+    onSuccess: () => {
+      getUserRefetch();
+    },
   });
 
   const handleDelete = async (docId: string) => {
