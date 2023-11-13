@@ -31,7 +31,7 @@ const updateContent = async (req, res) => {
     const docId = req.body.docId;
     console.log('docId, content', docId, content);
     //const doc = await Document.findOneAndUpdate({ document_id : docId }, { content });
-    const doc = await Document.findOneAndUpdate(docId, content);
+    const doc = await Document.findOneAndUpdate({ document_id: docId }, { content });
     console.log(doc);
 
     // const doc = await Document.findOne({ document_id: docid });
@@ -61,7 +61,7 @@ const updateSummary = async (req, res) => {
     await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
 
     res.send('Summary updated!');
-    return res.json({ summary: updatedSummary });
+    // return res.json({ summary: updatedSummary });
   } catch (err) {
     return res.json({ error: err });
   }
