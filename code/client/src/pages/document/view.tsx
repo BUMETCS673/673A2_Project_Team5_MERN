@@ -10,33 +10,31 @@ import { SummaryGenerate } from './summary';
 
 interface DocumentViewProps {
   getDocumentData?: { docs: Document };
-  // summaryData: string;
   getDocumentLoading: boolean;
   getDocumentError: boolean;
   getDocumentRefetch: () => void;
   updateContentLoading: boolean;
   updateContentError: boolean;
   updateContentSuccess: boolean;
-  // updateSummaryLoading: boolean;
-  // updateSummaryError: boolean;
-  // updateSummaryFinished: boolean;
+  updateSummaryLoading: boolean;
+  updateSummaryError: boolean;
+  updateSummarySuccess: boolean;
   onSaveClick: (contentData: string) => void;
-  // onGenerateClick: ({ userId, documentId }: { userId: string; documentId: string }) => void;
+  onGenerateClick: () => void;
 }
 
 export default function DocumentView({
   getDocumentData,
-  // summaryData,
   getDocumentLoading,
   getDocumentError,
   getDocumentRefetch,
   updateContentLoading,
   updateContentError,
   updateContentSuccess,
-  // updateSummaryLoading,
-  // updateSummaryError,
-  // updateSummaryFinished,
-  // onGenerateClick,
+  updateSummaryLoading,
+  updateSummaryError,
+  updateSummarySuccess,
+  onGenerateClick,
   onSaveClick,
 }: DocumentViewProps) {
   console.log('getDocumentData', getDocumentData);
@@ -62,7 +60,9 @@ export default function DocumentView({
 
   const summarySection = () => {
     if (getDocumentData) {
-      return <SummaryGenerate summary={getDocumentData.docs.summary} />;
+      return (
+        <SummaryGenerate summary={getDocumentData.docs.summary} onGenerateClick={onGenerateClick} />
+      );
     }
   };
 

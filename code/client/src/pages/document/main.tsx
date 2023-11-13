@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { NoteCardType } from '../../constants/cardData';
-import { user } from '../../constants/user';
 import axios from 'axios';
 import DocumentView from './view';
 import { useParams } from 'react-router-dom';
@@ -19,6 +17,11 @@ export default function DocumentPage() {
       content: contentData,
     });
 
+  const updateSummary = async () =>
+    axios.post(`http://localhost:8000/document/${docId}/update-summary`, {
+      documentId: docId,
+    });
+
   const {
     data: getDocumentData,
     isError: getDocumentError,
@@ -27,8 +30,19 @@ export default function DocumentPage() {
   } = useQuery({ queryKey: ['getDocument'], queryFn: getDocument });
 
   const {
+    mutate: mutateUpdateSummary,
+    isPending: updateSummaryLoading,
+    isError: updateSummaryError,
+    isSuccess: updateSummarySuccess,
+  } = useMutation({
+    mutationFn: updateSummary,
+    onSuccess: () => {
+      getDocumentRefetch();
+    },
+  });
+
+  const {
     mutate: mutateUpdateContent,
-    // data: createNoteData,
     isPending: updateContentLoading,
     isError: updateContentError,
     isSuccess: updateContentSuccess,
@@ -40,22 +54,9 @@ export default function DocumentPage() {
     mutateUpdateContent({ contentData });
   };
 
-  // const updateSummary = async ({ userId, documentId }: { userId: string; documentId: string }) => {
-  //   setUpdateSummaryLoading(true);
-  //   try {
-  //     // GET
-  //     await axios.post(`http://localhost:8000/document/${docId}/update-summary`, {
-  //       documentId: docId,
-  //     });
-  //     setUpdateSummaryError(false); //if already load successful
-  //     setUpdateSummaryLoading(false);
-  //     setUpdateSummaryFinished(false);
-  //   } catch (err) {
-  //     console.error('An error occurred while posting data:', err);
-  //     setUpdateSummaryLoading(false);
-  //     setUpdateSummaryError(true);
-  //   }
-  // };
+  const handleSummary = async () => {
+    mutateUpdateSummary();
+  };
 
   return (
     <DocumentView
@@ -70,12 +71,12 @@ export default function DocumentPage() {
       updateContentError={updateContentError}
       updateContentSuccess={updateContentSuccess}
       // update summary params
-      // updateSummaryLoading={updateSummaryLoading}
-      // updateSummaryError={updateSummaryError}
-      // updateSummaryFinished={updateSummaryFinished}
+      updateSummaryLoading={updateSummaryLoading}
+      updateSummaryError={updateSummaryError}
+      updateSummarySuccess={updateSummarySuccess}
       // functions
       onSaveClick={handleSave}
-      // onGenerateClick={updateSummary}
+      onGenerateClick={handleSummary}
     />
   );
 }

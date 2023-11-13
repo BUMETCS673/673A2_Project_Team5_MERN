@@ -61,7 +61,7 @@ const updateSummary = async (req, res) => {
     await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
 
     res.send('Summary updated!');
-    return res.json({ summary: updatedSummary });
+    // return res.json({ summary: updatedSummary });
   } catch (err) {
     return res.json({ error: err });
   }

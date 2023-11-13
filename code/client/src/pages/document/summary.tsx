@@ -3,9 +3,10 @@ import { Card, Text, Button, rem, List, ScrollArea } from '@mantine/core';
 
 interface SummaryGenerateProps {
   summary: string;
+  onGenerateClick: () => void;
 }
 
-export const SummaryGenerate = ({ summary }: SummaryGenerateProps) => {
+export const SummaryGenerate = ({ summary, onGenerateClick }: SummaryGenerateProps) => {
   return (
     <>
       <Card className="summary-card" padding="lg" radius="sm" withBorder>
@@ -25,19 +26,20 @@ export const SummaryGenerate = ({ summary }: SummaryGenerateProps) => {
             </Text>
           </div>
         )}
-        {/* <Button
-                className="generate-button"
-                variant="light"
-                color="blue"
-                loading={updateSummaryLoading}
-                disabled={docContent === ''}
-                fullWidth
-                mt="md"
-                radius="md"
-                onClick={() => onGenerateClick({ userId: '', documentId: '' })}
-              >
-                {updateSummaryFinished === false ? 'Generate New!' : 'Generate'}
-              </Button> */}
+        <Button
+          className="generate-button"
+          variant="light"
+          color="blue"
+          // loading={updateSummaryLoading}
+          // disabled={docContent === ''}
+          fullWidth
+          mt="md"
+          radius="md"
+          onClick={() => onGenerateClick()}
+        >
+          {/* {updateSummaryFinished === false ? 'Generate New!' : 'Generate'} */}
+          Generate Summary
+        </Button>
       </Card>
     </>
   );
