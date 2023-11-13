@@ -3,10 +3,11 @@ const Document = require('../model/document');
 const { v4: uuid } = require('uuid')
 
 module.exports.getUser = async (req, res) => {
-    const sub = req.body.sub;
+    const userId = req.params.userId;
+
     //DB.find() return , so we need to use user[0]
     //DB.findOne() return an object, so we can use user
-    const user = await User.findOne({ user_id: sub });
+    const user = await User.findOne({ user_id: userId });
     if (user) {
         console.log("user successfully found");
         console.log(user);
