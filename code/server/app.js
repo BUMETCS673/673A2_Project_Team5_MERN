@@ -32,10 +32,6 @@ db.once('open', () => {
   console.log('mongo Connection open!');
 });
 
-//Data Models
-const User = require('./model/users');
-const Docs = require('./model/document');
-
 //Router Fiele
 const userRoute = require('./routes/user');
 const documentRoute = require('./routes/document');
@@ -45,6 +41,12 @@ const loginRoute = require("./routes/login.js");
 app.use("/", loginRoute)
 app.use('/user', userRoute);
 app.use('/document', documentRoute);
+
+//Error Handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 app.get('*', (req, res) => {
   res.send('invalid url');

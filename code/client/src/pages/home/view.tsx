@@ -6,37 +6,34 @@ import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
 import { AuthContext } from '../../hooks/authContext';
-import { User } from '../../models/user';
+import { UserDocument } from '../../models/user';
 
 interface HomeViewProps {
-  userData?: User;
-  cardData: NoteCardType[];
-  getCardLoading: boolean;
-  getCardError: boolean;
+  getUserData?: UserDocument;
+  getUserLoading: boolean;
+  getUserError: boolean;
   createCardError: boolean;
   deleteCardLoading: boolean;
   deleteCardError: boolean;
   createNote: (userId: string, title: string) => void;
-  deleteNote: (docId: number) => void;
+  handleDelete: (docId: string) => void;
 }
 
 export default function HomeView({
-  userData,
-  cardData,
-  getCardLoading,
-  getCardError,
-  createNote,
+  getUserData,
+  getUserLoading,
+  getUserError,
   createCardError,
   deleteCardLoading,
   deleteCardError,
-  deleteNote,
+  createNote,
+  handleDelete,
 }: HomeViewProps) {
   const { user } = useContext(AuthContext);
 
   const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
   const [title, setNoteTitle] = useState(''); // store note
-  // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
   //focus on input box
   useEffect(() => {
@@ -69,37 +66,37 @@ export default function HomeView({
     }
   };
 
-  // handle form
-  const handleDelete = async (docId: number) => {
-    // create note     userData.id,
-    deleteNote(docId); //
-  };
-
   // render
   const noteCardList = () => {
-    if (getCardLoading) {
+    // loading state
+    if (getUserLoading) {
       return <p>Loading...</p>;
     }
 
-    if (getCardError) {
+    // error state
+    if (getUserError) {
       return <p>An error occurred while fetching data</p>;
     }
 
-    if (cardData) {
-      return cardData.map((card, index) => (
-        <NoteCard
-          key={index}
-          title={card.title}
-          imageSrc={card.imageSrc}
-          description={card.description}
-          linkURL={card.linkURL}
-          _id={card._id}
-          onCardDelete={() => handleDelete(card._id)}
-        />
-      ));
-    }
+    // data is fetched
+    if (getUserData?.docs) {
+      const { docs } = getUserData;
 
-    return <p>No Documents Found</p>;
+      if (docs.length >= 1) {
+        return docs.map((card, index) => (
+          <NoteCard
+            key={index}
+            title={card.title}
+            imageSrc={card.imageSrc}
+            summary={card.summary}
+            document_id={card.document_id}
+            onCardDelete={() => handleDelete(card.document_id)}
+          />
+        ));
+      }
+
+      return <p>No Documents Found</p>;
+    }
   };
 
   return (

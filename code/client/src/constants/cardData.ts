@@ -1,12 +1,8 @@
 import picture from '../images/picture.png';
 import picture1 from '../images/picture.jpg';
+import { Document } from '../models/document';
 
-export interface NoteCardType {
-  imageSrc: string;
-  title: string;
-  description: string;
-  linkURL: string;
-  _id: number;
+export interface NoteCardType extends Document {
   onCardDelete?: () => void; //define ?, prove it is can be choose
 }
 

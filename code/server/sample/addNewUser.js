@@ -3,6 +3,7 @@ const Doc = require('../model/document');
 // import { v4 as uuidv4 } from 'uuid'; 
 const mongoose = require('mongoose');
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/teamFive');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongo connection error'));
@@ -11,33 +12,34 @@ db.once('open', function () {
 });
 //Adding dummy users to DB
 
-const seedDB = async () => {
+
+const addNewUser = async () => {
     await User.deleteMany({});
     await Doc.deleteMany({});
 
     const user = new User({
-        user_name: 'test_user',
-        user_id: '1234567891',
-        })
-
+        user_name: `Siyuan`,
+        user_id: `112330017898894277040`,
+    });
     await user.save();
 
-            const doc = new Doc({
-                title: 'test_doc',
-                document_id: '987654321',
-                //body: This is for user ${i},
-                summary: 'this ius test summary',
-                last_modified: Date("2023-11-02T20:25:38.264Z"),
-                author: user._id,
-                date_modified: Date("2023-11-02T20:25:38.264Z")
-            })
+    for (let j = 0; j < 3; j++) {
+        const doc = new Doc({
+            title: `doc${j}`,
+            document_id: j,
+            body: `This is doc ${j} for Siyuan`,
+            summary: `This is summary for doc ${j}`,
+            last_modified: new Date(),
+            author: user._id,
+            date_modified: new Date()
+        })
 
-    await doc.save();
-        
+        await doc.save();
     }
+}
 
 
-seedDB()
+addNewUser()
     .then(() => {
         mongoose.connection.close();
     })
