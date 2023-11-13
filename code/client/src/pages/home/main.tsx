@@ -28,25 +28,11 @@ export default function Home() {
       title: title,
     });
 
-  // const createNoteOld = async (userId: string, title: string) => {
-  //   try {
-  //     // POST
-  //     const response = await axios.post(`http://localhost:8000/user/create-new-doc`, {
-  //       userId: userId,
-  //       title: title,
-  //     });
-  //     setCreateCardError(false); //if already load successful
-  //     navigate(`/document/${response.data.docId}`);
-  //   } catch (err) {
-  //     console.error('An error occurred while posting data:', err);
-  //     setCreateCardError(true);
-  //   }
-  // };
-
   const {
     data: getUserData,
     isError: getUserError,
     isPending: getUserLoading,
+    refetch: getUserRefetch,
   } = useQuery({ queryKey: ['getUser'], queryFn: getUser });
 
   const {
@@ -55,6 +41,9 @@ export default function Home() {
     isError: deleteCardError,
   } = useMutation({
     mutationFn: deleteNote,
+    onSuccess: () => {
+      getUserRefetch();
+    },
   });
 
   const { mutate: mutateCreateDoc, isError: createCardError } = useMutation({
