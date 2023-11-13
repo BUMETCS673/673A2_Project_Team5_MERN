@@ -15,13 +15,19 @@ export default function NoteCard({
   onCardDelete,
 }: NoteCardType) {
   const navigate = useNavigate();
-  const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
-  const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
+  const [modalOpened, { open: openSummaryModal, close: closeSummaryModal }] = useDisclosure(false); //this modal is for summary
+  const [modalOpenedDelete, { open: openDeleteModal, close: closeDeleteModal }] =
+    useDisclosure(false); //this modal is for delete
 
   const handleDoubleClick = (docId: string) => {
     if (docId) {
       navigate(`/document/${docId}`);
     }
+  };
+
+  const handleDelete = () => {
+    onCardDelete();
+    closeDeleteModal();
   };
 
   return (
@@ -45,7 +51,7 @@ export default function NoteCard({
           id="big-button-modal"
           variant="light"
           radius="md"
-          onClick={control1.open}
+          onClick={openSummaryModal}
           style={{ width: '120%' }}
         >
           Show Summary
@@ -57,19 +63,19 @@ export default function NoteCard({
           size="lg"
           radius="md"
           aria-label="Settings"
-          onClick={control2.open}
+          onClick={openDeleteModal}
         >
           <IconTrash style={{ width: '80%', height: '80%' }} stroke={1.5} />
         </ActionIcon>
       </div>
 
-      <Modal opened={modalOpened} onClose={control1.close} title={<h2>Summary</h2>} centered>
+      <Modal opened={modalOpened} onClose={closeSummaryModal} title={<h2>Summary</h2>} centered>
         {summary}
       </Modal>
       <Modal
         id="delete-modal"
         opened={modalOpenedDelete}
-        onClose={control2.close}
+        onClose={closeDeleteModal}
         withCloseButton={false}
         centered
       >
@@ -100,7 +106,7 @@ export default function NoteCard({
             id="delete_confirm"
             variant="light"
             color="rgba(0, 0, 0, 1)"
-            onClick={control2.close}
+            onClick={closeDeleteModal}
             style={{ margin: '10px' }}
           >
             Cancel
@@ -109,7 +115,7 @@ export default function NoteCard({
             id="delete_confirm"
             variant="filled"
             color="red"
-            onClick={onCardDelete}
+            onClick={handleDelete}
             style={{ margin: '10px' }}
           >
             Delete

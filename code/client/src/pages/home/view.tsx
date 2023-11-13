@@ -56,6 +56,7 @@ export default function HomeView({
     }
     // create note     userData.id,
     createNote(user?.user_id, title);
+    close();
   };
 
   //keypress enter for create new note

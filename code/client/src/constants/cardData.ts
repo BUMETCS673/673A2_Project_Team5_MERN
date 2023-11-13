@@ -3,7 +3,7 @@ import picture1 from '../images/picture.jpg';
 import { Document } from '../models/document';
 
 export interface NoteCardType extends Document {
-  onCardDelete?: () => void; //define ?, prove it is can be choose
+  onCardDelete: () => void; //define ?, prove it is can be choose
 }
 
 export const cardData: NoteCardType[] = [
