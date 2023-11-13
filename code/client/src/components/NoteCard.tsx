@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function NoteCard({
   imageSrc,
   title,
+  userId,
   description,
   linkURL,
   _id,

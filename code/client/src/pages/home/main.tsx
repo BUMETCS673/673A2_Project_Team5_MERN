@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   // get request, get document data
-  //useeffect, fetchData first and then show my
+  //use effect, fetchData first and then show my
   useEffect(() => {
     fetchData();
   }, []); // run once when cardData changes

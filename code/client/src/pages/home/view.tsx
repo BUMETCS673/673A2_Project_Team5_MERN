@@ -19,17 +19,16 @@ interface HomeViewProps {
   deleteNote: (docId: number) => void;
 }
 
-export default function HomeView({
-  userData,
-  cardData,
-  getCardLoading,
-  getCardError,
-  createNote,
-  createCardError,
-  deleteCardLoading,
-  deleteCardError,
-  deleteNote,
-}: HomeViewProps) {
+export default function HomeView(props: HomeViewProps) {
+  const {
+    userData,
+    cardData,
+    getCardLoading,
+    getCardError,
+    createNote,
+    createCardError,
+    deleteNote,
+  } = props;
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
@@ -57,7 +56,7 @@ export default function HomeView({
     }
     // create note     userData.id,
     const docId = createNote('siyuan', title);
-    // setNoteTitle('');
+    //setNoteTitle('');
     if (!createCardError) {
       navigate(`/document/${docId}`);
     }
@@ -99,6 +98,7 @@ export default function HomeView({
         description={card.description}
         linkURL={card.linkURL}
         _id={card._id}
+        userId={card.userId}
         onCardDelete={() => handleDelete(card._id)}
       />
     ));
@@ -133,6 +133,7 @@ export default function HomeView({
                   onChange={handleChange}
                   onKeyDown={handleKeyPress}
                   ref={inputRef}
+                  autoFocus
                 ></input>
                 <div id="button-father">
                   <Button id="big-button-modal" onClick={handleFormSubmit}>
