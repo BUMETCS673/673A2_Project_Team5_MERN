@@ -11,7 +11,7 @@ import { Document } from '../../models/document';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const queryClient = useQueryClient();
 
   const getUser = async (): Promise<UserDocument> =>
@@ -23,10 +23,12 @@ export default function Home() {
     axios.delete(`http://localhost:8000/user/delete-doc/${docId}/${user?.user_id}`);
 
   const createNote = async ({ userId, title }: { userId: string; title: string }) =>
-    axios.post(`http://localhost:8000/user/create-new-doc`, {
-      userId: userId,
-      title: title,
-    });
+    axios
+      .post(`http://localhost:8000/user/create-new-doc`, {
+        userId: userId,
+        title: title,
+      })
+      .then((response) => response.data);
 
   const {
     data: getUserData,
@@ -46,10 +48,15 @@ export default function Home() {
     },
   });
 
-  const { mutate: mutateCreateDoc, isError: createCardError } = useMutation({
+  const {
+    mutate: mutateCreateDoc,
+    // data: createNoteData,
+    isError: createCardError,
+  } = useMutation({
     mutationFn: createNote,
-    onSuccess: () => {
+    onSuccess: (response) => {
       getUserRefetch();
+      navigate(`/document/${response.document_id}`);
     },
   });
 
