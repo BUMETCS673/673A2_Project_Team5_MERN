@@ -12,6 +12,10 @@ const documentSchema = new Schema({
     type: String,
     default: '',
   },
+  imageSrc: {
+    type: String,
+    default: 'https://img.icons8.com/color/96/file.png',
+  },
   summary: {
     type: String,
     default: '',
