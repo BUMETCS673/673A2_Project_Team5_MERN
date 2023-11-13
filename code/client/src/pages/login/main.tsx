@@ -20,14 +20,16 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post(
         'http://localhost:8000/login',
-        { token: token },
-        {
-          headers: {
-            //Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
+        { token: token }
+        // {
+        //   headers: {
+        //     //Authorization: `Bearer ${token}`,
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
       );
+      window.localStorage.setItem('accessToken', JSON.stringify(response.data));
+      console.log(window.localStorage.getItem('accessToken'));
       console.log('Token sent successfully:', response.data);
 
       //if successfully send the token, navigate to home page
