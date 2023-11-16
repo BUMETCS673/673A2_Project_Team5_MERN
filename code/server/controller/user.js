@@ -22,10 +22,9 @@ const getUser = async (req, res) => {
 
 const createDoc = async (req, res) => {
     try {
-        console.log('req.body', req.body)
         const docTitle = req.body.title;
         const user = await User.findOne({ user_id: req.body.userId }); // user returned from MongoDB is an array with 1 user
-        console.log('user', user)
+
         const newDoc = await new Document({
             title: docTitle,
             document_id: uuid(),
