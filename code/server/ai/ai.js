@@ -36,7 +36,13 @@ const useOpenAi = async (input) => {
     notes: input
   })
 
-  return res
+  // Remove unnecessary line breaks and leading/trailing whitespace
+  const formattedText = res.text.trim();
+
+  // Remove the leading '\n' and '+' characters
+  const cleanedText = formattedText.replace(/^\n\+/, '');
+
+  return cleanedText
 }
 
 export default useOpenAi;
