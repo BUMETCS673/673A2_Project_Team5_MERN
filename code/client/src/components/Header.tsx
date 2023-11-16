@@ -11,7 +11,13 @@ export default function Header() {
   //destruct
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const handleSignOut = () => {
-    navigate('/login');
+    // Reset the user state to empty
+    localStorage.removeItem('googleToken');
+    localStorage.removeItem('accessToken');
+    //first navigate to login page
+    navigate('/login', { replace: true });
+    //then refresh page
+    window.location.reload();
   };
   return (
     <div className="head">
