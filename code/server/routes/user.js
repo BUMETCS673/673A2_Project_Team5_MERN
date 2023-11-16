@@ -15,4 +15,3 @@ router.post('/create-new-doc', /*verifyToken,*/ ctrl.createDoc);
 router.delete('/delete-doc/:docId/:userId', /*verifyToken,*/ ctrl.deleteDoc);
 
 export default router;
-

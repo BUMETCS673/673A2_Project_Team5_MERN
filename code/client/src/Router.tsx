@@ -3,6 +3,7 @@ import { BasePage } from './pages/BasePage';
 import Home from './pages/home/main';
 import Document from './pages/document/main';
 import Login from './pages/login/main';
+import RequireAuth from './components/RequireAuth';
 
 const router = createBrowserRouter([
   {
@@ -11,11 +12,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/home',
-    element: <Home />,
+    element: (
+      <RequireAuth>
+        <Home />
+      </RequireAuth>
+    ),
   },
   {
     path: '/document/:docId',
-    element: <Document />,
+    element: (
+      <RequireAuth>
+        <Document />
+      </RequireAuth>
+    ),
   },
   {
     path: '/login',
