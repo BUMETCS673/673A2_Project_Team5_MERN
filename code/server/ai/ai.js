@@ -4,37 +4,39 @@
 
 import { OpenAI } from "langchain/llms/openai"
 import { PromptTemplate } from "langchain/prompts"
-import * as dotenv from "dotenv"
+import { LLMChain } from 'langchain/chains'
+import * as dotenv from 'dotenv';
 
 dotenv.config()
 
-const useOpenAi = (input) => {
-  console.log('input', input)
+const assistantTemplate = 'You are a helpful study assistant that summarises {notes} into a summary of bullet points.'
 
-  const llm = new OpenAI({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    // temperature: 0,
+const apiKey = process.env.OPENAI_API_KEY
+
+const useOpenAi = async (input) => {
+
+  const model = new OpenAI({
+    openAIApiKey: apiKey,
+    temperature: 0,
     maxRetries: 10,
   })
 
   // Prompting
-  const prompt = new PromptTemplate({
+  const promptTemplate = new PromptTemplate({
     inputVariables: ['notes'],
-    template:
-      'You are a helpful study assistant that summarises {notes} into a summary of bullet points.',
+    template: assistantTemplate,
   })
 
-  const formattedPrompt = prompt.format({
-    // notes is received from the input in frontend
-    // notes: getNotesContent,
-    notes: input,
+  const chain = new LLMChain({
+    llm: model,
+    prompt: promptTemplate,
   })
 
-  // console.log(formattedPrompt)
+  const res = await chain.call({
+    notes: input
+  })
 
-  const llmResult = llm.call(formattedPrompt)
-
-  return llmResult
+  return res
 }
 
 export default useOpenAi;
