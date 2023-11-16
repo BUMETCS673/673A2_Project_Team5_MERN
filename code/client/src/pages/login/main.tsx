@@ -55,6 +55,7 @@ const Login: React.FC = () => {
   const handleSignOut = (event: any) => {
     // Reset the user state to empty
     localStorage.removeItem('googleToken');
+    localStorage.removeItem('accessToken');
     logout();
     // Re-render the Google Sign-In button after signing out
     google.accounts.id.renderButton(document.getElementById('signInDiv'), {
