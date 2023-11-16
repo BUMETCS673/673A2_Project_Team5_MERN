@@ -20,7 +20,7 @@ export default function DocumentPage() {
   const updateSummary = async () =>
     axios.post(`http://localhost:8000/document/${docId}/update-summary`, {
       documentId: docId,
-    });
+    }).then((response) => response.data);
 
   const {
     data: getDocumentData,
@@ -28,18 +28,6 @@ export default function DocumentPage() {
     isPending: getDocumentLoading,
     refetch: getDocumentRefetch,
   } = useQuery({ queryKey: ['getDocument'], queryFn: getDocument });
-
-  const {
-    mutate: mutateUpdateSummary,
-    isPending: updateSummaryLoading,
-    isError: updateSummaryError,
-    isSuccess: updateSummarySuccess,
-  } = useMutation({
-    mutationFn: updateSummary,
-    onSuccess: () => {
-      getDocumentRefetch();
-    },
-  });
 
   const {
     mutate: mutateUpdateContent,
@@ -50,6 +38,19 @@ export default function DocumentPage() {
     mutationFn: updateContent,
   });
 
+  const {
+    mutate: mutateUpdateSummary,
+    data: updateSummaryData,
+    isPending: updateSummaryLoading,
+    isError: updateSummaryError,
+    isSuccess: updateSummarySuccess,
+  } = useMutation({
+    mutationFn: updateSummary,
+    // onSuccess: () => {
+    //   getDocumentRefetch();
+    // },
+  });
+
   const handleSave = async (contentData: string) => {
     mutateUpdateContent({ contentData });
   };
@@ -57,6 +58,8 @@ export default function DocumentPage() {
   const handleSummary = async () => {
     mutateUpdateSummary();
   };
+
+  console.log("updateSummaryData", updateSummaryData);
 
   return (
     <DocumentView
