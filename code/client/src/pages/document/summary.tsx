@@ -3,10 +3,19 @@ import { Card, Text, Button, rem, List, ScrollArea } from '@mantine/core';
 
 interface SummaryGenerateProps {
   summary: string;
+  updateSummaryLoading: boolean;
+  updateSummaryError: boolean;
+  updateSummarySuccess: boolean;
   onGenerateClick: () => void;
 }
 
-export const SummaryGenerate = ({ summary, onGenerateClick }: SummaryGenerateProps) => {
+export const SummaryGenerate = ({
+  summary,
+  updateSummaryLoading,
+  updateSummaryError,
+  updateSummarySuccess,
+  onGenerateClick,
+}: SummaryGenerateProps) => {
   return (
     <>
       <Card className="summary-card" padding="lg" radius="sm" withBorder>
@@ -30,7 +39,7 @@ export const SummaryGenerate = ({ summary, onGenerateClick }: SummaryGeneratePro
           className="generate-button"
           variant="light"
           color="blue"
-          // loading={updateSummaryLoading}
+          loading={updateSummaryLoading}
           // disabled={docContent === ''}
           fullWidth
           mt="md"

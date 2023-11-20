@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { IconArrowLeft, IconCheck, IconDeviceFloppy } from '@tabler/icons-react';
 import { RichTextEditor, Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -7,14 +8,23 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
-import { Button, ScrollArea } from '@mantine/core';
+import { Button, rem, ScrollArea } from '@mantine/core';
 
 interface DocumentEditorProps {
   content: string;
+  updateContentLoading: boolean;
+  updateContentError: boolean;
+  updateContentSuccess: boolean;
   onSaveClick: (contentData: string) => void;
 }
 
-export const DocumentEditor = ({ content, onSaveClick }: DocumentEditorProps) => {
+export const DocumentEditor = ({
+  content,
+  onSaveClick,
+  updateContentLoading,
+  updateContentError,
+  updateContentSuccess,
+}: DocumentEditorProps) => {
   const [docContent, setDocContent] = useState<string>(content);
 
   const editor = useEditor({
@@ -89,24 +99,23 @@ export const DocumentEditor = ({ content, onSaveClick }: DocumentEditorProps) =>
       </div>
       <div>
         <Button
-          // loading={updateContentLoading}
+          loading={updateContentLoading}
           className="savebutton"
           variant="filled"
-          disabled={docContent === ''}
-          // rightSection={
-          //   updateContentFinished ? (
-          //     <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-          //   ) : (
-          //     <IconDeviceFloppy style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-          //   )
-          // }
-          // color={updateContentFinished ? 'teal' : 'blue'}
+          // disabled={docContent === ''}
+          rightSection={
+            updateContentSuccess ? (
+              <IconCheck style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+            ) : (
+              <IconDeviceFloppy style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+            )
+          }
+          color={updateContentSuccess ? 'teal' : 'blue'}
           radius="xl"
           size="md"
           onClick={() => onSaveClick(docContent)}
         >
-          {/* {updateContentFinished === false ? 'Saved!' : 'Save'} */}
-          Save
+          {updateContentSuccess ? 'Saved!' : 'Save'}
         </Button>
       </div>
     </>

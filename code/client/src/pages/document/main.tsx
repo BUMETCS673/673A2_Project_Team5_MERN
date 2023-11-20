@@ -8,6 +8,9 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 export default function DocumentPage() {
   const { docId } = useParams();
 
+  const [updateContentSuccess, setUpdateContentSuccess] = useState<boolean>(false);
+  const [updateSummarySuccess, setUpdateSummarySuccess] = useState<boolean>(false);
+
   const getDocument = async (): Promise<{ docs: Document }> =>
     axios.get(`http://localhost:8000/document/${docId}`).then((response) => response.data); // from where
 
@@ -18,24 +21,34 @@ export default function DocumentPage() {
     });
 
   const updateSummary = async () =>
-    axios.post(`http://localhost:8000/document/${docId}/update-summary`, {
-      documentId: docId,
-    }).then((response) => response.data);
+    axios
+      .post(`http://localhost:8000/document/${docId}/update-summary`, {
+        documentId: docId,
+      })
+      .then((response) => response.data);
 
   const {
     data: getDocumentData,
     isError: getDocumentError,
     isPending: getDocumentLoading,
     refetch: getDocumentRefetch,
-  } = useQuery({ queryKey: ['getDocument'], queryFn: getDocument });
+  } = useQuery({ queryKey: ['getDocument', docId], queryFn: getDocument });
 
   const {
     mutate: mutateUpdateContent,
     isPending: updateContentLoading,
     isError: updateContentError,
-    isSuccess: updateContentSuccess,
   } = useMutation({
     mutationFn: updateContent,
+    onSuccess: () => {
+      // The mutation was successful
+      setUpdateContentSuccess(true);
+
+      setTimeout(() => {
+        // Reset the state here
+        setUpdateContentSuccess(false);
+      }, 2000);
+    },
   });
 
   const {
@@ -43,12 +56,18 @@ export default function DocumentPage() {
     data: updateSummaryData,
     isPending: updateSummaryLoading,
     isError: updateSummaryError,
-    isSuccess: updateSummarySuccess,
   } = useMutation({
     mutationFn: updateSummary,
-    // onSuccess: () => {
-    //   getDocumentRefetch();
-    // },
+    onSuccess: () => {
+      // getDocumentRefetch();
+      // The mutation was successful
+      setUpdateSummarySuccess(true);
+
+      setTimeout(() => {
+        // Reset the state here
+        setUpdateSummarySuccess(false);
+      }, 2000);
+    },
   });
 
   const handleSave = async (contentData: string) => {
@@ -59,7 +78,7 @@ export default function DocumentPage() {
     mutateUpdateSummary();
   };
 
-  console.log("updateSummaryData", updateSummaryData);
+  console.log('updateSummaryData', updateSummaryData);
 
   return (
     <DocumentView
