@@ -37,8 +37,6 @@ export default function DocumentView({
   onGenerateClick,
   onSaveClick,
 }: DocumentViewProps) {
-  console.log('getDocumentData', getDocumentData);
-
   if (getDocumentLoading) {
     return <Loader />;
   }
@@ -69,7 +67,13 @@ export default function DocumentView({
   const summarySection = () => {
     if (getDocumentData) {
       return (
-        <SummaryGenerate summary={getDocumentData.docs.summary} onGenerateClick={onGenerateClick} />
+        <SummaryGenerate
+          summary={getDocumentData.docs.summary}
+          updateSummaryLoading={updateSummaryLoading}
+          updateSummaryError={updateSummaryError}
+          updateSummarySuccess={updateSummarySuccess}
+          onGenerateClick={onGenerateClick}
+        />
       );
     }
   };
@@ -88,7 +92,7 @@ export default function DocumentView({
         >
           Back
         </Button>
-        <div className="doc-title">DocumentTitle</div>
+        <div className="doc-title">{getDocumentData?.docs.title}</div>
       </div>
 
       <ScrollArea w={1548}>
