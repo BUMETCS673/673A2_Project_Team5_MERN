@@ -55,11 +55,8 @@ const updateSummary = async (req, res) => {
 
     await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
 
-    // Split the text into bullet points
-    const bulletPoints = updatedSummary.match(/• (.*?)\n/g).map((bullet) => bullet.replace(/• /, '').trim());
-
     // Output is a list of bullet points
-    res.json({ summary: bulletPoints });
+    res.json({ summary: updatedSummary });
     // return res.json({ summary: updatedSummary });
   } catch (err) {
     return res.json({ error: err });

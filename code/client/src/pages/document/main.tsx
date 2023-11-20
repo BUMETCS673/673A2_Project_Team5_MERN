@@ -93,6 +93,7 @@ export default function DocumentPage() {
       updateContentError={updateContentError}
       updateContentSuccess={updateContentSuccess}
       // update summary params
+      updateSummaryData={updateSummaryData}
       updateSummaryLoading={updateSummaryLoading}
       updateSummaryError={updateSummaryError}
       updateSummarySuccess={updateSummarySuccess}
