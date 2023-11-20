@@ -16,6 +16,7 @@ interface DocumentViewProps {
   updateContentLoading: boolean;
   updateContentError: boolean;
   updateContentSuccess: boolean;
+  updateSummaryData: { summary: string };
   updateSummaryLoading: boolean;
   updateSummaryError: boolean;
   updateSummarySuccess: boolean;
@@ -31,6 +32,7 @@ export default function DocumentView({
   updateContentLoading,
   updateContentError,
   updateContentSuccess,
+  updateSummaryData,
   updateSummaryLoading,
   updateSummaryError,
   updateSummarySuccess,
@@ -68,7 +70,7 @@ export default function DocumentView({
     if (getDocumentData) {
       return (
         <SummaryGenerate
-          summary={getDocumentData.docs.summary}
+          summary={updateSummaryData?.summary ?? getDocumentData.docs.summary}
           updateSummaryLoading={updateSummaryLoading}
           updateSummaryError={updateSummaryError}
           updateSummarySuccess={updateSummarySuccess}

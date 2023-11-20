@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Text, Button, rem, List, ScrollArea } from '@mantine/core';
+import { listSummary } from '../../functions/parsers';
 
 interface SummaryGenerateProps {
   summary: string;
@@ -16,13 +17,19 @@ export const SummaryGenerate = ({
   updateSummarySuccess,
   onGenerateClick,
 }: SummaryGenerateProps) => {
+  const summaryList = listSummary(summary);
+
   return (
     <>
       <Card className="summary-card" padding="lg" radius="sm" withBorder>
         {summary ? (
           <div>
             <ScrollArea h={700}>
-              <List size="md">{summary}</List>
+              <List size="md">
+                {summaryList.map((summary) => (
+                  <List.Item>{summary}</List.Item>
+                ))}
+              </List>
             </ScrollArea>
           </div>
         ) : (
