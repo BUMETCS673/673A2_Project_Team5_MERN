@@ -2,9 +2,16 @@ import User from '../model/users.js';
 import Document from '../model/document.js';
 import { v4 as uuid } from 'uuid';
 
+
+/**
+ * Find a user and all the docs created by the user
+ * Req
+ * @param user_id
+ * Res  
+ * { user, docs }
+ */
 const getUser = async (req, res) => {
     const userId = req.params.userId;
-
     //DB.find() return , so we need to use user[0]
     //DB.findOne() return an object, so we can use user
     const user = await User.findOne({ user_id: userId });
@@ -20,7 +27,17 @@ const getUser = async (req, res) => {
     res.json({ user, docs });
 }
 
+/**
+ * Create a new document
+ * Req
+ * @param title
+ * @param user_id
+ * Res
+ * { document_id }
+ */
 const createDoc = async (req, res) => {
+    //Once mmiddleware works, we can use req.user.sub
+    // const user = req.user; then user can be deconstructed.
     try {
         const docTitle = req.body.title;
         const user = await User.findOne({ user_id: req.body.userId }); // user returned from MongoDB is an array with 1 user
@@ -43,7 +60,18 @@ const createDoc = async (req, res) => {
     }
 }
 
+/**
+ * Delete a document
+ * Req
+ * @param document_id
+ * @param user_id
+ * Res
+ * { docs }
+ */
 const deleteDoc = async (req, res) => {
+    // Once mmiddleware works, we can use req.user.sub
+    // const user = req.user; then user can be deconstructed.
+    // try and catch block can be removed now, if app.js error handling works, need to test...
     try {
         const docId = req.params.docId;
         const user_id = req.params.userId;

@@ -3,17 +3,14 @@
 // }
 
 //starts express
-// const express = require('express');
-// const morgan = require('morgan');
-
 import express from 'express';
-import morgan from 'morgan';
 const app = express();
-app.use(morgan('dev'));
 
 //for server status report
 //morgan helps dev by auto generating request details,
 //response time, status code, route in terminal
+import morgan from 'morgan';
+app.use(morgan('dev'));
 
 //for data communication between client port and server port
 //const cors = require('cors');
@@ -27,7 +24,6 @@ app.use(express.json());
 
 //mongoDB: mongoose helps to connect to MongoDB
 // const mongoose = require('mongoose');
-
 import mongoose from 'mongoose';
 const dbUrl = 'mongodb://127.0.0.1:27017/teamFive';
 mongoose.connect(dbUrl);
@@ -41,18 +37,20 @@ db.once('open', () => {
 import loginRoute from './routes/login.js';
 import userRoute from './routes/user.js';
 import documentRoute from './routes/document.js';
-
 app.use("/", loginRoute)
 app.use('/user', userRoute);
 app.use('/document', documentRoute);
 
 
 //Error Handling
+//This catches all errors. So that we don't need to write try catch block in every route
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('Error Occured! Please try again later');
 });
 
+
+//This catches all invalid urls
 app.get('*', (req, res) => {
   res.send('invalid url');
 });
