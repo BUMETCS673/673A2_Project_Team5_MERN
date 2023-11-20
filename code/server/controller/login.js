@@ -34,7 +34,11 @@ const loginController = async (req, res) => {
     }
 
     // Generate an access token
-    const accessToken = jwt.sign({ user_id: user.user_id, user_name: user.user_name }, secretKey, {
+    const accessToken = jwt.sign({
+      user_id: user.user_id,
+      user_name: user.user_name,
+      user_pic: user.user_pic,
+    }, secretKey, {
       expiresIn: accessTokenExpiry,
     });
 

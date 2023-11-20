@@ -11,10 +11,10 @@ import { v4 as uuid } from 'uuid';
  * { user, docs }
  */
 const getUser = async (req, res) => {
-    const userId = req.params.userId;
+
     //DB.find() return , so we need to use user[0]
     //DB.findOne() return an object, so we can use user
-    const user = await User.findOne({ user_id: userId });
+    const user = await User.findOne({ user_id: req.user.user_id });
     if (user) {
         console.log("user successfully found");
         // console.log(user);
@@ -26,6 +26,11 @@ const getUser = async (req, res) => {
     }
     res.json({ user, docs });
 }
+
+// const getUser = async (req, res) => {
+//     console.log("getUser", req.user);
+//     res.json({ user: req.user });
+// }
 
 /**
  * Create a new document

@@ -8,7 +8,7 @@ import verifyToken from '../middleware/verifyToken.js';
 
 const router = express.Router();
 //user_id, which is sub, will be includede in the URL
-router.get('/:userId', /*verifyToken,*/ ctrl.getUser);
+router.get('/', verifyToken, ctrl.getUser);
 router.post('/create-new-doc', /*verifyToken,*/ ctrl.createDoc);
 // remove userId once middleware works
 // router.delete('/delete-doc/:docId', /*verifyToken,*/ ctrl.deleteDoc);
