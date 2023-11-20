@@ -54,7 +54,15 @@ export default function DocumentView({
 
   const contentSection = () => {
     if (getDocumentData) {
-      return <DocumentEditor content={getDocumentData.docs.content} onSaveClick={onSaveClick} />;
+      return (
+        <DocumentEditor
+          content={getDocumentData.docs.content}
+          updateContentLoading={updateContentLoading}
+          updateContentError={updateContentError}
+          updateContentSuccess={updateContentSuccess}
+          onSaveClick={onSaveClick}
+        />
+      );
     }
   };
 
