@@ -39,7 +39,7 @@ export default function Header() {
           <Menu.Target>
             <UnstyledButton className="user">
               <Group gap={7}>
-                <Avatar src="user.name" alt="" radius="xl" size={60} />
+                <Avatar src={user?.user_pic} alt="" radius="xl" size={60} />
                 <Text fw={500} size="sm" lh={1} mr={3}>
                   {user?.user_name || 'user'}
                 </Text>
