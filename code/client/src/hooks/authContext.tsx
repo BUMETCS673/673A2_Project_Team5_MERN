@@ -13,13 +13,13 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   user: {
-    user_id: '112330017898894277040',
-    user_name: 'Siyuan',
+    user_id: '',
+    user_name: '',
     user_pic: '',
   },
   isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
+  login: () => { },
+  logout: () => { },
 });
 
 export const AuthProvider: React.FC = ({ children }) => {
@@ -28,12 +28,11 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem('googleToken');
+      const token = localStorage.getItem('accessToken');
       if (token) {
         try {
           const response = await axios.post(
-            'http://localhost:8000/login/verify-token',
-            { token },
+            'http://localhost:8000/current-user',
             {
               headers: {
                 Authorization: token,
@@ -66,10 +65,13 @@ export const AuthProvider: React.FC = ({ children }) => {
     checkToken();
   }, [isAuthenticated]);
 
+  axios.defaults.headers.common['authorization'] = localStorage.getItem('accessToken');
+
   const login = (userData: User) => {
     setIsAuthenticated(true);
+    console.log("userData", userData);
     setUser(userData);
-    console.log('user', user);
+    console.log('user', user); //printing user here will not work because it is asynchronous
   };
 
   const logout = () => {

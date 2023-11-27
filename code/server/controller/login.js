@@ -8,7 +8,7 @@ import User from '../model/users.js';
 const secretKey = 'testestest';
 const accessTokenExpiry = '4h';
 
-const loginController = async (req, res) => {
+const login = async (req, res) => {
   const token = req.body.token;
 
   try {
@@ -49,4 +49,16 @@ const loginController = async (req, res) => {
   }
 };
 
-export default loginController;
+const currentUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    res.json({ user });
+  } catch (err) {
+    console.log(err);
+    res.status(403).json({ message: 'Invalid token.' });
+  }
+}
+export default {
+  login,
+  currentUser
+}
