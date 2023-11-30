@@ -18,16 +18,7 @@ const Login: React.FC = () => {
 
   const sendTokenToBackend = async (token: string) => {
     try {
-      const response = await axios.post(
-        'http://localhost:8000/login',
-        { token: token }
-        // {
-        //   headers: {
-        //     //Authorization: `Bearer ${token}`,
-        //     'Content-Type': 'application/json',
-        //   },
-        // }
-      );
+      const response = await axios.post('http://localhost:8000/login', { token: token });
       window.localStorage.setItem('accessToken', JSON.stringify(response.data));
       console.log(window.localStorage.getItem('accessToken'));
       console.log('Token sent successfully:', response.data);
@@ -36,6 +27,7 @@ const Login: React.FC = () => {
       navigate('/home');
     } catch (error) {
       console.error('Error sending token:', error);
+      window.alert('There may be a problem in sending token');
     }
   };
 
