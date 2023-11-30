@@ -24,7 +24,7 @@ export const SummaryGenerate = ({
       <Card className="summary-card" padding="lg" radius="sm" withBorder>
         {summary ? (
           <div>
-            <ScrollArea h={700}>
+            <ScrollArea h={650}>
               <List size="md">
                 {summaryList.map((summary) => (
                   <List.Item>{summary}</List.Item>
