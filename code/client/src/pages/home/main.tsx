@@ -15,12 +15,12 @@ export default function Home() {
   // const queryClient = useQueryClient();
 
   const getUser = async (): Promise<UserDocument> =>
-    axios.get(`http://localhost:8000/user/${user?.user_id}`).then((response) => response.data);
+    axios.get(`http://localhost:8000/user/`).then((response) => response.data);
 
   const deleteNote = async (docId: string) =>
     //remove user_id once middleware works
     // axios.delete(`http://localhost:8000/user/delete-doc/${docId}`);
-    axios.delete(`http://localhost:8000/user/delete-doc/${docId}/${user?.user_id}`);
+    axios.delete(`http://localhost:8000/user/delete-doc/${docId}/`);
 
   const createNote = async ({ userId, title }: { userId: string; title: string }) =>
     axios

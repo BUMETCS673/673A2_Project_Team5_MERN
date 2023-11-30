@@ -8,7 +8,8 @@ import loginController from '../controller/login.js';
 
 const router = express.Router();
 
-router.post('/login', loginController);
-router.post('/verify-token', verifyToken);
+router.post('/login', loginController.login);
+router.post('/current-user', verifyToken, loginController.currentUser)
+// router.post('/verify-token', verifyToken);
 
 export default router;

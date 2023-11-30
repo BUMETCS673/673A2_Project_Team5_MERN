@@ -21,7 +21,8 @@ const Login: React.FC = () => {
       const response = await axios.post('http://localhost:8000/login', { token: token });
       window.localStorage.setItem('accessToken', JSON.stringify(response.data));
       console.log(window.localStorage.getItem('accessToken'));
-      console.log('Token sent successfully:', response.data);
+      //console.log('Token sent successfully:', response.data);
+      console.log('access token is made of username, user_id, and user_pic');
 
       //if successfully send the token, navigate to home page
       navigate('/home');
@@ -36,17 +37,21 @@ const Login: React.FC = () => {
     // Decode the JWT token to get user's information
     const user_object: GoogleUser = jwt_decode(response.credential);
     // Update the user state with the decoded information
-    login({ user_name: user_object.name, user_pic: user_object.picture, user_id: user_object.sub });
+    login({
+      user_name: user_object.name,
+      user_pic: user_object.picture,
+      user_id: user_object.sub
+    });
 
     // Send the JWT ID token to the backend
-    localStorage.setItem('googleToken', response.credential);
+    //localStorage.setItem('googleToken', response.credential);
     sendTokenToBackend(response.credential);
   };
 
   // Function to handle user sign out
   const handleSignOut = (event: any) => {
     // Reset the user state to empty
-    localStorage.removeItem('googleToken');
+    //localStorage.removeItem('googleToken');
     localStorage.removeItem('accessToken');
     logout();
     // Re-render the Google Sign-In button after signing out

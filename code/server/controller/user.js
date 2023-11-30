@@ -25,8 +25,9 @@ const getUser = async (req, res) => {
         // console.log(docs)
     }
     res.json({ user, docs });
-}
+    // const user = await User.findOne({ user_id: req.user.user_id });
 
+}
 // const getUser = async (req, res) => {
 //     console.log("getUser", req.user);
 //     res.json({ user: req.user });
@@ -79,7 +80,7 @@ const deleteDoc = async (req, res) => {
     // try and catch block can be removed now, if app.js error handling works, need to test...
     try {
         const docId = req.params.docId;
-        const user_id = req.params.userId;
+        const user_id = req.user.user_id;
         const user = await User.findOne({ user_id: user_id });
 
         await Document.deleteOne({ document_id: docId, author: user._id });
