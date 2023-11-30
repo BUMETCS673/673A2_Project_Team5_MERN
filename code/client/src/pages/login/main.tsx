@@ -23,6 +23,8 @@ const Login: React.FC = () => {
       console.log(window.localStorage.getItem('accessToken'));
       //console.log('Token sent successfully:', response.data);
       console.log('access token is made of username, user_id, and user_pic');
+      axios.defaults.headers.common['authorization'] = response.data.accessToken;
+
 
       //if successfully send the token, navigate to home page
       navigate('/home');
