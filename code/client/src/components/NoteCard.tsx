@@ -1,11 +1,22 @@
 import React from 'react';
-import { Text, Card, Image, Group, Button, Modal, ActionIcon } from '@mantine/core';
+import {
+  Text,
+  Card,
+  Image,
+  Group,
+  Button,
+  Modal,
+  ActionIcon,
+  List,
+  ScrollArea,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import './NoteCard.css';
 import { NoteCardType } from '@/constants/cardData';
 import { IconTrash } from '@tabler/icons-react';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { listSummary } from '../functions/parsers';
 
 export default function NoteCard({
   title,
@@ -29,6 +40,8 @@ export default function NoteCard({
     onCardDelete();
     closeDeleteModal();
   };
+
+  const summaryList = listSummary(summary);
 
   return (
     <Card
@@ -70,7 +83,11 @@ export default function NoteCard({
       </div>
 
       <Modal opened={modalOpened} onClose={closeSummaryModal} title={<h2>Summary</h2>} centered>
-        {summary}
+        <List size="md">
+          {summaryList.map((summary: string) => (
+            <List.Item>{summary}</List.Item>
+          ))}
+        </List>
       </Modal>
       <Modal
         id="delete-modal"
