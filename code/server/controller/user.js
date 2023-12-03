@@ -15,15 +15,15 @@ const getUser = async (req, res) => {
     //DB.find() return , so we need to use user[0]
     //DB.findOne() return an object, so we can use user
     const user = await User.findOne({ user_id: req.user.user_id });
-    if (user) {
-        console.log("user successfully found");
-        // console.log(user);
-    }
+    // if (user) {
+    //     console.log("user successfully found");
+    //     // console.log(user);
+    // }
     const docs = await Document.find({ author: user._id });
-    if (docs) {
-        console.log("docs successfully found");
-        // console.log(docs)
-    }
+    // if (docs) {
+    //     console.log("docs successfully found");
+    //     // console.log(docs)
+    //}
     res.json({ user, docs });
     // const user = await User.findOne({ user_id: req.user.user_id });
 
@@ -84,9 +84,7 @@ const deleteDoc = async (req, res) => {
         const user = await User.findOne({ user_id: user_id });
 
         await Document.deleteOne({ document_id: docId, author: user._id });
-
-        const docs = await Document.find({ author: user._id });
-        res.json({ docs, message: "Successfully deleted the doc" });
+        res.json({ message: "Successfully deleted the doc" });
     } catch (err) {
         console.log(err);
         return res.json({ error: "Error occur! Unable to delete the doc" })
