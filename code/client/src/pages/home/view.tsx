@@ -124,6 +124,7 @@ export default function HomeView({
               <form>
                 <h3>Title</h3>
                 <input
+                  id="title-input"
                   type="text"
                   name="title"
                   onChange={handleChange}
