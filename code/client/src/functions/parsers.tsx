@@ -1,6 +1,4 @@
 export const listSummary = (textInput: string) => {
-  console.log('textInput', textInput);
-
   if (!textInput) {
     return [];
   }
