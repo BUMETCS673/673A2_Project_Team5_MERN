@@ -34,4 +34,17 @@ describe('verifyToken', () => {
 
         expect(res.status.calledWith(401)).to.be.true;
     });
+
+    it('should send a 403 status code when an invalid token is provided', async () => {
+        const req = { headers: { authorization: 'invalidToken123123' } };
+        const res = {
+            status: sinon.stub().returns({ json: sinon.spy() }),
+            json: sinon.spy()
+        };
+        const next = sinon.spy();
+
+        await verifyToken(req, res, next);
+
+        expect(res.status.calledWith(403)).to.be.true;
+    });
 });
