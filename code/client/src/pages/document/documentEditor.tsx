@@ -39,13 +39,9 @@ export const DocumentEditor = ({
     ],
     content: docContent,
     onUpdate({ editor }) {
-      setDocContent(editor.getText());
+      setDocContent(editor.getHTML());
     },
   });
-
-  useEffect(() => {
-    editor?.commands.setContent(docContent);
-  }, [docContent]);
 
   return (
     <>
