@@ -53,6 +53,8 @@ const updateSummary = async (req, res) => {
 
     const updatedSummary = await useOpenAi(docContent.content);
 
+    console.log(updatedSummary)
+
     await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
 
     // Output is a list of bullet points

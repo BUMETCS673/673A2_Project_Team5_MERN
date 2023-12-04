@@ -41,7 +41,7 @@ export default function NoteCard({
     closeDeleteModal();
   };
 
-  const summaryList = listSummary(summary);
+  // const summaryList = listSummary(summary);
 
   return (
     <Card
@@ -89,11 +89,13 @@ export default function NoteCard({
         title={<h2>Summary</h2>}
         centered
       >
-        <List size="md">
+        {/* <List size="md">
           {summaryList.map((summary: string) => (
-            <List.Item>{summary}</List.Item>
+            <List.Item>
+              </List.Item>
           ))}
-        </List>
+        </List> */}
+        {summary}
       </Modal>
       <Modal
         id="delete-modal"

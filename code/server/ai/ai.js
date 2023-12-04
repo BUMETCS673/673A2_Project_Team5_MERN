@@ -40,9 +40,9 @@ const useOpenAi = async (input) => {
   const formattedText = res.text.trim();
 
   // Remove the leading '\n' and '+' characters
-  const cleanedText = formattedText.replace(/^n\+/, '');
+  //const cleanedText = formattedText.replace(/^n\+/, '');
 
-  return cleanedText
+  return formattedText;
 }
 
 export default useOpenAi;

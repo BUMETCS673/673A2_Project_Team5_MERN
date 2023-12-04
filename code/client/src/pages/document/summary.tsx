@@ -17,7 +17,7 @@ export const SummaryGenerate = ({
   updateSummarySuccess,
   onGenerateClick,
 }: SummaryGenerateProps) => {
-  const summaryList = listSummary(summary);
+  // const summaryList = listSummary(summary);
 
   return (
     <>
@@ -25,11 +25,7 @@ export const SummaryGenerate = ({
         {summary ? (
           <div>
             <ScrollArea h={650}>
-              <List size="md">
-                {summaryList.map((summary) => (
-                  <List.Item>{summary}</List.Item>
-                ))}
-              </List>
+              {summary}
             </ScrollArea>
           </div>
         ) : (
