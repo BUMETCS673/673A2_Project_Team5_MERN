@@ -45,6 +45,7 @@ export default function NoteCard({
 
   return (
     <Card
+      id="general-card"
       onDoubleClick={() => handleDoubleClick(document_id)}
       shadow="xs"
       padding="xs"
