@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
-import '../../components/view.css';
+import './view.css';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
@@ -96,7 +96,7 @@ export default function HomeView({
         ));
       }
 
-      return <p>No Documents Found</p>;
+      return <p className="no-doc">No Documents Found</p>;
     }
   };
 
@@ -119,10 +119,15 @@ export default function HomeView({
           <Button id="big-button" onClick={open}>
             + Create New
           </Button>
-          <Modal opened={modalOpened} onClose={close} title={<h2>Create New Note</h2>} centered>
+          <Modal
+            opened={modalOpened}
+            onClose={close}
+            title={<h2 className="create-h2">Create New Note</h2>}
+            centered
+          >
             <div>
-              <form>
-                <h3>Title</h3>
+              <form className="modal-create">
+                <h3 className="create-h3">Title</h3>
                 <input
                   id="title-input"
                   type="text"

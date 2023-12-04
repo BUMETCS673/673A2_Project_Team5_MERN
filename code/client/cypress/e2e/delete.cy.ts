@@ -4,19 +4,24 @@ describe('Test for homepage delete function.', () => {
   });
 
   it('Click Delete button and remove document card', () => {
-    //ididi
-    const documentCardSelector = '';
+    //get card length
+    cy.get('.general-card').then((cards) => {
+      const initialCardCount = cards.length;
 
-    //make sure the card you want test exist
-    cy.get(documentCardSelector).should('exist');
+      //delete first card
+      cy.get('.general-card').first().as('firstCard');
 
-    //click delete button
-    cy.get('.delete').click();
+      //make sure the card you want test exist
+      cy.get('@firstCard').should('exist');
 
-    //click Delete button in modal
-    cy.get('.delete_confirm').click();
+      //click delete button
+      cy.get('@firstCard').find('.delete').click();
 
-    //validate whether delete
-    cy.get(documentCardSelector).should('not.exist');
+      //click Delete button in modal
+      cy.get('@firstCard').find('.delete_confirm').click();
+
+      //validate whether delete
+      cy.get('.general-card').should('have.length.lessThan', initialCardCount);
+    });
   });
 });

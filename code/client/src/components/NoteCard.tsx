@@ -45,6 +45,7 @@ export default function NoteCard({
 
   return (
     <Card
+      id="general-card"
       onDoubleClick={() => handleDoubleClick(document_id)}
       shadow="xs"
       padding="xs"
@@ -70,7 +71,6 @@ export default function NoteCard({
           Show Summary
         </Button>
         <ActionIcon
-          id="action-icon"
           variant="light"
           color="red"
           size="lg"
