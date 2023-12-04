@@ -8,26 +8,41 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { User, UserDocument } from '../../models/user';
 import { Document } from '../../models/document';
+import Cookies from 'universal-cookie';
 
 export default function Home() {
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   // const queryClient = useQueryClient();
 
   const getUser = async (): Promise<UserDocument> =>
-    axios.get(`http://localhost:8000/user/`).then((response) => response.data);
+    axios
+      .get(`http://localhost:8000/user/`, {
+        headers: { authorization: accessToken },
+      })
+      .then((response) => response.data);
 
   const deleteNote = async (docId: string) =>
     //remove user_id once middleware works
     // axios.delete(`http://localhost:8000/user/delete-doc/${docId}`);
-    axios.delete(`http://localhost:8000/user/delete-doc/${docId}/`);
+    axios.delete(`http://localhost:8000/user/delete-doc/${docId}/`, {
+      headers: { authorization: accessToken },
+    });
 
   const createNote = async ({ userId, title }: { userId: string; title: string }) =>
     axios
-      .post(`http://localhost:8000/user/create-new-doc`, {
-        userId: userId,
-        title: title,
-      })
+      .post(
+        `http://localhost:8000/user/create-new-doc`,
+        {
+          userId: userId,
+          title: title,
+        },
+        {
+          headers: { authorization: accessToken },
+        }
+      )
       .then((response) => response.data);
 
   const {

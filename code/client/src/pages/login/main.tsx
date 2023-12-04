@@ -8,23 +8,29 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '@/models/user';
 import { AuthContext } from '../../hooks/authContext';
 import { GoogleUser } from '../../models/googleUser';
+import Cookies from 'universal-cookie';
 
 const Login: React.FC = () => {
+  const cookies = new Cookies();
   // // State to hold the user's information
   // const [user, setUser] = useState<User>({});
   const { isAuthenticated, user, login, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const sendTokenToBackend = async (token: string) => {
+  const sendTokenToBackend = async (token: string, decoded: any) => {
     try {
       const response = await axios.post('http://localhost:8000/login', { token: token });
-      window.localStorage.setItem('accessToken', JSON.stringify(response.data));
-      console.log(window.localStorage.getItem('accessToken'));
+      console.log('response.data.accessToken', response.data.accessToken.replace(/"/g, ''));
+
+      cookies.set('accessToken', response.data.accessToken.replace(/"/g, ''), {
+        expires: new Date(decoded.exp * 1000),
+      });
+      // window.localStorage.setItem('accessToken', response.data.accessToken.replace(/"/g, ''));
+      // console.log(window.localStorage.getItem('accessToken'));
       //console.log('Token sent successfully:', response.data);
       console.log('access token is made of username, user_id, and user_pic');
       axios.defaults.headers.common['authorization'] = response.data.accessToken;
-
 
       //if successfully send the token, navigate to home page
       navigate('/home');
@@ -42,12 +48,12 @@ const Login: React.FC = () => {
     login({
       user_name: user_object.name,
       user_pic: user_object.picture,
-      user_id: user_object.sub
+      user_id: user_object.sub,
     });
 
     // Send the JWT ID token to the backend
     //localStorage.setItem('googleToken', response.credential);
-    sendTokenToBackend(response.credential);
+    sendTokenToBackend(response.credential, user_object);
   };
 
   // Function to handle user sign out

@@ -4,27 +4,46 @@ import DocumentView from './view';
 import { useParams } from 'react-router-dom';
 import { Document } from '@/models/document';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import Cookies from 'universal-cookie';
 
 export default function DocumentPage() {
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
   const { docId } = useParams();
 
   const [updateContentSuccess, setUpdateContentSuccess] = useState<boolean>(false);
   const [updateSummarySuccess, setUpdateSummarySuccess] = useState<boolean>(false);
 
   const getDocument = async (): Promise<{ docs: Document }> =>
-    axios.get(`http://localhost:8000/document/${docId}`).then((response) => response.data); // from where
+    axios
+      .get(`http://localhost:8000/document/${docId}`, {
+        headers: { authorization: accessToken },
+      })
+      .then((response) => response.data); // from where
 
   const updateContent = async ({ contentData }: { contentData: string }) =>
-    axios.post(`http://localhost:8000/document/${docId}/update-content`, {
-      docId: docId,
-      content: contentData,
-    });
+    axios.post(
+      `http://localhost:8000/document/${docId}/update-content`,
+      {
+        docId: docId,
+        content: contentData,
+      },
+      {
+        headers: { authorization: accessToken },
+      }
+    );
 
   const updateSummary = async () =>
     axios
-      .post(`http://localhost:8000/document/${docId}/update-summary`, {
-        documentId: docId,
-      })
+      .post(
+        `http://localhost:8000/document/${docId}/update-summary`,
+        {
+          documentId: docId,
+        },
+        {
+          headers: { authorization: accessToken },
+        }
+      )
       .then((response) => response.data);
 
   const {
