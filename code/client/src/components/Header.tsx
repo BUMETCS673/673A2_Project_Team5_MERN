@@ -8,7 +8,6 @@ import './Header.css';
 import { AuthContext } from '../hooks/authContext';
 import { useContext } from 'react';
 
-
 export default function Header() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -30,6 +29,7 @@ export default function Header() {
       </div>
       <div>
         <Menu
+          id="head1"
           shadow="xs"
           width={120}
           opened={userMenuOpened}

@@ -61,7 +61,7 @@ export default function NoteCard({
 
       <div id="button-father">
         <Button
-          id="big-button-modal"
+          id="big-button-summary"
           variant="light"
           radius="md"
           onClick={openSummaryModal}
@@ -78,11 +78,17 @@ export default function NoteCard({
           aria-label="Settings"
           onClick={openDeleteModal}
         >
-          <IconTrash style={{ width: '80%', height: '80%' }} stroke={1.5} />
+          <IconTrash id="delete" style={{ width: '80%', height: '80%' }} stroke={1.5} />
         </ActionIcon>
       </div>
 
-      <Modal opened={modalOpened} onClose={closeSummaryModal} title={<h2>Summary</h2>} centered>
+      <Modal
+        id="summary-modal"
+        opened={modalOpened}
+        onClose={closeSummaryModal}
+        title={<h2>Summary</h2>}
+        centered
+      >
         <List size="md">
           {summaryList.map((summary: string) => (
             <List.Item>{summary}</List.Item>

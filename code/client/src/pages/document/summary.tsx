@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Text, Button, rem, List, ScrollArea } from '@mantine/core';
 import { listSummary } from '../../functions/parsers';
 
