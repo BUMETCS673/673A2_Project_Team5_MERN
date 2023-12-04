@@ -29,42 +29,47 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User>();
 
-  useEffect(() => {
-    const checkToken = async () => {
-      const token = cookies.get('accessToken');
-      console.log('token', token);
+  // useEffect(() => {
+  //   const checkToken = async () => {
+  //     const token = cookies.get('accessToken');
+  //     console.log('token', token);
 
-      if (token) {
-        try {
-          const response = await axios.get('http://localhost:8000/login/auto-login', {
-            headers: {
-              Authorization: token,
-            },
-          });
-          console.log('response', response);
-          // if (response.data) {
-          //   const user_object: GoogleUser = jwt_decode(token);
-          //   setIsAuthenticated(true);
-          //   setUser({
-          //     user_name: user_object.name,
-          //     user_pic: user_object.picture,
-          //     user_id: user_object.sub,
-          //   });
-          // } else {
-          //   // Token invalid, force log out and navigate to login page
-          //   console.log('verify token failed');
-          // }
-        } catch (error) {
-          console.error('Error verifying token:', error);
-        }
-      } else {
-        setIsAuthenticated(false);
-        // navigate('/login')
-      }
-    };
+  //     if (token) {
+  //       try {
+  //         const response = await axios.post(
+  //           'http://localhost:8000/auto-login',
+  //           {
+  //             token: token,
+  //           },
+  //           {
+  //             headers: {
+  //               Authorization: token,
+  //             },
+  //           }
+  //         );
 
-    checkToken();
-  }, []);
+  //         if (response) {
+  //           const user_object: GoogleUser = jwt_decode(token);
+  //           setIsAuthenticated(true);
+  //           setUser({
+  //             user_name: user_object.name,
+  //             user_pic: user_object.picture,
+  //             user_id: user_object.sub,
+  //           });
+  //         } else {
+  //           // Token invalid, force log out and navigate to login page
+  //           console.log('verify token failed');
+  //         }
+  //       } catch (error) {
+  //         console.error('Error verifying token:', error);
+  //       }
+  //     } else {
+  //       setIsAuthenticated(false);
+  //     }
+  //   };
+
+  //   checkToken();
+  // }, []);
 
   const login = (userData: User) => {
     setIsAuthenticated(true);
