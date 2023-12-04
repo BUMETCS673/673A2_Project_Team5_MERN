@@ -71,7 +71,6 @@ export default function NoteCard({
           Show Summary
         </Button>
         <ActionIcon
-          id="action-icon"
           variant="light"
           color="red"
           size="lg"
