@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-declare var google: any;
 import jwt_decode from 'jwt-decode';
 import { GSI_CLIENT_ID } from './config';
 import { LoginView } from './view';
@@ -9,6 +8,8 @@ import { User } from '@/models/user';
 import { AuthContext } from '../../hooks/authContext';
 import { GoogleUser } from '../../models/googleUser';
 import Cookies from 'universal-cookie';
+
+declare var google: any;
 
 const Login: React.FC = () => {
   const cookies = new Cookies();
