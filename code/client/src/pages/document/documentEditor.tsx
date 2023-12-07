@@ -45,7 +45,7 @@ export const DocumentEditor = ({
 
   return (
     <>
-      <div>
+      <div className="texteditor">
         <RichTextEditor editor={editor} style={{ width: '800px' }}>
           <RichTextEditor.Toolbar sticky stickyOffset={1}>
             <RichTextEditor.ControlsGroup>

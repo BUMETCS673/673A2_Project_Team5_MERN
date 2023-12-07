@@ -24,9 +24,7 @@ export const SummaryGenerate = ({
       <Card className="summary-card" padding="lg" radius="sm" withBorder>
         {summary ? (
           <div>
-            <ScrollArea h={650}>
-              {summary}
-            </ScrollArea>
+            <ScrollArea h={650}>{summary}</ScrollArea>
           </div>
         ) : (
           <div>

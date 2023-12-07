@@ -84,7 +84,7 @@ export default function DocumentView({
 
   return (
     <>
-      <div>
+      <div className="backbutton">
         <Button
           variant="transparent"
           onClick={() => navigate('/home')}
