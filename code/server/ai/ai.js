@@ -9,11 +9,9 @@ import * as dotenv from 'dotenv';
 
 dotenv.config()
 
-const assistantTemplate = 'You are a helpful study assistant that summarises {notes} into a summary of bullet points.'
-
-const apiKey = process.env.OPENAI_API_KEY
-
 const useOpenAi = async (input) => {
+  const assistantTemplate = 'You are a helpful study assistant that summarises {notes} into a summary of bullet points.'
+  const apiKey = process.env.OPENAI_API_KEY
 
   const model = new OpenAI({
     openAIApiKey: apiKey,
