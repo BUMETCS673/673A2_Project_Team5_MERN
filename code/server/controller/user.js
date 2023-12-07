@@ -12,26 +12,12 @@ import { v4 as uuid } from 'uuid';
  */
 const getUser = async (req, res) => {
 
-    //DB.find() return , so we need to use user[0]
-    //DB.findOne() return an object, so we can use user
     const user = await User.findOne({ user_id: req.user.user_id });
-    // if (user) {
-    //     console.log("user successfully found");
-    //     // console.log(user);
-    // }
     const docs = await Document.find({ author: user._id });
-    // if (docs) {
-    //     console.log("docs successfully found");
-    //     // console.log(docs)
-    //}
+
     res.json({ user, docs });
-    // const user = await User.findOne({ user_id: req.user.user_id });
 
 }
-// const getUser = async (req, res) => {
-//     console.log("getUser", req.user);
-//     res.json({ user: req.user });
-// }
 
 /**
  * Create a new document
@@ -42,7 +28,7 @@ const getUser = async (req, res) => {
  * { document_id }
  */
 const createDoc = async (req, res) => {
-    //Once mmiddleware works, we can use req.user.sub
+    //Once middleware works, we can use req.user.sub
     // const user = req.user; then user can be deconstructed.
     try {
         const docTitle = req.body.title;

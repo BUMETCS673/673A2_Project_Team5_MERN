@@ -79,7 +79,6 @@ describe('updateSummary', () => {
     const req = { body: { documentId: '123' } };
     const res = { json: sinon.spy() };
     const docContent = { content: 'This is the content of the document.' };
-    const updatedSummary = 'This is the updated summary.';
 
     sinon.stub(Document, 'findOne').resolves(docContent);
     sinon.stub(Document, 'findOneAndUpdate').resolves();
