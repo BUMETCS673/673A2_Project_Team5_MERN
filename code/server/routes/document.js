@@ -11,4 +11,6 @@ router.get('/:docId/', verifyToken, ctrl.getDocument)
 router.post('/:docId/update-content', verifyToken, ctrl.updateContent)
 router.post('/:docId/update-summary', verifyToken, ctrl.updateSummary)
 
+
+
 export default router;
