@@ -2,9 +2,6 @@ import verifyToken from '../middleware/verifyToken.js';
 import jwt from 'jsonwebtoken';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import User from '../model/users.js';
-import Document from '../model/document.js';
-import mongoose from 'mongoose';
 
 describe('verifyToken', () => {
     it('should decode the token and call next', async () => {
@@ -18,7 +15,7 @@ describe('verifyToken', () => {
 
         await verifyToken(req, res, next);
 
-        expect(req.user).to.be.an('object');
+        expect(req.user).to.be.contain(payload); // not using equal, because jwt will add 'iat' field to the payload
         expect(next.calledOnce).to.be.true;
     });
 

@@ -4,72 +4,96 @@ import User from '../model/users.js';
 import Document from '../model/document.js';
 import DocumentMethods from '../controller/document.js';
 import mongoose from 'mongoose';
+import AIMethods from '../ai/ai.js';
+
 
 describe('getDocument', () => {
   it('should find document details', async () => {
     const documentId = '123456789';
     const documentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
-    const document = { _id: documentId, content: documentContent };
+    const mockDocument = {
+      _id: new mongoose.Types.ObjectId(),
+      document_id: documentId,
+      content: documentContent
+    };
 
-    const findByIdStub = sinon.stub(Document, 'findById');
-    findByIdStub.withArgs(documentId).returns(document);
+    const req = {
+      params: {
+        docId: documentId,
+      }
+    }
 
-    // You may need to stub generateSummary if it has external dependencies
-    const generateSummaryStub = sinon.stub(DocumentMethods, 'generateSummary');
-    generateSummaryStub.withArgs(documentContent).returns('Lorem ipsum dolor sit amet...');
+    const res = {
+      json: sinon.spy()
+    }
+
+    const findByIdStub = sinon.stub(Document, 'findOne');
+    findByIdStub.withArgs({ document_id: documentId }).returns(mockDocument);
 
     try {
-      const result = await DocumentMethods.getDocument(documentId);
+      await DocumentMethods.getDocument(req, res);
 
-      expect(findByIdStub.calledWith(documentId)).to.be.true;
-      expect(generateSummaryStub.calledWith(documentContent)).to.be.true;
-      expect(result).to.deep.equal({ content: documentContent, summary: 'Lorem ipsum dolor sit amet...' });
+      expect(findByIdStub.calledWith({ document_id: documentId })).to.be.true;
+      expect(res.json.calledWith({ docs: mockDocument })).to.be.true;
     } finally {
       // Always restore stubs to avoid side effects on other tests
       findByIdStub.restore();
-      generateSummaryStub.restore();
     }
   });
 });
 
 describe('updateContent', () => {
   it('should update the documents content', async () => {
-    const documentId = '123456789';
-    const newContent = 'Updated content';
-    const updatedDocument = { _id: documentId, content: newContent };
+    const req = {
+      body: {
+        content: 'updated content',
+        docId: '123456789',
+      }
+    }
+    const res = {
+      json: sinon.spy(),
+    }
+    const updatedDocument = { _id: req.body.docId, content: req.body.content };
 
-    const findByIdAndUpdateStub = sinon.stub(Document, 'findByIdAndUpdate');
-    findByIdAndUpdateStub.withArgs(documentId, { content: newContent }, { new: true }).returns(updatedDocument);
+    const findOneAndUpdateStub = sinon.stub(Document, 'findOneAndUpdate');
+    findOneAndUpdateStub.withArgs(
+      { document_id: updatedDocument._id },
+      { content: updatedDocument.content },
+    ).returns(updatedDocument);
 
     try {
-      const result = await DocumentMethods.updateContent(documentId, newContent);
-
-      expect(findByIdAndUpdateStub.calledWith(documentId, { content: newContent }, { new: true })).to.be.true;
-      expect(result).to.deep.equal(updatedDocument);
+      await DocumentMethods.updateContent(req, res);
+      expect(findOneAndUpdateStub.calledWith({ document_id: updatedDocument._id }, { content: updatedDocument.content })).to.be.true;
+      expect(res.json.calledWith({ doc: updatedDocument })).to.be.true;
+      //expect(result).to.deep.equal(updatedDocument);
     } finally {
       // Always restore stubs to avoid side effects on other tests
-      findByIdAndUpdateStub.restore();
+      findOneAndUpdateStub.restore();
     }
   });
 });
 
 describe('updateSummary', () => {
-  it('should delete a document and return a success message', async () => {
-    const documentId = '123456789';
-    const newSummary = 'Updated summary';
-    const updatedDocument = { _id: documentId, summary: newSummary };
+  it('should update and return a document summary', async () => {
 
-    const findByIdAndUpdateStub = sinon.stub(Document, 'findByIdAndUpdate');
-    findByIdAndUpdateStub.withArgs(documentId, { summary: newSummary }, { new: true }).returns(updatedDocument);
+    const req = { body: { documentId: '123' } };
+    const res = { json: sinon.spy() };
+    const docContent = { content: 'This is the content of the document.' };
+    const updatedSummary = 'This is the updated summary.';
 
-    try {
-      const result = await DocumentMethods.updateSummary(documentId, newSummary);
+    sinon.stub(Document, 'findOne').resolves(docContent);
+    sinon.stub(Document, 'findOneAndUpdate').resolves();
 
-      expect(findByIdAndUpdateStub.calledWith(documentId, { summary: newSummary }, { new: true })).to.be.true;
-      expect(result).to.deep.equal(updatedDocument);
-    } finally {
-      // Always restore stubs to avoid side effects on other tests
-      findByIdAndUpdateStub.restore();
-    }
+    // Act
+    await DocumentMethods.updateSummary(req, res);
+
+    // Assert
+    expect(Document.findOne.calledWith({ document_id: '123' }, 'content')).to.be.true;
+    expect(Document.findOneAndUpdate.calledWith({ document_id: '123' })).to.be.true;
+    expect(res.json.calledOnce).to.be.true;
+
+    // Restore the stubs
+    Document.findOne.restore();
+    Document.findOneAndUpdate.restore();
   });
 });
