@@ -49,11 +49,13 @@ app.use((err, req, res, next) => {
   res.status(500).send('Error Occured! Please try again later');
 });
 
-
 //This catches all invalid urls
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
   res.send('invalid url');
 });
+
+
+
 
 app.listen(8000, () => {
   console.log('listening on port 8000');

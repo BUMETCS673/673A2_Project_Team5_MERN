@@ -30,26 +30,23 @@ const getUser = async (req, res) => {
 const createDoc = async (req, res) => {
     //Once middleware works, we can use req.user.sub
     // const user = req.user; then user can be deconstructed.
-    try {
-        const docTitle = req.body.title;
-        const user = await User.findOne({ user_id: req.body.userId }); // user returned from MongoDB is an array with 1 user
 
-        const newDoc = await new Document({
-            title: docTitle,
-            document_id: uuid(),
-            content: '',
-            summary: '',
-            last_modified: new Date(),
-            author: user._id,
-            date_modified: new Date()
-        }).save();
+    const docTitle = req.body.title;
+    const user = await User.findOne({ user_id: req.body.userId }); // user returned from MongoDB is an array with 1 user
 
-        res.json({ document_id: newDoc.document_id });
+    const newDoc = await new Document({
+        title: docTitle,
+        document_id: uuid(),
+        content: '',
+        summary: '',
+        last_modified: new Date(),
+        author: user._id,
+        date_modified: new Date()
+    }).save();
 
-    } catch (err) {
-        console.log(err);
-        return res.json({ error: "Error occur! Unable to create new doc" })
-    }
+    res.json({ document_id: newDoc.document_id });
+
+
 }
 
 /**
@@ -64,17 +61,14 @@ const deleteDoc = async (req, res) => {
     // Once mmiddleware works, we can use req.user.sub
     // const user = req.user; then user can be deconstructed.
     // try and catch block can be removed now, if app.js error handling works, need to test...
-    try {
-        const docId = req.params.docId;
-        const user_id = req.user.user_id;
-        const user = await User.findOne({ user_id: user_id });
 
-        await Document.deleteOne({ document_id: docId, author: user._id });
-        res.json({ message: "Successfully deleted the doc" });
-    } catch (err) {
-        console.log(err);
-        return res.json({ error: "Error occur! Unable to delete the doc" })
-    }
+    const docId = req.params.docId;
+    const user_id = req.user.user_id;
+    const user = await User.findOne({ user_id: user_id });
+
+    await Document.deleteOne({ document_id: docId, author: user._id });
+    res.json({ message: "Successfully deleted the doc" });
+
 }
 
 export default {
