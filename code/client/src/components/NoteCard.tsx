@@ -1,33 +1,52 @@
 import React from 'react';
-import { Text, Card, Image, Group, Button, Modal, ActionIcon } from '@mantine/core';
+import {
+  Text,
+  Card,
+  Image,
+  Group,
+  Button,
+  Modal,
+  ActionIcon,
+  List,
+  ScrollArea,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import './NoteCard.css';
 import { NoteCardType } from '@/constants/cardData';
 import { IconTrash } from '@tabler/icons-react';
 import { IconAlertCircleFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { listSummary } from '../functions/parsers';
 
 export default function NoteCard({
-  imageSrc,
   title,
-  description,
-  linkURL,
-  _id,
+  document_id,
+  summary,
+  imageSrc,
   onCardDelete,
 }: NoteCardType) {
   const navigate = useNavigate();
-  const [modalOpened, control1] = useDisclosure(false); //this modal is for summary
-  const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
+  const [modalOpened, { open: openSummaryModal, close: closeSummaryModal }] = useDisclosure(false); //this modal is for summary
+  const [modalOpenedDelete, { open: openDeleteModal, close: closeDeleteModal }] =
+    useDisclosure(false); //this modal is for delete
 
-  const handleDoubleClick = (docId: number) => {
-    if (linkURL) {
+  const handleDoubleClick = (docId: string) => {
+    if (docId) {
       navigate(`/document/${docId}`);
     }
   };
 
+  const handleDelete = () => {
+    onCardDelete();
+    closeDeleteModal();
+  };
+
+  // const summaryList = listSummary(summary);
+
   return (
     <Card
-      onDoubleClick={() => handleDoubleClick(_id)}
+      id="general-card"
+      onDoubleClick={() => handleDoubleClick(document_id)}
       shadow="xs"
       padding="xs"
       radius="md"
@@ -43,34 +62,45 @@ export default function NoteCard({
 
       <div id="button-father">
         <Button
-          id="big-button-modal"
+          id="big-button-summary"
           variant="light"
           radius="md"
-          onClick={control1.open}
+          onClick={openSummaryModal}
           style={{ width: '120%' }}
         >
           Show Summary
         </Button>
         <ActionIcon
-          id="action-icon"
           variant="light"
           color="red"
           size="lg"
           radius="md"
           aria-label="Settings"
-          onClick={control2.open}
+          onClick={openDeleteModal}
         >
-          <IconTrash style={{ width: '80%', height: '80%' }} stroke={1.5} />
+          <IconTrash id="delete" style={{ width: '80%', height: '80%' }} stroke={1.5} />
         </ActionIcon>
       </div>
 
-      <Modal opened={modalOpened} onClose={control1.close} title={<h2>Summary</h2>} centered>
-        {description}
+      <Modal
+        id="summary-modal"
+        opened={modalOpened}
+        onClose={closeSummaryModal}
+        title={<h2>Summary</h2>}
+        centered
+      >
+        {/* <List size="md">
+          {summaryList.map((summary: string) => (
+            <List.Item>
+              </List.Item>
+          ))}
+        </List> */}
+        {summary}
       </Modal>
       <Modal
         id="delete-modal"
         opened={modalOpenedDelete}
-        onClose={control2.close}
+        onClose={closeDeleteModal}
         withCloseButton={false}
         centered
       >
@@ -101,7 +131,7 @@ export default function NoteCard({
             id="delete_confirm"
             variant="light"
             color="rgba(0, 0, 0, 1)"
-            onClick={control2.close}
+            onClick={closeDeleteModal}
             style={{ margin: '10px' }}
           >
             Cancel
@@ -110,7 +140,7 @@ export default function NoteCard({
             id="delete_confirm"
             variant="filled"
             color="red"
-            onClick={onCardDelete}
+            onClick={handleDelete}
             style={{ margin: '10px' }}
           >
             Delete

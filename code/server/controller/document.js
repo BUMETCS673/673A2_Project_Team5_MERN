@@ -1,41 +1,38 @@
-const Document = require('../model/document')
-const summarise = require('../ai/ai')
+// const Document = require('../model/document');
+// const useOpenAi = require('../ai/ai');
+
+import Document from '../model/document.js';
+import useOpenAi from '../ai/ai.js';
 
 /**
  * Req
  * @param document_id
  */
+const getDocument = async (req, res, next) => {
 
-module.exports.getDocument = async (req, res) => {
-  try {
-    const docs = await Document.findOne({ document_id: req.params.docId });
-    res.json({ docs });
-  } catch (err) {
-    console.log(err);
-    return res.json({ error: 'Error occur! Unable to get user.' })
-  }
+  const docs = await Document.findOne({ document_id: req.params.docId });
+  res.json({ docs });
+  next();
 }
+
 
 /**
  * Req
  * @param content
  * @param document_id
  */
+const updateContent = async (req, res) => {
 
-module.exports.updateContent = async (req, res) => {
-  try {
-    //const { content, document_id: docId } = req
-    const docid = req.params.docId;
-    const newContent = req.body.content;
+  //const { documentId: docId, contentData: content } = req.body
+  const content = req.body.content;
+  const docId = req.body.docId;
 
-    await Document.findOneAndUpdate({ document_id: docid }, { content: newContent });
+  //const doc = await Document.findOneAndUpdate({ document_id : docId }, { content });
+  const doc = await Document.findOneAndUpdate({ document_id: docId }, { content });
 
-    const doc = await Document.findOne({ document_id: docid });
-    res.json({ doc });
-  } catch (err) {
-    console.log(err);
-    return res.json({ error: "Unable to undate content" });
-  }
+  // const doc = await Document.findOne({ document_id: docid });
+  res.json({ doc });
+
 }
 
 /**
@@ -43,28 +40,21 @@ module.exports.updateContent = async (req, res) => {
  * @param document_id
  */
 
-module.exports.updateSummary = async (req, res) => {
-  try {
-    const { document_id: docId } = req
-    let updatedSummary
+const updateSummary = async (req, res) => {
 
-    await Document.findById(docId, 'content', (err, doc) => {
-      if (err) {
-        // Handle the error here
-        res.send(err);
-      } else if (doc) {
-        const { content } = doc;
-        updatedSummary = summarise(content)
-      } else {
-        res.send('Document not found');
-      }
-    })
+  const { documentId: docId } = req.body;
+  const docContent = await Document.findOne({ document_id: docId }, 'content');
 
-    await Document.findByIdAndUpdate(docId, { summary: updatedSummary })
+  const updatedSummary = await useOpenAi(docContent.content);
 
-    res.send('Summary updated!');
-    return res.json({ summary: updatedSummary })
-  } catch (err) {
-    return res.json({ error: err })
-  }
+  console.log(updatedSummary)
+
+  await Document.findOneAndUpdate({ document_id: docId }, { summary: updatedSummary });
+
+  // Output is a list of bullet points
+  res.json({ summary: updatedSummary });
+  // return res.json({ summary: updatedSummary });
+
 }
+
+export default { getDocument, updateContent, updateSummary };

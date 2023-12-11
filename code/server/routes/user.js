@@ -1,12 +1,17 @@
-const express = require('express')
+// const express = require('express');
+// const ctrl = require('../controller/user');
+// const verifyToken = require('../middleware/verifyToken');
 
-const router = express.Router()
-const ctrl = require("../controller/user")
-const requireLogin = require('../middleware/requireLogin');
+import express from 'express';
+import ctrl from '../controller/user.js';
+import verifyToken from '../middleware/verifyToken.js';
 
+const router = express.Router();
 //user_id, which is sub, will be includede in the URL
-router.get("/", /*requireLogin,*/ctrl.getUser);
-router.post("/create-new-doc",/*requireLogin,*/ ctrl.createDoc)
-router.delete("/delete-doc/:docId", /*requireLogin,*/ctrl.deleteDoc)
+router.get('/', verifyToken, ctrl.getUser);
+router.post('/create-new-doc', verifyToken, ctrl.createDoc);
+// remove userId once middleware works
+// router.delete('/delete-doc/:docId', /*verifyToken,*/ ctrl.deleteDoc);
+router.delete('/delete-doc/:docId/', verifyToken, ctrl.deleteDoc);
 
-module.exports = router;
+export default router;

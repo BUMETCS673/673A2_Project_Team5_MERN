@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
+import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const documentSchema = new Schema({
@@ -12,6 +13,10 @@ const documentSchema = new Schema({
     type: String,
     default: '',
   },
+  imageSrc: {
+    type: String,
+    default: 'https://img.icons8.com/color/96/file.png',
+  },
   summary: {
     type: String,
     default: '',
@@ -22,8 +27,8 @@ const documentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  // date_created: Date,
-  date_modified: Date,
+  date_created: Date,
+  //date_modified: Date,
 })
 
-module.exports = mongoose.model('Document', documentSchema)
+export default mongoose.model('Document', documentSchema);

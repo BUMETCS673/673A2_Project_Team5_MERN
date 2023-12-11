@@ -1,90 +1,83 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HomeView from './view';
 import { NoteCardType } from '../../constants/cardData';
 import { user } from '../../constants/user';
 import axios from 'axios';
+import { AuthContext } from '../../hooks/authContext';
+import { useNavigate } from 'react-router-dom';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { User, UserDocument } from '../../models/user';
+import { Document } from '../../models/document';
 
 export default function Home() {
-  // card data from backend is saved in this state
-  const [cardData, setCardData] = useState<NoteCardType[]>([]); // init to empty, use api data to fill
-  const [getCardLoading, setGetCardLoading] = useState(true); // for loading state
-  const [getCardError, setGetCardError] = useState(false); //for error state
-  const [createCardError, setCreateCardError] = useState(false); //for post create note
-  const [deleteCardLoading, setDeleteCardLoading] = useState(false);
-  const [deleteCardError, setDeleteCardError] = useState(false);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  // const queryClient = useQueryClient();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/user`); // from where
-      setCardData(response.data.docs);
-      setGetCardLoading(false); // false, because data is already load
-    } catch (err) {
-      console.error('An error occurred while fetching data:', err);
-      setGetCardError(true); // if error occur, state is true
-      setGetCardLoading(false); // error loading process over
-    }
-  };
+  const getUser = async (): Promise<UserDocument> =>
+    axios.get(`http://localhost:8000/user/`).then((response) => response.data);
 
-  // get request, get document data
-  //useeffect, fetchData first and then show my
-  useEffect(() => {
-    fetchData();
-  }, []); // run once when cardData changes
+  const deleteNote = async (docId: string) =>
+    //remove user_id once middleware works
+    // axios.delete(`http://localhost:8000/user/delete-doc/${docId}`);
+    axios.delete(`http://localhost:8000/user/delete-doc/${docId}/`);
 
-  //create a new note
-  const createNote = async (userId: string, title: string) => {
-    try {
-      // POST
-      await axios.post(`http://localhost:8000/user/create-new-doc`, {
+  const createNote = async ({ userId, title }: { userId: string; title: string }) =>
+    axios
+      .post(`http://localhost:8000/user/create-new-doc`, {
         userId: userId,
         title: title,
-      });
-      setCreateCardError(false); //if already load successful
-    } catch (err) {
-      console.error('An error occurred while posting data:', err);
-      setCreateCardError(true);
-    }
+      })
+      .then((response) => response.data);
+
+  const {
+    data: getUserData,
+    isError: getUserError,
+    isPending: getUserLoading,
+    refetch: getUserRefetch,
+  } = useQuery({ queryKey: ['getUser'], queryFn: getUser });
+
+  const {
+    mutate: mutateDeleteDoc,
+    isPending: deleteCardLoading,
+    isError: deleteCardError,
+  } = useMutation({
+    mutationFn: deleteNote,
+    onSuccess: () => {
+      getUserRefetch();
+    },
+  });
+
+  const {
+    mutate: mutateCreateDoc,
+    // data: createNoteData,
+    isError: createCardError,
+  } = useMutation({
+    mutationFn: createNote,
+    onSuccess: (response) => {
+      getUserRefetch();
+      navigate(`/document/${response.document_id}`);
+    },
+  });
+
+  const handleDelete = async (docId: string) => {
+    mutateDeleteDoc(docId);
   };
 
-  //delete card
-  const deleteNote = async (docId: number) => {
-    console.log(docId);
-    setDeleteCardLoading(true);
-    await axios
-      .delete(`http://localhost:8000/user/delete-doc/${docId}`)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log('delete successful', response);
-          // delete successful 200
-          //update list docs
-          // fetchData();
-          setCardData(response.data.docs);
-        } else {
-          const errormessage = response.data?.message || 'error occur';
-          setDeleteCardError(errormessage);
-        }
-      })
-      .catch((err) => {
-        // delete
-        const errormessage2 = err.message || 'error occur';
-        setDeleteCardError(errormessage2);
-      })
-      .finally(() => {
-        setDeleteCardLoading(false);
-      });
+  const handleCreate = async (userId: string, title: string) => {
+    mutateCreateDoc({ userId, title });
   };
 
   return (
     <HomeView
-      userData={user}
-      cardData={cardData}
-      getCardLoading={getCardLoading}
-      getCardError={getCardError}
-      createNote={createNote}
+      getUserData={getUserData}
+      getUserLoading={getUserLoading}
+      getUserError={getUserError}
       createCardError={createCardError}
       deleteCardLoading={deleteCardLoading}
       deleteCardError={deleteCardError}
-      deleteNote={deleteNote}
+      createNote={handleCreate}
+      handleDelete={handleDelete}
     />
   );
 }

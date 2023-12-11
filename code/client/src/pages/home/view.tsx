@@ -1,40 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import NoteCard from '../../components/NoteCard';
 import Header from '../../components/Header';
-import '../../components/view.css';
+import './view.css';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Button } from '@mantine/core';
 import { NoteCardType } from '../../constants/cardData';
-import { userType } from '@/constants/user';
-import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../hooks/authContext';
+import { UserDocument } from '../../models/user';
+
 interface HomeViewProps {
-  userData: userType;
-  cardData: NoteCardType[];
-  getCardLoading: boolean;
-  getCardError: boolean;
+  getUserData?: UserDocument;
+  getUserLoading: boolean;
+  getUserError: boolean;
   createCardError: boolean;
   deleteCardLoading: boolean;
   deleteCardError: boolean;
   createNote: (userId: string, title: string) => void;
-  deleteNote: (docId: number) => void;
+  handleDelete: (docId: string) => void;
 }
 
 export default function HomeView({
-  userData,
-  cardData,
-  getCardLoading,
-  getCardError,
-  createNote,
+  getUserData,
+  getUserLoading,
+  getUserError,
   createCardError,
   deleteCardLoading,
   deleteCardError,
-  deleteNote,
+  createNote,
+  handleDelete,
 }: HomeViewProps) {
-  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
   const inputRef = useRef<HTMLInputElement>(null); // for focus on input text box
   const [modalOpened, { open, close }] = useDisclosure(false); //for modal
   const [title, setNoteTitle] = useState(''); // store note
-  // const [modalOpenedDelete, control2] = useDisclosure(false); //this modal is for delete
 
   //focus on input box
   useEffect(() => {
@@ -56,11 +55,8 @@ export default function HomeView({
       return;
     }
     // create note     userData.id,
-    const docId = createNote('siyuan', title);
-    // setNoteTitle('');
-    if (!createCardError) {
-      navigate(`/document/${docId}`);
-    }
+    createNote(user?.user_id, title);
+    close();
   };
 
   //keypress enter for create new note
@@ -71,37 +67,37 @@ export default function HomeView({
     }
   };
 
-  // handle form
-  const handleDelete = async (docId: number) => {
-    // create note     userData.id,
-    deleteNote(docId); //
-  };
-
   // render
   const noteCardList = () => {
-    if (getCardLoading) {
+    // loading state
+    if (getUserLoading) {
       return <p>Loading...</p>;
     }
 
-    if (getCardError) {
+    // error state
+    if (getUserError) {
       return <p>An error occurred while fetching data</p>;
     }
 
-    if (cardData.length === 0) {
-      return <p>No Documents Found</p>;
-    }
+    // data is fetched
+    if (getUserData?.docs) {
+      const { docs } = getUserData;
 
-    return cardData.map((card, index) => (
-      <NoteCard
-        key={index}
-        title={card.title}
-        imageSrc={card.imageSrc}
-        description={card.description}
-        linkURL={card.linkURL}
-        _id={card._id}
-        onCardDelete={() => handleDelete(card._id)}
-      />
-    ));
+      if (docs.length >= 1) {
+        return docs.map((card, index) => (
+          <NoteCard
+            key={index}
+            title={card.title}
+            imageSrc={card.imageSrc}
+            summary={card.summary}
+            document_id={card.document_id}
+            onCardDelete={() => handleDelete(card.document_id)}
+          />
+        ));
+      }
+
+      return <p className="no-doc">No Documents Found</p>;
+    }
   };
 
   return (
@@ -123,11 +119,17 @@ export default function HomeView({
           <Button id="big-button" onClick={open}>
             + Create New
           </Button>
-          <Modal opened={modalOpened} onClose={close} title={<h2>Create New Note</h2>} centered>
+          <Modal
+            opened={modalOpened}
+            onClose={close}
+            title={<h2 className="create-h2">Create New Note</h2>}
+            centered
+          >
             <div>
-              <form>
-                <h3>Title</h3>
+              <form className="modal-create">
+                <h3 className="create-h3">Title</h3>
                 <input
+                  id="title-input"
                   type="text"
                   name="title"
                   onChange={handleChange}

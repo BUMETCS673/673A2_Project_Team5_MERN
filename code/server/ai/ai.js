@@ -1,36 +1,46 @@
-const OpenAI = require('langchain/llms/openai')
-const PromptTemplate = require('langchain/prompts')
-const dotenv = require('dotenv')
+// const OpenAI = require('langchain/llms/openai')
+// const PromptTemplate = require('langchain/prompts')
+// const dotenv = require('dotenv')
 
-// import { OpenAI } from "langchain/llms/openai"
-// import { PromptTemplate } from "langchain/prompts"
-// import * as dotenv from "dotenv"
+import { OpenAI } from "langchain/llms/openai"
+import { PromptTemplate } from "langchain/prompts"
+import { LLMChain } from 'langchain/chains'
+import * as dotenv from 'dotenv';
 
 dotenv.config()
 
-module.exports.useOpenAi = (input) => {
-  const llm = new OpenAI({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    // temperature: 0,
+const useOpenAi = async (input) => {
+  const assistantTemplate = 'You are a helpful study assistant that summarises {notes} into a summary of bullet points.'
+  const apiKey = process.env.OPENAI_API_KEY
+
+  const model = new OpenAI({
+    openAIApiKey: apiKey,
+    temperature: 0,
     maxRetries: 10,
   })
 
   // Prompting
-  const prompt = new PromptTemplate({
+  const promptTemplate = new PromptTemplate({
     inputVariables: ['notes'],
-    template:
-      'You are a helpful study assistant that summarises {notes} into a summary of bullet points.',
+    template: assistantTemplate,
   })
 
-  const formattedPrompt = prompt.format({
-    // notes is received from the input in frontend
-    // notes: getNotesContent,
-    notes: input,
+  const chain = new LLMChain({
+    llm: model,
+    prompt: promptTemplate,
   })
 
-  // console.log(formattedPrompt)
+  const res = await chain.call({
+    notes: input
+  })
 
-  const llmResult = llm.call(formattedPrompt)
+  // Remove unnecessary line breaks and leading/trailing whitespace
+  const formattedText = res.text.trim();
 
-  return llmResult
+  // Remove the leading '\n' and '+' characters
+  //const cleanedText = formattedText.replace(/^n\+/, '');
+
+  return formattedText;
 }
+
+export default useOpenAi;

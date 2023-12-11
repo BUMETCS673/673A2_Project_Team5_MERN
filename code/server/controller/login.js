@@ -1,17 +1,20 @@
-const jwt = require('jsonwebtoken');
-const User = require('../model/users.js');
+// const jwt = require('jsonwebtoken');
+// const User = require('../model/users.js');
 // Import your User model
+
+import jwt from 'jsonwebtoken';
+import User from '../model/users.js';
 
 const secretKey = 'testestest';
 const accessTokenExpiry = '4h';
 
-const loginController = async (req, res) => {
-  const token  = req.body.token;
+const login = async (req, res) => {
+  const token = req.body.token;
 
   try {
     // Decode the Google JWT token
     const userObj = jwt.decode(token);
-    console.log(userObj);
+    //console.log(userObj);
     if (!userObj) {
       return res.status(400).json({ message: 'Invalid token' });
     }
@@ -31,7 +34,11 @@ const loginController = async (req, res) => {
     }
 
     // Generate an access token
-    const accessToken = jwt.sign({ user_id: user.user_id, user_name: user.user_name }, secretKey, {
+    const accessToken = jwt.sign({
+      user_id: user.user_id,
+      user_name: user.user_name,
+      user_pic: user.user_pic,
+    }, secretKey, {
       expiresIn: accessTokenExpiry,
     });
 
@@ -42,5 +49,16 @@ const loginController = async (req, res) => {
   }
 };
 
-module.exports = loginController;
-
+const currentUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    res.json({ user });
+  } catch (err) {
+    console.log(err);
+    res.status(403).json({ message: 'Invalid token.' });
+  }
+}
+export default {
+  login,
+  currentUser
+}

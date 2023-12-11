@@ -1,21 +1,29 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { BasePage } from './pages/BasePage';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Home from './pages/home/main';
 import Document from './pages/document/main';
 import Login from './pages/login/main';
+import RequireAuth from './components/RequireAuth';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <BasePage />,
+    element: <Navigate to="/login" replace />, // Redirect the root path to /login
   },
   {
     path: '/home',
-    element: <Home />,
+    element: (
+      <RequireAuth>
+        <Home />
+      </RequireAuth>
+    ),
   },
   {
     path: '/document/:docId',
-    element: <Document />,
+    element: (
+      <RequireAuth>
+        <Document />
+      </RequireAuth>
+    ),
   },
   {
     path: '/login',
