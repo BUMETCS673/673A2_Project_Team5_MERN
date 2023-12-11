@@ -4,6 +4,8 @@
 
 We all take notes at some point, either in class or in a meeting. One of the popular methods of note-taking is typing down your thoughts while listening. A lot of times, the notes we took can be hard to read or confusing. To solve this problem, we will build a web application empowered by ChatGPT that helps users to complete and summarize notes.
 
+## Tech Stack
+
 Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other libraries. The main tech stack and its purpose are:
 
 - **MongoDB**: Store notes documents and user account credentials.
@@ -65,12 +67,44 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
 
 ## Team Members and Roles
 
-- Nicholas Narmada - Team Lead
-- Siyuan Wan - Security Lead
-- Yibo Wang - QA Lead
-- Wenhao Tian - Design and Implementation Lead
-- Guancheng Huang - Requirements Lead
-- Yichen Li - Configuration Lead
+1. Nicholas Narmada - Team Lead
+
+- Project Management
+- Code Reviews
+- Backend for Document Page
+- Setting up OpenAI API
+- Document page API testing
+
+2. Siyuan Wan - Security Lead
+
+- Frontend for Homepage
+- Homepage Testing
+- Connect to backend with Axios methods
+- Debug
+
+3. Yibo Wang - QA Lead
+
+- Frontend for document page
+- Document page testing
+
+4. Wenhao Tian - Design and Implementation Lead
+
+- Setting up backend side
+- Backend for Homepage
+- Testing for Homepage
+
+5. Guancheng Huang - Requirements Lead
+
+- Backend for login page
+- Middleware
+- Backend login test case
+- Debug
+
+6. Yichen Li - Configuration Lead
+
+- Front-end for Login page
+- Front-end security
+- Google OAuth for Google API access
 
 ## Plan/Roadmap
 
