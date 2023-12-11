@@ -45,6 +45,20 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
         - CS673_SPPP_team5
         - Readme
         - CS673_presentation_iter1
+      - iteration2
+        - CS673_MeetingMinutes
+        - CS673_ProgressReport_team5
+        - CS673_SDD_team5
+        - CS673_SPPP_team
+        - CS673_presentation_iter2
+      - iteration3
+        - CS673_SPPP
+        - CS673_MeetingMinutes
+        - CS673_progressReport
+        - CS673_userstories
+        - CS673_SDD
+        - CS673_STD
+        - CS673_Presentation_final
     - Misc (currently empty)
     - README.md
     - team.md
@@ -95,12 +109,13 @@ Behind the scenes is the MERN stack, Pivotal Tracker, Git/GitHub, and many other
 
 - Finish CRUD (create, read, update, delete) operations.
 - Finish building MongoDB data models.
-- Finish register, login, logout functionalities.
-- Implement user sessions.
+- Finish login, logout functionalities.
+- Implement user authentication with JWT.
 
 ### Iteration 3:
 
 #### Frontend & Backend
 
 - Ensure everything works seamlessly.
-- Add new features based on feedback from surveys.
+- Implementing integration testing with Cypress for frontend
+- Implementing unit testing with Mocha for backend
