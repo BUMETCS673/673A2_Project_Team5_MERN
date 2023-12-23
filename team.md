@@ -15,3 +15,5 @@ Hey guys, I'm Nicholas from Indonesia. I got my bachelors in economics and worke
 ### Yichen Li (Wayne)
 Hello everyone, I am Yichen Li. I would like to introduce my professional experience. I have worked on several web applications before, including financial calculators and the official winery website. I have studied Python, data mining, front-end and back-end, and databases. I have some understanding of various knowledge, but it is not profound. I hope to deepen my knowledge through learning from everyone.
 
+### Yibo Wang (Wilbur)
+Hello guys, I'm Yibo Wang. I am from south China. I wend to undergraduate at UC Davis, studying mechenical engineering. I switched to computer science after coming to BU. Nice to meet you guys. I am new to web development. Hope I can learn from you. Thanks
